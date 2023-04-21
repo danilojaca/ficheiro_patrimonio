@@ -1,23 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+    <div class="container-fluid p-5 bg-light text-dark text-center">
+        <h1>Ficheiro de Patrimonio</h1>   
+    </div>  
+    <div class="container ">
+        <div class="row "> 
+            <div class="d-grid gap-2 col-6 mx-auto">
+                 <button type="button"  class="btn btn-outline-primary  btn-lg" onclick="window.location.href='{{ route('formulario.index') }}';" >
+                Formulario
+                </button> 
+            </div>            
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle btn-lg " data-bs-toggle="dropdown">
+                 Registo
+                </button>
+                <ul class="dropdown-menu ">
+                    <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Bens</a></li>
+                    <li><a class="dropdown-item" href="{{ route('edificio.index') }}">Edificio</a></li>
+                    <li><a class="dropdown-item" href="{{ route('bens.index') }}">Categoria</a></li>
+                </ul>
+            </div>                   
         </div>
     </div>
-</div>
+
 @endsection

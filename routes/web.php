@@ -14,9 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('/formulario', 'App\Http\Controllers\FormularioController');
+Route::get('/pdf/{unidade}/{sala}/{centro}/{siie}', 'App\Http\Controllers\PDFController@exportar')
+       ->name('formulario.exportar');
+Route::prefix('/registro')->group(function(){
+Route::resource('/inventario', 'App\Http\Controllers\InventarioController');
+Route::resource('/edificio', 'App\Http\Controllers\EdificioController');
+Route::resource('/bens', 'App\Http\Controllers\BenController');
+});
+Route::fallback( function(){
+    echo 'Pagina Não Existe. <a href="'.route('index').'"> clique aqui </a> para ir para a pagina inicial';
+});

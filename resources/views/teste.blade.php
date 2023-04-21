@@ -1,14 +1,9 @@
+
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+<div class="card-body">
+                    <form method="POST" action="{{ route('login.store') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -35,7 +30,7 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                @enderror                                
                             </div>
                         </div>
                         <div class="row mb-0">
@@ -47,8 +42,4 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
