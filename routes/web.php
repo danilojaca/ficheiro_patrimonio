@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::middleware(['auth'])->get('/', function () {
     return view('home');
 });
 
 Auth::routes();
-Route::resource('/formulario', 'App\Http\Controllers\FormularioController');
-Route::get('/pdf/{unidade}/{sala}/{centro}/{siie}', 'App\Http\Controllers\PDFController@exportar')
+Route::middleware(['auth'])->resource('/formulario', 'App\Http\Controllers\FormularioController');
+Route::middleware(['auth'])->get('/pdf/{unidade}/{sala}/{centro}/{siie}', 'App\Http\Controllers\PDFController@exportar')
        ->name('formulario.exportar');
-Route::prefix('/registro')->group(function(){
+Route::middleware(['auth'])->prefix('/registro')->group(function(){
 Route::resource('/inventario', 'App\Http\Controllers\InventarioController');
 Route::resource('/edificio', 'App\Http\Controllers\EdificioController');
 Route::resource('/bens', 'App\Http\Controllers\BenController');
