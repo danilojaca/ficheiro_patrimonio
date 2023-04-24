@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Ben extends Model
 {
     use HasFactory;
-    protected $fillable = ['categoria','sub_categoria'];
+    protected $fillable = [
+        'categoria',
+        'sub_categoria'
+    ];
 }

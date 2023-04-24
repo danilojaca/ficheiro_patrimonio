@@ -6,7 +6,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }} </div>
-
+                @if (session('login'))
+                    <div class="card-body bg-danger "><span class='text-bg-danger '>{{session('login')}}</span></div>
+                @endif
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

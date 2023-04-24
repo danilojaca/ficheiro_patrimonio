@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Formulario;
-use App\Models\Edificio;
+
 use Carbon\Carbon;
 use PDF;
 
 class PDFController extends Controller
 {
-    public function exportar($unidade, $sala,$centro,$siie){
-        //$inventarios = Formulario::all();                   
+    public function exportar($unidade, $sala,$centro,$siie){                          
        $inventarios = Formulario::where([  
             ['edificio_id', $unidade]
             ])->where([
@@ -29,7 +28,7 @@ class PDFController extends Controller
         $pdf->render();
         $pdf->getDomPDF()->set_option("enable_php", true);       
         return  $pdf->stream("Ficheiro de Patrimonio $centro Sala: $sala.pdf");
-       //return view('pdf',['inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro,'unidade' => $unidade, 'sala' => $sala]);
+       
     }
     
 }

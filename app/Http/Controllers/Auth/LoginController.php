@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\LogUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Middleware\StartSession;
@@ -73,30 +74,50 @@ class LoginController extends Controller
         $password = $request->input('password');
 
         //Inserir usuario no DB
-        $users = User::all();
-       foreach ($users as $user) {
-       if ($username != $user->username){
-            User::create([
-              
+        $samaccountname = User::where([
+            ['username','doliveira']
+        ])->get();
+
+       //dd($samaccountname[0]);
+
+        if (isset($samaccountname[0])){
+            
+        }else {
+            User::create([              
                 'name' => $name,
                 'username' => $username,
                 'password' => Hash::make($password)
             ]);
-       }
-    } 
+        }
+
+       
+    
     //Autenticação   
     $credentials = $request->only('username', 'password');
     if (Auth::attempt($credentials)) {
+       //Log de Acesso 
+        LogUser::create([
+            'user' => auth()->user()->username,
+            'log' => "Autenticação realizada com sucesso",
+            'operacao' => 'login',
+            'ip_remoto' => $_SERVER['REMOTE_ADDR'],
+        ]);
         return redirect()->intended('home');
-    }  
+    } 
             
         
         
         
         }
      }else {
-        return redirect()->route('login')->withErrors(['login' => 'Utilizador ou palavra-passe inválidos.']);
-        
+        //Log de Acesso 
+        LogUser::create([
+            'user' => $request->input('username'),
+            'log' => "Usuário não encontrado",
+            'operacao' => 'login',
+            'ip_remoto' => $_SERVER['REMOTE_ADDR'],
+        ]);
+    return redirect()->route('login')->with(['login' => "Usuário não encontrado"]);
 
 }
      

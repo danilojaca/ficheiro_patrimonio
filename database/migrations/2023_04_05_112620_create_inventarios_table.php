@@ -17,13 +17,12 @@ return new class extends Migration
             $table->string('categoria');
             $table->string('sub_categoria');
             $table->string('sala');
-            $table->string('modelo')->nullable;            
-            $table->string('n_inventario')->nullable;
-            $table->string('n_serie')->nullable;
+            $table->string('modelo')->nullable();            
+            $table->string('n_inventario')->nullable()->unique();
+            $table->string('n_serie')->nullable()->unique();
             $table->string('bem_inventariado');
             $table->string('conservacao'); 
-            $table->timestamps();    
-            
+            $table->timestamps();
             $table->foreign('edificio_id')->references('id')->on('edificios');
         });
     }

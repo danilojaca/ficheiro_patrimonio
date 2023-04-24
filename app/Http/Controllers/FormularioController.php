@@ -11,6 +11,8 @@ class FormularioController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     
     public function index(Request $request)
     {
         if($request->input('_token') != ''){

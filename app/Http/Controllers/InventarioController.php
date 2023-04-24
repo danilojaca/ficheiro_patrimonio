@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventario;
 use App\Models\Ben;
 use App\Models\Edificio;
+use App\Models\Log;
 use Illuminate\Http\Request;
 
 class InventarioController extends Controller
@@ -12,6 +13,7 @@ class InventarioController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Request  $request)
     {
         $inventarios = Inventario::paginate(10);
@@ -74,7 +76,27 @@ class InventarioController extends Controller
         
             $request->validate($regras, $feedback);
             Inventario::create($request->all());
+
         }
+           //Log de Ação
+           $i = Inventario::where([
+            ['edificio_id', $request->input('edificio_id')]
+           ])->where([['categoria', $request->input('categoria')]
+           ])->where([['sala', $request->input('sala')]
+           ])->where([['n_inventario', $request->input('n_inventario')]
+           ])->where([['n_serie', $request->input('n_serie')]
+           ])->where([['bem_inventariado', $request->input('bem_inventariado')]
+           ])->where([['conservacao', $request->input('conservacao')]])->get();
+           
+        foreach ($i as $e) {
+         
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'log'=> "Patrimonio de Id: $e->id  Adicionado " ,
+            'operacao' => 'create',
+
+        ]);}
+
             return redirect()->route('inventario.index');
     }
 
