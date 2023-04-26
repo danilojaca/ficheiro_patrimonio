@@ -73,6 +73,7 @@ class LoginController extends Controller
         $name = $user_info[0]['name'][0];// Obtém o Nome  do usuário encontrado
         $password = $request->input('password');
 
+        dd($user_info);
         //Inserir usuario no DB
         $samaccountname = User::where([
             ['username','doliveira']

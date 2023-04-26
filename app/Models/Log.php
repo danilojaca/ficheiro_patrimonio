@@ -13,4 +13,9 @@ class Log extends Model
         'log',
         'operacao',
     ];
+
+    public function User(){
+
+        return $this->belongsTo('App\Models\User');
+     }
 }

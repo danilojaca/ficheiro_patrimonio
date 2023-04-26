@@ -89,10 +89,12 @@ class InventarioController extends Controller
            ])->where([['conservacao', $request->input('conservacao')]])->get();
            
         foreach ($i as $e) {
+        $edificio = Edificio::where('id', $e->edificio_id)->first();    
+
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Patrimonio de Id: $e->id  Adicionado " ,
+            'log'=> "Patrimonio de Id: $e->id, Edificio:$edificio->edificio, Categoria:$e->categoria, Sala:$e->sala, Nº Inventario: $e->n_inventario, NºSerie:$e->n_serie, Bem Inventariado:$e->bem_inventariado, Conservação:$e->conservacao Adicionado  " ,
             'operacao' => 'create',
 
         ]);}
@@ -115,6 +117,8 @@ class InventarioController extends Controller
     {
         $bens = Ben::orderBy('categoria')->get();
         $edificios = Edificio::orderBy('edificio')->get();
+
+
         return view('Inventario\edit', ['inventario' => $inventario , 'bens' => $bens, 'edificios' => $edificios]);
     }
 
@@ -123,7 +127,60 @@ class InventarioController extends Controller
      */
     public function update(Request $request, Inventario $inventario)
     {
-        $inventario->update($request->all());
+        
+        if($request->input('_token') != ''){
+
+            if($request->input('n_serie') != '')  {            
+    
+                $regras = [
+                    'edificio_id' => 'required',            
+                    'categoria' => 'required',
+                    'sala' => 'required',                
+                    'bem_inventariado' => 'required',
+                    'n_serie' => 'unique:inventarios',
+                    'conservacao' => 'required',
+                    ];
+                }
+                elseif ($request->input('n_inventario') != '') {
+                    $regras = [
+                        'edificio_id' => 'required',            
+                        'categoria' => 'required',
+                        'sala' => 'required',                
+                        'bem_inventariado' => 'required',
+                        'n_inventario' => 'unique:inventarios',
+                        'conservacao' => 'required',
+                        ];
+                }else {
+                    $regras = [
+                        'edificio_id' => 'required',            
+                        'categoria' => 'required',
+                        'sala' => 'required',                
+                        'bem_inventariado' => 'required',                    
+                        'conservacao' => 'required',
+                        ];
+                }
+                $feedback = [
+            
+                        'required'=>'Campo :attribute Obrigatorio',
+                        'unique'=>'Esse :attribute já existe',
+            
+                     ];
+            
+                $request->validate($regras, $feedback);
+                $inventario->update($request->all());
+    
+            }      
+
+        
+
+        //Log de Ação
+        $edificio = Edificio::where('id', $inventario->edificio_id)->first(); 
+        Log::create([
+        'user_id' => auth()->user()->id,
+        'log'=> "Patrimonio de Id: $inventario->id, Edificio:$edificio->edificio, Categoria:$inventario->categoria, Sala:$inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie:$inventario->n_serie, Bem Inventariado:$inventario->bem_inventariado, Conservação:$inventario->conservacao  Editado  " ,
+        'operacao' => 'edit',
+        
+                ]);
         return redirect()->route('inventario.index');
     }
 
@@ -133,6 +190,14 @@ class InventarioController extends Controller
     public function destroy(Inventario $inventario)
     {
         $inventario->delete();
+        //Log de Ação
+        $edificio = Edificio::where('id', $inventario->edificio_id)->first(); 
+        Log::create([
+        'user_id' => auth()->user()->id,
+        'log'=> "Patrimonio de Id: $inventario->id, Edificio:$edificio->edificio, Categoria:$inventario->categoria, Sala:$inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie:$inventario->n_serie, Bem Inventariado:$inventario->bem_inventariado, Conservação:$inventario->conservacao  Deletado  " ,
+        'operacao' => 'delete',
+        
+                ]);
         return redirect()->route('inventario.index');
     }
 }

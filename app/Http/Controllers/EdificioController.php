@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Edificio;
 use Illuminate\Http\Request;
+use App\Models\Log;
 
 class EdificioController extends Controller
 {
@@ -46,6 +47,23 @@ class EdificioController extends Controller
         $request->validate($regras,$feedback);
         Edificio::create($request->all());  
         }
+
+        //Log de Ação
+        $i = Edificio::where([
+            ['id_spms', $request->input('id_spms')]
+           ])->where([['id_siie', $request->input('id_siie')]
+           ])->where([['edificio', $request->input('edificio')]
+           ])->where([['concelho', $request->input('concelho')]
+           ])->where([['unidade', $request->input('unidade')]])->get();
+           
+        foreach ($i as $e) {
+         
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'log'=> "Edificio de Id: $e->id , ID SPMS:$e->id_spms ,ID SIIE:$e->id_siie ,Edificio:$e->edificio ,Concelho:$e->concelho ,Unidade:$e->unidade , Adicionado  " ,
+            'operacao' => 'create',
+
+        ]);}
     
             return redirect()->route('edificio.index');
     }
@@ -72,6 +90,14 @@ class EdificioController extends Controller
     public function update(Request $request, Edificio $edificio)
     {
         $edificio->update($request->all());
+
+        //Log de Ação
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE:$edificio->id_siie ,Edificio:$edificio->edificio ,Concelho:$edificio->concelho ,Unidade:$edificio->unidade , Editado  " ,
+            'operacao' => 'edit',
+
+        ]);
         return redirect()->route('edificio.index');
     }
 
@@ -81,6 +107,14 @@ class EdificioController extends Controller
     public function destroy(Edificio $edificio)
     {
         $edificio->delete();
-       return redirect()->route('edifico.index');
+
+        //Log de Ação
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE:$edificio->id_siie ,Edificio:$edificio->edificio ,Concelho:$edificio->concelho ,Unidade:$edificio->unidade , Deletado  " ,
+            'operacao' => 'delete',
+
+        ]);
+        return redirect()->route('edificio.index');
     }
 }

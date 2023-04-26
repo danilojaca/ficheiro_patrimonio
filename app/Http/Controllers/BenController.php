@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ben;
+use App\Models\Log;
 use Illuminate\Http\Request;
 
 class BenController extends Controller
@@ -44,6 +45,20 @@ class BenController extends Controller
     
             Ben::create($request->all());
         }
+
+            //Log de Ação
+        $i = Ben::where([
+            ['categoria', $request->input('categoria')]
+           ])->where([['sub_categoria', $request->input('sub_categoria')]])->get();
+           
+        foreach ($i as $e) {
+         
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'log'=> "Categoria de Id: $e->id , ID Categoria:$e->categoria ,Sub Categoria:$e->sub_categoria , Adicionado  " ,
+            'operacao' => 'create',
+
+        ]);}
             
             return redirect()->route('bens.index');
        
@@ -70,7 +85,15 @@ class BenController extends Controller
      */
     public function update(Request $request, Ben $ben)
     {
-        $ben->update($request->all());        
+        $ben->update($request->all());
+
+        //Log de Ação
+        Log::create([
+        'user_id' => auth()->user()->id,
+        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria:$ben->sub_categoria , Editado  " ,
+        'operacao' => 'edit',
+
+        ]);       
         return redirect()->route('bens.index');
     }
 
@@ -80,6 +103,14 @@ class BenController extends Controller
     public function destroy(Ben $ben)
     {
         $ben->delete();
+
+        //Log de Ação
+        Log::create([
+        'user_id' => auth()->user()->id,
+        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria:$ben->sub_categoria , Deletado  " ,
+        'operacao' => 'delete',
+    
+            ]);  
         return redirect()->route('bens.index');
     }
 }

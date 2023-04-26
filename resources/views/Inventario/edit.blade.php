@@ -30,16 +30,21 @@
     @endif
   <div class="col-md-7">
         <label  class="form-label">Centro de Saude</label>    
-      <select class="form-select" name="edificio_id" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
+      <select class="form-select @error('edificio_id') is-invalid @enderror" name="edificio_id" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
         <option data-default disabled selected>Selecione o Edificio</option>
         @foreach ($edificios as $edificio)
         <option value="{{$edificio->id}}" {{$edificio->id == $inventario->edificio_id ? 'selected' : ''}}>{{$edificio->edificio}}</option>
         @endforeach 
       </select>
+      @error('edificio_id')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
   <div class="col-md-4"> 
       <label  class="form-label">Categoria</label>   
-      <select class="form-select" name="categoria" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
+      <select class="form-select @error('categoria') is-invalid @enderror" name="categoria" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
           <option data-default disabled selected>Selecione a Categoria</option>
           <optgroup label="Informatica">
           @foreach ($bens as $ben)
@@ -63,34 +68,64 @@
           @endforeach
           </optgroup>
       </select>
+      @error('categoria')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
     </div>
     <div class="col-md-1">
-    <label  class="form-label">Sala</label>
-    <input type="text" name='sala' class="form-control" value="{{$inventario->sala ?? old('sala')}}" >
+    <label  class="form-label ">Sala</label>
+    <input type="text" name='sala' class="form-control @error('sala') is-invalid @enderror" value="{{$inventario->sala ?? old('sala')}}" >
+      @error('sala')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
   <div class="col-md-2">
-    <label  class="form-label">Modelo</label>
-    <input type="text" name='modelo' class="form-control" value="{{$inventario->modelo ?? old('modelo')}}">
+    <label  class="form-label ">Modelo</label>
+    <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{$inventario->modelo ?? old('modelo')}}">
+      @error('modelo')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
   <div class="col-2">
-    <label class="form-label">Nº Inventariado</label>
-    <input type="text" name='n_inventario' class="form-control" value="{{$inventario->n_inventario ?? old('n_inventario')}}" >
+    <label class="form-label ">Nº Inventariado</label>
+    <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{$inventario->n_inventario ?? old('n_inventario')}}" >
+      @error('n_inventario')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
   <div class="col-3">
-    <label class="form-label">Nº Serie</label>
-    <input type="text" name='n_serie' class="form-control"value="{{$inventario->n_serie ?? old('n_serie')}}" >
+    <label class="form-label ">Nº Serie</label>
+    <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{$inventario->n_serie ?? old('n_serie')}}" >
+      @error('n_serie')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div> 
       <div class="col-md-2"> 
     <label  class="form-label">Bem Inventariado</label>   
-      <select class="form-select" name="bem_inventariado" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
+      <select class="form-select @error('bem_inventariado') is-invalid @enderror" name="bem_inventariado" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
         <option data-default disabled selected>Selecione uma Opção</option>
         <option value="Sim" {{$inventario->bem_inventariado == "Sim" ? 'selected' : '' }}>Sim</option>
         <option value="Nao" {{$inventario->bem_inventariado == "Nao" ? 'selected' : ''}}>Não</option>        
       </select>
+      @error('bem_inventariado')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
       <div class="col-md-3"> 
     <label  class="form-label">Estado de Conservação</label>   
-      <select class="form-select" name="conservacao" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
+      <select class="form-select @error('conservacao') is-invalid @enderror" name="conservacao" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
         <option data-default disabled selected>Selecione o Estado de Conservação</option>
         <option value="Muito Bom" {{$inventario->conservacao == "Muito Bom" ? 'selected' : ''}}>Muito Bom</option>
         <option value="Bom" {{$inventario->conservacao == "Bom" ? 'selected' : ''}}>Bom</option>
@@ -101,6 +136,11 @@
         <option value="Abatido" {{$inventario->conservacao == "Abatido" ? 'selected' : ''}}>Abatido</option>
        
       </select>
+      @error('conservacao')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
   </div>
  
   

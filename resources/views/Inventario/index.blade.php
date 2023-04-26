@@ -29,7 +29,7 @@
             <th>Nº Inventario</th>  
             <th>Nº Serie</th>  
             <th>Bem Inventariado</th>  
-            <th>Conversação</th>
+            <th>Conservação</th>
             <th colspan="2"></th>
             <tr>    
         </thead>
