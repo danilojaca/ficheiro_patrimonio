@@ -73,21 +73,35 @@ class LoginController extends Controller
         $name = $user_info[0]['name'][0];// Obtém o Nome  do usuário encontrado
         $password = $request->input('password');
 
+        $a = explode(',',$user_dn);
+        $e = $a[1];
+        $i = explode('=',$e);
+        $ou = $i[1];
         
+            
         //Inserir usuario no DB
         $samaccountname = User::where([
-            ['username','doliveira']
+            ['username',$username]
         ])->get();
+              
+       
+        if (isset($samaccountname[0])){ 
 
-       //dd($samaccountname[0]);
+        $id = $samaccountname[0]['id'];
+        $user = User::find($id);
+            $user->update([              
+                'name' => $name,
+                'username' => $username,
+                'password' => Hash::make($password),
+                'ou' => $ou
+            ]);
 
-        if (isset($samaccountname[0])){
-            
         }else {
             User::create([              
                 'name' => $name,
                 'username' => $username,
-                'password' => Hash::make($password)
+                'password' => Hash::make($password),
+                'ou' => $ou
             ]);
         }
 

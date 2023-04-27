@@ -20,16 +20,21 @@ class LogController extends Controller
             ['username', $user ]
         ])->get();       
         
-        $logs = Log::all();
+        $logs = Log::where([                    
+            ['created_at','like',"$data%"]
+            
+        ])->get();
 
         foreach($username as $u){
-        if ($request->input('_token') != '') { 
-        $logs = Log::where([         
-            ['created_at','like',"%$data%"]
-        ])->where([         
+         if($user != ''){
+        $logs = Log::where([                    
+            ['created_at','like',"$data%"]
+            
+        ])->Where([
             ['user_id',$u->id]
         ])->get();
     }
+    
 }
     
         return view('log', ['logs' => $logs]);

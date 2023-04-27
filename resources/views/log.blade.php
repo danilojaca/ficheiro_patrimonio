@@ -12,7 +12,7 @@
         </div>                     
             <div class="col-md-2">
                 <div class="form-floating">
-                    <input  class="form-control @error('username') is-invalid @enderror" name='username' id="floatingInputGrid"  value="{{ old('search1')}}">
+                    <input  class="form-control @error('username') is-invalid @enderror" name='username' id="floatingInputGrid"  value="{{ old('username')}}">
                     <label for="floatingInputGrid">Usuario</label>
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
@@ -23,7 +23,7 @@
             </div>         
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <input type="date" class="form-control @error('data') is-invalid @enderror" name='data' id="floatingInputGrid"  value="{{ old('search1')}}">
+                        <input type="date" class="form-control @error('data') is-invalid @enderror" name='data' id="floatingInputGrid"  value="{{ old('data')}}">
                         <label for="floatingInputGrid">Data</label>
                             @error('data')
                                  <span class="invalid-feedback" role="alert">
