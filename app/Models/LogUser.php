@@ -14,4 +14,9 @@ class LogUser extends Model
         'operacao',
         'ip_remoto',
     ];
+
+    public function User(){
+
+        return $this->belongsTo('App\Models\User');
+     }
 }

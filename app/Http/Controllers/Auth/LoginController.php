@@ -128,7 +128,7 @@ class LoginController extends Controller
         //Log de Acesso 
         LogUser::create([
             'user' => $request->input('username'),
-            'log' => "Usuário não encontrado",
+            'log' => "Tentativa de Autenticação",
             'operacao' => 'login',
             'ip_remoto' => $_SERVER['REMOTE_ADDR'],
         ]);

@@ -50,12 +50,15 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    @if (auth()->user()->ou == 'Estagiarios') 
+                                    <a class="dropdown-item" href="{{ route('logs.index') }}">{{ __('Logs') }}</a>
+                                    <a class="dropdown-item" href="{{ route('logusers.index') }}">{{ __('Logs User') }}</a>
+                                    @endif
+                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logs.index') }}">{{ __('Logs') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

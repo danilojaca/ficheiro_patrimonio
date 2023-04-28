@@ -28,6 +28,7 @@ Route::resource('/edificio', 'App\Http\Controllers\EdificioController');
 Route::resource('/bens', 'App\Http\Controllers\BenController');
 });
 Route::middleware(['auth'])->resource('/logs', 'App\Http\Controllers\LogController');
+Route::middleware(['auth'])->resource('/logusers', 'App\Http\Controllers\LogUserController');
 Route::fallback( function(){
     echo 'Pagina Não Existe. <a href="'.route('index').'"> clique aqui </a> para ir para a pagina inicial';
 });

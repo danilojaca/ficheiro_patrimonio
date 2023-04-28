@@ -3,51 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Log;
+use App\Models\LogUser;
 
-use App\Models\User;
-
-class LogController extends Controller
+class LogUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
+    { 
         $data = $request->input('data');
         $user = $request->input('username');
-       
-       $username = User::where([
-            ['username', $user ]
-        ])->get();       
-        
-        $logs = Log::where([                    
-            ['created_at','like',"$data%"]
+        $ip = $request->input('ip_remoto');      
             
-        ])->get();
+        $log_users = LogUser::all();
 
-        foreach($username as $u){
-         if($user != ''){
-        $logs = Log::where([                    
+        if ($request->input('_token') != '') {
+                    
+        $log_users = LogUser::where([                    
             ['created_at','like',"$data%"]
             
-        ])->Where([
-            ['user_id',$u->id]
+        ])->Where([                    
+            ['user',$user]
+            
+        ])->orWhere([                    
+            ['ip_remoto',$ip]
+            
         ])->get();
     }
     
-}
-    
-        return view('log', ['logs' => $logs]);
-
+        return view('loguser', ['log_users' => $log_users]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-       //
+        //
     }
 
     /**

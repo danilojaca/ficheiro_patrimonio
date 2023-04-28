@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user');
             $table->string('log');
             $table->string('operacao');
-            $table->string('ip_remoto');
+            $table->string('ip_remoto');            
             $table->timestamps();
         });
     }
