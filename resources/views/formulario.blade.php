@@ -8,7 +8,9 @@
             @csrf            
             <div class="row g-2">
                 <div class="col-md-7">
-                    <div class="form-floating">
+                    <div class="form-floating"> 
+                    @if (auth()->user()->ou == $ou)                       
+                   
                         <select class="form-select @error('search') is-invalid @enderror" name="search" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true">
                         <option data-default disabled selected>Selecione o Edificio</option>
                         @foreach ($edificios as $edificio)
@@ -16,6 +18,14 @@
                         @endforeach 
                         </select>
                         <label for="floatingSelectGrid">Centro de Saude</label>
+                        
+                        @else
+
+                        <input type='hidden' class="form-control @error('search') is-invalid @enderror" name='search' id="floatingInputGrid"  value={{$centro_edificio_id}}>
+                        <span>{{$centro_edificio}}</span>
+                        @endif
+                
+                        
                              @error('search')
                                  <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

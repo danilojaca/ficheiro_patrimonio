@@ -15,24 +15,42 @@ class FormularioController extends Controller
      
     public function index(Request $request)
     {
-        if($request->input('_token') != ''){
-            $regras = [
-                'search1' => 'required',
-                'search' => 'required',
-            ];
-            $feedback = [ 
-                'search.required'=>'Campo Centro de Saude Obrigatorio',
-                'search1.required'=>'Campo Sala Obrigatorio',    
-            ];
+        $centro_edificio = '';
+        $centro_edificio_id = '';
+        $ou =  'Estagiarios';
+        $user_ou = auth()->user()->ou;      
+
+        if (auth()->user()->ou != $ou ){
+            
+        $unidade = Edificio::where([
+            ['edificio', 'like', "%$user_ou%"]
+        ])->get();
+
+        foreach ($unidade as $e) {
+
+            $centro_edificio_id = $e->id;
+            $centro_edificio = $e->edificio;
+            
+            
+        }
+         
     
-            $request->validate($regras,$feedback); 
+    
+        }
+    
+
+        if($request->input('_token') != ''){
+
+        $this->validateLogin($request);
+
         }
         
         $search = $request->input('search');
         $search1 = $request->input('search1');  
         $centro = ''; 
         $siie = '';
-        $sala = ''; 
+        $sala = '';
+
         $edificios = Edificio::orderBy('edificio')->get();
         $inventarios = Formulario::where([
   
@@ -55,6 +73,9 @@ class FormularioController extends Controller
          if ($search1 = $inventario->sala); {
             $sala = $inventario->sala;            
         }
+
+       
+        
         
         }
 
@@ -62,7 +83,7 @@ class FormularioController extends Controller
         
 
         
-        return view('formulario',['inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
+        return view('formulario',['ou' => $ou,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio,'inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
     }
 
     /**
@@ -111,6 +132,20 @@ class FormularioController extends Controller
     public function destroy(Formulario $formulario)
     {
         //
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $regras = [
+            'search1' => 'required',
+            'search' => 'required',
+        ];
+        $feedback = [ 
+            'search.required'=>'Campo Centro de Saude Obrigatorio',
+            'search1.required'=>'Campo Sala Obrigatorio',    
+        ];
+
+        $request->validate($regras,$feedback); 
     }
 
     

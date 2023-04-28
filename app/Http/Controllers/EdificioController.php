@@ -32,21 +32,12 @@ class EdificioController extends Controller
     public function store(Request $request)
     {
         if($request->input('_token') != ''){
-            $regras = [
-                'id_spms' => 'required|unique:edificios',
-                'id_siie' => 'required|unique:edificios',
-                'edificio' => 'required',
-                'concelho' => 'required',
-                'unidade' => 'required',
-            ];
-            $feedback = [            
-                'unique' => ':attribute ja existe',
-                'required'=>'Campo :attribute Obrigatorio',    
-            ];
-    
-        $request->validate($regras,$feedback);
-        Edificio::create($request->all());  
+           
+        $this->validateLogin($request);
+          
         }
+
+        Edificio::create($request->all());
 
         //Log de Ação
         $i = Edificio::where([
@@ -60,7 +51,7 @@ class EdificioController extends Controller
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Edificio de Id: $e->id , ID SPMS:$e->id_spms ,ID SIIE:$e->id_siie ,Edificio:$e->edificio ,Concelho:$e->concelho ,Unidade:$e->unidade , Adicionado  " ,
+            'log'=> "Edificio de Id: $e->id , ID SPMS: $e->id_spms ,ID SIIE: $e->id_siie ,Edificio: $e->edificio ,Concelho: $e->concelho ,Unidade: $e->unidade " ,
             'operacao' => 'create',
 
         ]);}
@@ -89,12 +80,17 @@ class EdificioController extends Controller
      */
     public function update(Request $request, Edificio $edificio)
     {
+        if($request->input('_token') != ''){
+           
+            $this->validateLogin($request);
+              
+            }
         $edificio->update($request->all());
 
         //Log de Ação
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE:$edificio->id_siie ,Edificio:$edificio->edificio ,Concelho:$edificio->concelho ,Unidade:$edificio->unidade , Editado  " ,
+            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE: $edificio->id_siie ,Edificio: $edificio->edificio ,Concelho: $edificio->concelho ,Unidade: $edificio->unidade" ,
             'operacao' => 'edit',
 
         ]);
@@ -106,15 +102,33 @@ class EdificioController extends Controller
      */
     public function destroy(Edificio $edificio)
     {
+        
         $edificio->delete();
 
         //Log de Ação
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE:$edificio->id_siie ,Edificio:$edificio->edificio ,Concelho:$edificio->concelho ,Unidade:$edificio->unidade , Deletado  " ,
+            'log'=> "Edificio de Id: $edificio->id , ID SPMS: $edificio->id_spms ,ID SIIE: $edificio->id_siie ,Edificio: $edificio->edificio ,Concelho: $edificio->concelho ,Unidade: $edificio->unidade" ,
             'operacao' => 'delete',
 
         ]);
         return redirect()->route('edificio.index');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $regras = [
+            'id_spms' => 'required|unique:edificios',
+            'id_siie' => 'required|unique:edificios',
+            'edificio' => 'required',
+            'concelho' => 'required',
+            'unidade' => 'required',
+        ];
+        $feedback = [            
+            'unique' => ':attribute ja existe',
+            'required'=>'Campo :attribute Obrigatorio',    
+        ];
+
+    $request->validate($regras,$feedback); 
     }
 }

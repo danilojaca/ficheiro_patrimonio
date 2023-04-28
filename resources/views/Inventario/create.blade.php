@@ -23,6 +23,7 @@
         <form class="row g-3" action="{{route('inventario.store')}}" method='POST' >
               @csrf   
               <div class="col-md-7">
+              @if (auth()->user()->ou == 'Estagiarios')    
                   <label  class="form-label">Centro de Saude</label>    
                   <select class="form-select @error('edificio_id') is-invalid @enderror" name="edificio_id" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
                     <option data-default disabled selected >Selecione o Edificio</option>
@@ -30,6 +31,12 @@
                     <option value="{{$edificio->id}}" {{$edificio->id == old('edificio_id') ? 'selected' : ''}}>{{$edificio->edificio}}</option>
                     @endforeach 
                   </select>
+              @else
+
+              <input type='hidden' class="form-control @error('edificio_id') is-invalid @enderror" name='edificio_id' id="floatingInputGrid"  value={{$centro_edificio_id}}>
+              <span>{{$centro_edificio}}</span>
+
+              @endif
                   @error('edificio_id')
                     <span class="invalid-feedback" role="alert">
                        <strong>{{ $message }}</strong>

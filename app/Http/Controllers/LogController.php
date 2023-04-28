@@ -24,7 +24,7 @@ class LogController extends Controller
         $logs = Log::where([                    
             ['created_at','like',"$data%"]
             
-        ])->get();
+        ])->paginate(10);
 
         foreach($username as $u){
          if($user != ''){
@@ -33,7 +33,7 @@ class LogController extends Controller
             
         ])->Where([
             ['user_id',$u->id]
-        ])->get();
+        ])->paginate(10);
     }
     
 }

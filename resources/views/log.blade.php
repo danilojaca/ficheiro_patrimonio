@@ -64,6 +64,25 @@
         @endforeach 
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                <a class="page-link" href="{{ $logs->previousPageUrl() }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+                </li>
+                 @for($i = 1; $i <= $logs->lastPage(); $i++)
+                <li class="page-item {{ $logs->currentPage() == $i ? 'active' : '' }}">
+                <a class="page-link" href="{{ $logs->url($i) }}">{{ $i }}</a>
+                </li>
+                 @endfor
+                <a class="page-link" href="{{ $logs->nextPageUrl() }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+                </li>
+              </ul>
+          </nav>     
+     Exibindo {{$logs->count()}} Bens de {{$logs->total()}}
             
 </div>
 

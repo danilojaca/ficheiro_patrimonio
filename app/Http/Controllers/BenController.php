@@ -13,6 +13,7 @@ class BenController extends Controller
      */
     public function index(Request $request)
     {
+        
         $bens = Ben::paginate(10);         
 
         return view('Bens\index', ['bens' => $bens, 'request' => $request->all()]);
@@ -32,19 +33,12 @@ class BenController extends Controller
     public function store(Request $request)
     {
         if($request->input('_token') != ''){
-            $regras = [
-            'categoria' => 'required',
-            'sub_categoria' => 'required', 
-            ];
-    
-            $feedback = [
-                'required' => 'Campo :attribute Obrigatorio',            
-            ];
-    
-            $request->validate($regras, $feedback);
-    
-            Ben::create($request->all());
+           
+            $this->validateLogin($request);
+            
         }
+        
+        Ben::create($request->all());
 
             //Log de Ação
         $i = Ben::where([
@@ -55,7 +49,7 @@ class BenController extends Controller
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Categoria de Id: $e->id , ID Categoria:$e->categoria ,Sub Categoria:$e->sub_categoria , Adicionado  " ,
+            'log'=> "Categoria de Id: $e->id , ID Categoria: $e->categoria ,Sub Categoria: $e->sub_categoria" ,
             'operacao' => 'create',
 
         ]);}
@@ -85,12 +79,17 @@ class BenController extends Controller
      */
     public function update(Request $request, Ben $ben)
     {
+        if($request->input('_token') != ''){
+           
+        $this->validateLogin($request);
+    }
+
         $ben->update($request->all());
 
         //Log de Ação
         Log::create([
         'user_id' => auth()->user()->id,
-        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria:$ben->sub_categoria , Editado  " ,
+        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria: $ben->sub_categoria " ,
         'operacao' => 'edit',
 
         ]);       
@@ -107,10 +106,24 @@ class BenController extends Controller
         //Log de Ação
         Log::create([
         'user_id' => auth()->user()->id,
-        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria:$ben->sub_categoria , Deletado  " ,
+        'log'=> "Categoria de Id: $ben->id , Categoria: $ben->categoria ,Sub Categoria: $ben->sub_categoria" ,
         'operacao' => 'delete',
     
             ]);  
         return redirect()->route('bens.index');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $regras = [
+            'categoria' => 'required',
+            'sub_categoria' => 'required', 
+            ];
+    
+            $feedback = [
+                'required' => 'Campo :attribute Obrigatorio',            
+            ];
+    
+            $request->validate($regras, $feedback); 
     }
 }

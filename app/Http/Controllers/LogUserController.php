@@ -16,7 +16,7 @@ class LogUserController extends Controller
         $user = $request->input('username');
         $ip = $request->input('ip_remoto');      
             
-        $log_users = LogUser::all();
+        $log_users = LogUser::paginate(10);
 
         if ($request->input('_token') != '') {
                     
@@ -29,7 +29,7 @@ class LogUserController extends Controller
         ])->orWhere([                    
             ['ip_remoto',$ip]
             
-        ])->get();
+        ])->paginate(10);
     }
     
         return view('loguser', ['log_users' => $log_users]);
