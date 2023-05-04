@@ -34,12 +34,11 @@ class LogController extends Controller
         ])->Where([
             ['user_id',$u->id]
         ])->paginate(10);
-    }
+        }
     
-}
-    
-        return view('log', ['logs' => $logs]);
-
+    }       
+       return view('log', ['logs' => $logs]);
+        
     }
 
     /**

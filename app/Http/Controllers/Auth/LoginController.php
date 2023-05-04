@@ -60,31 +60,34 @@ class LoginController extends Controller
         $ldap_conn = ldap_connect($ldap_host, $ldap_port); // Conecta com o servidor LDAP
         ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3); // Define a versão do protocolo LDAP
         ldap_set_option($ldap_conn, LDAP_OPT_REFERRALS, 0); // Define se deve seguir referências
- 
+        
         if (@ldap_bind($ldap_conn, $ldap_user, $ldap_pass)){
- 
+            
+
         $search_filter = "(sAMAccountName=".ldap_escape($request->input('username'), '', LDAP_ESCAPE_FILTER).")"; // Filtro de busca para encontrar o usuário       
         $search = ldap_search($ldap_conn, $ldap_dn, $search_filter); // Busca o usuário em todas as OUs da AD
         $user_info = ldap_get_entries($ldap_conn, $search); // Obtém as informações do usuário encontrado
-     
+       
         if ($user_info['count'] > 0) { // Verifica se o usuário foi encontrado
         $user_dn = $user_info[0]['dn']; // Obtém o DN do usuário encontrado
+        
         $username = $user_info[0]['samaccountname'][0];// Obtém o username do usuário encontrado
         $name = $user_info[0]['name'][0];// Obtém o Nome  do usuário encontrado
         $password = $request->input('password');
 
+        
+        
         $a = explode(',',$user_dn);
         $e = $a[1];
         $i = explode('=',$e);
         $ou = $i[1];
-        
-            
+                   
         //Inserir usuario no DB
         $samaccountname = User::where([
             ['username',$username]
         ])->get();
-              
-       
+          
+        
         if (isset($samaccountname[0])){ 
 
         $id = $samaccountname[0]['id'];
@@ -103,14 +106,15 @@ class LoginController extends Controller
                 'password' => Hash::make($password),
                 'ou' => $ou
             ]);
-        }
+        } 
 
-       
-    
     //Autenticação   
     $credentials = $request->only('username', 'password');
+    
     if (Auth::attempt($credentials)) {
-       //Log de Acesso 
+       
+        
+    //Log de Acesso 
         LogUser::create([
             'user' => auth()->user()->username,
             'log' => "Autenticação realizada com sucesso",
@@ -118,21 +122,22 @@ class LoginController extends Controller
             'ip_remoto' => $_SERVER['REMOTE_ADDR'],
         ]);
         return redirect()->intended('home');
-    } 
-            
+    }            
         
         
         
         }
      }else {
-        //Log de Acesso 
+
+    //Log de Acesso 
         LogUser::create([
             'user' => $request->input('username'),
             'log' => "Tentativa de Autenticação",
             'operacao' => 'login',
             'ip_remoto' => $_SERVER['REMOTE_ADDR'],
         ]);
-    return redirect()->route('login')->with(['login' => "Usuário não encontrado"]);
+        
+   return redirect()->route('login')->with(['login' => "Usuário não encontrado"]);
 
 }
      

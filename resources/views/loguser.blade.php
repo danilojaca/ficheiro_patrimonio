@@ -7,19 +7,9 @@
             <form action={{route('logusers.index')}} method='GET'>
             @csrf
         <div class="row g-2">
-        <div class="col-md-1">
+        <div class="col-md-3">
         </div>
-        <div class="col-md-2">
-          <div class="form-floating">
-                    <input  class="form-control @error('ip_remoto') is-invalid @enderror" name='ip_remoto' id="floatingInputGrid"  value="{{ old('ip_remoto')}}">
-                    <label for="floatingInputGrid">IP Remoto</label>
-                            @error('ip_remoto')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror                        
-            </div>        
-        </div>                     
+                     
             <div class="col-md-2">
                 <div class="form-floating">
                     <input  class="form-control @error('username') is-invalid @enderror" name='username' id="floatingInputGrid"  value="{{ old('username')}}">

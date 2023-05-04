@@ -58,7 +58,7 @@
                 <script type="text/php">
                     if ( isset($pdf) ) {
                     $pdf->page_script('
-                    $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+                    $font = $fontMetrics;
                     $pdf->text(270, 810, "Página $PAGE_NUM de $PAGE_COUNT", $font, 10);
                     ');
                     }

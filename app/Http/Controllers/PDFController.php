@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Formulario;
-
 use Carbon\Carbon;
 use PDF;
 
