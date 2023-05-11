@@ -54,7 +54,7 @@
         </tr> 
     </thead>                  
     <tbody>
-         @foreach ($log_users as $log )
+         @foreach ($log_users as $log)
          <tr>
             <td>{{$log->user}} </td>
             <td>{{$log->log}}</td>

@@ -55,13 +55,6 @@
                 </tbody>
             </table>
         </div>
-                <script type="text/php">
-                    if ( isset($pdf) ) {
-                    $pdf->page_script('
-                    $font = $fontMetrics;
-                    $pdf->text(270, 810, "Página $PAGE_NUM de $PAGE_COUNT", $font, 10);
-                    ');
-                    }
-    	        </script> 
+                 
     </body>
 </html>

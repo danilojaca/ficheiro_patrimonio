@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Session;
 
 trait AuthenticatesUsers
 {
@@ -166,6 +167,8 @@ trait AuthenticatesUsers
      */
     public function logout(Request $request)
     {
+        
+        //dd($request);
         $this->guard()->logout();
 
         $request->session()->invalidate();
@@ -176,6 +179,8 @@ trait AuthenticatesUsers
             return $response;
         }
 
+        
+        
         return $request->wantsJson()
             ? new JsonResponse([], 204)
             : redirect('/');

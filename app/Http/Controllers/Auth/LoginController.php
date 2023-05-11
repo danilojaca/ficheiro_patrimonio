@@ -12,6 +12,9 @@ use App\Models\LogUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Session;
+use App\Models\SessionData;
+
 
 class LoginController extends Controller
 {
@@ -44,7 +47,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
+   
     public function login(Request $request)
     {    
         $this->validateLogin($request);
@@ -108,12 +111,32 @@ class LoginController extends Controller
             ]);
         } 
 
-    //Autenticação   
-    $credentials = $request->only('username', 'password');
-    
+        //Derrubar usuarios com acesso simultaneo
+        $sessiondata = SessionData::where([
+            ['user_id',$id]
+        ])->get();
+
+                
+        if (isset($sessiondata[0])) { 
+
+            session_start();
+            
+            session_destroy();
+            SessionData::where([
+                ['user_id',$id]
+            ])->delete();
+       
+            //Avisar que o usuario ja esta conectado em outra sessao
+            //return redirect()->route('login')->with(['login' => "O Usuario estava Logado em Outro Dispositivo ou Navegador porém ja foi desconectado tente logar novamente"]); 
+            
+        } 
+   
+    $credentials = $request->only('username', 'password');    
     if (Auth::attempt($credentials)) {
        
-        
+      
+     
+
     //Log de Acesso 
         LogUser::create([
             'user' => auth()->user()->username,
@@ -121,10 +144,12 @@ class LoginController extends Controller
             'operacao' => 'login',
             'ip_remoto' => $_SERVER['REMOTE_ADDR'],
         ]);
+
+        
         return redirect()->intended('home');
     }            
         
-        
+      
         
         }
      }else {

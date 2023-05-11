@@ -14,6 +14,7 @@ class LogController extends Controller
      */
     public function index(Request $request)
     {
+        
         $data = $request->input('data');
         $user = $request->input('username');
        
