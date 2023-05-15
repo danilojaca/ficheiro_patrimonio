@@ -13,16 +13,23 @@ class LogUserController extends Controller
     public function index(Request $request)
     { 
         $data = $request->input('data');
-        $user = $request->input('username');       
+        $user = $request->input('username'); 
+        
+        $log_users = LogUser::where([                    
+            ['created_at','like',"$data%"]
+            
+        ])->paginate(15);
+                    
+        if (isset($user)) {
                     
         $log_users = LogUser::where([                    
             ['created_at','like',"$data%"]
             
-        ])->orWhere([                    
+        ])->Where([                    
             ['user',$user]
             
         ])->Paginate(15);
-    
+    }
     
         return view('loguser', ['log_users' => $log_users]);
     }
