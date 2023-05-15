@@ -18,7 +18,7 @@ class LogUserController extends Controller
         $log_users = LogUser::where([                    
             ['created_at','like',"$data%"]
             
-        ])->paginate(15);
+        ])->get();
                     
         if (isset($user)) {
                     
@@ -28,10 +28,10 @@ class LogUserController extends Controller
         ])->Where([                    
             ['user',$user]
             
-        ])->Paginate(15);
+        ])->get();
     }
     
-        return view('loguser', ['log_users' => $log_users]);
+        return view('loguser', ['log_users' => $log_users, 'data' => $data,'user' =>$user]);
     }
 
     /**

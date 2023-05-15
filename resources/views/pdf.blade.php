@@ -55,6 +55,11 @@
                 </tbody>
             </table>
         </div>
-                 
+    <script type="text/php">
+    if ( isset($pdf) ) {
+        $pdf->page_text(270, 810, "Pagina: {PAGE_NUM} de {PAGE_COUNT}", "helvetica", 10, array(0,0,0));
+    }
+</script>
+      
     </body>
 </html>

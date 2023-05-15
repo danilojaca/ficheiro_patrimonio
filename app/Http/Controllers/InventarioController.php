@@ -38,7 +38,7 @@ class InventarioController extends Controller
             $inventarios = Inventario::orderBy('edificio_id')->paginate(10);
         }       
        
-        return view('Inventario\index', ['inventarios' => $inventarios,'request' => $request->all()]);
+        return view('Inventario.index', ['inventarios' => $inventarios,'request' => $request->all()]);
     }
 
     /**
@@ -68,7 +68,7 @@ class InventarioController extends Controller
         
         $bens = Ben::all();
         $edificios = Edificio::orderBy('edificio')->get();
-        return view('Inventario\create',['bens' => $bens, 'edificios' => $edificios,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio]);
+        return view('Inventario.create',['bens' => $bens, 'edificios' => $edificios,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio]);
     }
 
     /**
@@ -125,7 +125,7 @@ class InventarioController extends Controller
         $edificios = Edificio::orderBy('edificio')->get();
 
 
-        return view('Inventario\edit', ['inventario' => $inventario , 'bens' => $bens, 'edificios' => $edificios]);
+        return view('Inventario.edit', ['inventario' => $inventario , 'bens' => $bens, 'edificios' => $edificios]);
     }
 
     /**

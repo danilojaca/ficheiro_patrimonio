@@ -25,8 +25,9 @@ class PDFController extends Controller
         ]);
         $pdf->setPaper('a4', 'portrait');
         $pdf->render();
-        $pdf->getDomPDF()->set_option("enable_php", true);       
-        return  $pdf->stream("Ficheiro de Patrimonio $centro Sala: $sala.pdf");
+        $pdf->getDomPDF()->set_option("enable_php", true);   
+            
+        return  $pdf->download("Ficheiro de Patrimonio $centro Sala: $sala.pdf");
        
     }
     

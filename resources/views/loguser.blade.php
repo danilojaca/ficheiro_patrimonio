@@ -5,7 +5,7 @@
     <div class="row ">
         <div class="col-md-12">
             <form action={{route('logusers.index')}} method='GET'>
-            @csrf
+            
         <div class="row g-2">
         <div class="col-md-3">
         </div>
@@ -43,7 +43,7 @@
 </div>
 
 <hr>
-<div class="container mt-">             
+<div class="container mt-3">             
   <table class="table table-bordered">
     <thead>
         <tr>
@@ -64,25 +64,7 @@
         @endforeach 
     </tbody>
   </table>
-  <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                <a class="page-link" href="{{ $log_users->previousPageUrl() }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-                </li>
-                 @for($i = 1; $i <= $log_users->lastPage(); $i++)
-                <li class="page-item {{ $log_users->currentPage() == $i ? 'active' : '' }}">
-                <a class="page-link" href="{{ $log_users->url($i) }}">{{ $i }}</a>
-                </li>
-                 @endfor
-                <a class="page-link" href="{{ $log_users->nextPageUrl() }}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                </a>
-                </li>
-              </ul>
-          </nav>     
-     Exibindo {{$log_users->count()}} Bens de {{$log_users->total()}}
+ 
             
 </div>
 

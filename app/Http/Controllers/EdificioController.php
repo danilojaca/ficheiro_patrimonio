@@ -15,7 +15,7 @@ class EdificioController extends Controller
     {
         $edificios = Edificio::orderby('edificio')->paginate(10);         
 
-        return view('Edificio\index', ['edificios' => $edificios, 'request' => $request->all()]);
+        return view('Edificio.index', ['edificios' => $edificios, 'request' => $request->all()]);
     }
 
     /**
@@ -23,7 +23,7 @@ class EdificioController extends Controller
      */
     public function create()
     {
-        return view('Edificio\create');
+        return view('Edificio.create');
     }
 
     /**
@@ -72,7 +72,7 @@ class EdificioController extends Controller
      */
     public function edit(Edificio $edificio)
     {
-        return view('Edificio\create', ['edificio' => $edificio]);
+        return view('Edificio.create', ['edificio' => $edificio]);
     }
 
     /**

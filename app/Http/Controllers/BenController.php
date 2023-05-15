@@ -16,7 +16,7 @@ class BenController extends Controller
         
         $bens = Ben::orderby('categoria')->paginate(10);         
 
-        return view('Bens\index', ['bens' => $bens, 'request' => $request->all()]);
+        return view('Bens.index', ['bens' => $bens, 'request' => $request->all()]);
     }
 
     /**
@@ -24,7 +24,7 @@ class BenController extends Controller
      */
     public function create()
     {
-        return view('Bens\create');
+        return view('Bens.create');
     }
 
     /**
@@ -71,7 +71,7 @@ class BenController extends Controller
      */
     public function edit(Ben $ben)
     {
-        return view('Bens\create', ['ben' => $ben]);
+        return view('Bens.create', ['ben' => $ben]);
     }
 
     /**
