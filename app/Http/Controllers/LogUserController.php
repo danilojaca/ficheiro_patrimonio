@@ -21,7 +21,7 @@ class LogUserController extends Controller
         ])->orWhere([                    
             ['user',$user]
             
-        ])->Paginate(10);
+        ])->Paginate(15);
     
     
         return view('loguser', ['log_users' => $log_users]);

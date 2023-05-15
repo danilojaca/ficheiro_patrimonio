@@ -68,6 +68,13 @@
                     @endif 
                     @endforeach
                     </optgroup>
+                    <optgroup label="Outros">
+                    @foreach ($bens as $ben)                                          
+                      @if ($ben->categoria === 'Outros')
+                      <option value="{{$ben->sub_categoria}}">{{$ben->sub_categoria}}</option>
+                    @endif 
+                    @endforeach
+                    </optgroup>
                   </select>
                   @error('categoria')
                     <span class="invalid-feedback" role="alert">

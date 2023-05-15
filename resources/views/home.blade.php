@@ -16,7 +16,7 @@
                  Registo
                 </button>
                 <ul class="dropdown-menu ">
-                    <li><a class="dropdown-item"  href="{{ route('inventario.index') }}">Ficheiro de Patrimonio</a></li>
+                    <li><a class="dropdown-item"  href="{{ route('inventario.index') }}">Bens </a></li>
                     @if (auth()->user()->ou == 'Estagiarios')
                     <li><a class="dropdown-item" href="{{ route('edificio.index') }}">Edificio</a></li>
                     <li><a class="dropdown-item" href="{{ route('bens.index') }}">Categoria</a></li>

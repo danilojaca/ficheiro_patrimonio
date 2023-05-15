@@ -30,15 +30,9 @@ class FormularioController extends Controller
 
             $centro_edificio_id = $e->id;
             $centro_edificio = $e->edificio;
-            
-            
         }
          
-    
-    
         }
-    
-
         if($request->input('_token') != ''){
 
         $this->validateLogin($request);
@@ -73,16 +67,7 @@ class FormularioController extends Controller
          if ($search1 = $inventario->sala); {
             $sala = $inventario->sala;            
         }
-
-       
-        
-        
-        }
-
-
-        
-
-        
+    }
         return view('formulario',['ou' => $ou,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio,'inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
     }
 

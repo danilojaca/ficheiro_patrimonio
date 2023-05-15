@@ -14,7 +14,7 @@ class BenController extends Controller
     public function index(Request $request)
     {
         
-        $bens = Ben::paginate(10);         
+        $bens = Ben::orderby('categoria')->paginate(10);         
 
         return view('Bens\index', ['bens' => $bens, 'request' => $request->all()]);
     }

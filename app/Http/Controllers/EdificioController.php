@@ -13,7 +13,7 @@ class EdificioController extends Controller
      */
     public function index(Request $request)
     {
-        $edificios = Edificio::paginate(10);         
+        $edificios = Edificio::orderby('edificio')->paginate(10);         
 
         return view('Edificio\index', ['edificios' => $edificios, 'request' => $request->all()]);
     }

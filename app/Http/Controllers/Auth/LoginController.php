@@ -77,9 +77,7 @@ class LoginController extends Controller
         $username = $user_info[0]['samaccountname'][0];// Obtém o username do usuário encontrado
         $name = $user_info[0]['name'][0];// Obtém o Nome  do usuário encontrado
         $password = $request->input('password');
-
-        
-        
+       
         $a = explode(',',$user_dn);
         $e = $a[1];
         $i = explode('=',$e);
@@ -119,8 +117,7 @@ class LoginController extends Controller
                 
         if (isset($sessiondata[0])) { 
 
-            session_start();
-            
+            session_start();            
             session_destroy();
             SessionData::where([
                 ['user_id',$id]
@@ -130,12 +127,9 @@ class LoginController extends Controller
             //return redirect()->route('login')->with(['login' => "O Usuario estava Logado em Outro Dispositivo ou Navegador porém ja foi desconectado tente logar novamente"]); 
             
         } 
-   
+        //Autenticação 
     $credentials = $request->only('username', 'password');    
     if (Auth::attempt($credentials)) {
-       
-      
-     
 
     //Log de Acesso 
         LogUser::create([
@@ -147,10 +141,7 @@ class LoginController extends Controller
 
         
         return redirect()->intended('home');
-    }            
-        
-      
-        
+    }         
         }
      }else {
 
