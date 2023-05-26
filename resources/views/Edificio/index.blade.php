@@ -37,13 +37,15 @@
                 <td>{{$edificio->concelho}}</td>
                 <td>{{$edificio->unidade}}</td>
                 <td>
+                <div class="btn-group">  
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';"><i class="bi bi-pencil-square"></i></button>
+
                 <form method="post" action="{{route('edificio.destroy', ['edificio' => $edificio->id])}}">
                 @method('DELETE')
                 @csrf
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';">Excluir</button>           
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';"><i class="bi bi-trash"></i></button>           
                 </form>
-                </td>
-                <td><button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';">Editar</button> </td> 
+                 </div></td> 
                 </tr>  
             @endforeach
             </tbody>

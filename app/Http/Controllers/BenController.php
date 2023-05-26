@@ -79,6 +79,7 @@ class BenController extends Controller
      */
     public function update(Request $request, Ben $ben)
     {
+        
         if($request->input('_token') != ''){
            
         $this->validateLogin($request);

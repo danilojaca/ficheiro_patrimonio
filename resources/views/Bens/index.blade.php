@@ -23,7 +23,7 @@
     <thead>
             <th>Categoria</th>
             <th>Sub Categoria</th>
-            <th colspan='2'></th> 
+            <th ></th> 
         </thead>
         <tbody>
 
@@ -31,14 +31,14 @@
         <tr>
          <td>{{$ben->categoria}}</td>
          <td>{{$ben->sub_categoria}}</td>
-         <td>
+         <td><div class="btn-group">             
+            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.edit', ['ben' => $ben->id])}}';"><i class="bi bi-pencil-square"></i></button>
             <form  method="post" action="{{route('bens.destroy', ['ben' => $ben->id])}}">
             @method('DELETE')
             @csrf
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';">Excluir</button>           
+            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';"><i class="bi bi-trash"></i></button>           
             </form>
-            </td>
-            <td><button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.edit', ['ben' => $ben->id])}}';">Editar</button> </td> 
+            </div> </td> 
             </tr>  
         @endforeach        
         </tbody>

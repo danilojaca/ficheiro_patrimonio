@@ -45,13 +45,14 @@
          <td>{{$inventario->bem_inventariado}}</td>
          <td>{{$inventario->conservacao}}</td>
          <td>
+         <div class="btn-group"> 
+         <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';"><i class="bi bi-pencil-square"></i></button>
          <form method="post" action="{{route('inventario.destroy', ['inventario' => $inventario->id])}}">
             @method('DELETE')
             @csrf
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';">Excluir</button>           
+            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';"><i class="bi bi-trash"></i></button>           
             </form>
-            </td>
-            <td><button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';">Editar</button> </td> 
+             </div></td> 
             </tr>   
         @endforeach
         </tbody>
