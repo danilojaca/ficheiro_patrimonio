@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::middleware(['auth'])->get('/', function () {
-    return view('home');
+    return redirect()->route('formulario.index');;
 });
 
 Auth::routes();

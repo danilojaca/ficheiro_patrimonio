@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container ">
+<div class="container pt-5">
 <nav class="navbar navbar-expand-sm bg-light ">
   <div class="container-fluid">
     <ul class="navbar-nav">      
@@ -19,7 +19,7 @@
 </nav>
 </div>
 
-<div class="container mt-4">
+<div class="container">
 @if (isset($edificio->id))
         <form  class="row g-3" action={{route('edificio.update', ['edificio' => $edificio->id])}} method='POST' >
         @method('PUT')

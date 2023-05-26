@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container ">
+<div class="container pt-5">
 <nav class="navbar navbar-expand-sm bg-light">
   <div class="container-fluid">
     <ul class="navbar-nav">      
@@ -18,7 +18,7 @@
   </div>
 </nav>
 </div>
-<div class="container mt-3">             
+<div class="container">             
   <table class="table table-bordered">
     <thead>
                 <th>ID SPMS</th>

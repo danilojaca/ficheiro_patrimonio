@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container pt-5">
     <div class="row ">
         <div class="col-md-12">
             <form action={{route('logs.index')}} method='GET'>

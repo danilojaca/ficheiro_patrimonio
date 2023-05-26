@@ -14,40 +14,59 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-    
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                @guest
-                    <a class="navbar-brand m-auto" >
-                        Bem Vindo
-                    </a>
-                @endguest
-                @auth
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav me-auto">
-                        <!-- Authentication Links -->
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-                                    @if (auth()->user()->ou == 'Estagiarios') 
-
-                                    <a class="dropdown-item" href="{{ route('logs.index') }}">{{ __('Logs') }}</a>
-                                    <a class="dropdown-item" href="{{ route('logusers.index') }}">{{ __('Logs User') }}</a>
-                                    
-                                    @endif
-                                    
-                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+        <nav class="navbar  bg-primary fixed-top">
+            @guest
+                <a class="navbar-brand navbar-dark m-auto" >
+                    {{'Bem Vindo'}}
+                </a>
+            @endguest
+            @auth
+                <div class="container-fluid">
+                    <a class="navbar-brand navbar-dark" href="{{ url('/') }}"><i class="bi bi-house"></i></a>
+                        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ Auth::user()->name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('inventario.index') }}">{{'Bens'}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificio'}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categoria'}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#">{{'Regras Usuarios'}}</a>
+                                </li>                               
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{'Logs'}}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('logs.index') }}">{{ __('Logs') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('logusers.index') }}">{{ __('Logs User') }}</a></li>
+                                        
+                                    </ul>
+                                </li>                                
+                            </ul>
+                            <ul class="navbar-nav justify-content-end  pe-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active text-danger" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -55,21 +74,15 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                </div>
-                            </li>                       
-                    </ul>
-                    
-                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <a class="navbar-brand " href="{{ url('/') }}">
-                            <i class="bi bi-house"></i>
-                        </a> 
-                    </ul>
-                @endauth
-            </div>
-        </nav>
+                                </li>
+                            </ul>            
+                        </div>
+                    </div>
+                </div>
+            @endauth
+        </nav> 
 
-        <main class="py-4">
+        <main class="p-4">
             @yield('content')
         </main>
     </div>
