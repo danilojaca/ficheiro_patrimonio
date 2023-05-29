@@ -12,7 +12,11 @@ class FormularioController extends Controller
      * Display a listing of the resource.
      */
 
-     
+     function __construct(Formulario $formulario)
+     {
+          $this->middleware('permission:role-create', ['only' => [$formulario->where([['id_spms', '426']])]]);
+     }
+
     public function index(Request $request)
     {
         $centro_edificio = '';

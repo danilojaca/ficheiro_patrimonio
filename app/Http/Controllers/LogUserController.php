@@ -10,6 +10,11 @@ class LogUserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:logs');
+    }
+
     public function index(Request $request)
     { 
         $data = $request->input('data');
@@ -31,7 +36,7 @@ class LogUserController extends Controller
         ])->get();
     }
     
-        return view('loguser', ['log_users' => $log_users, 'data' => $data,'user' =>$user]);
+        return view('logs.loguser', ['log_users' => $log_users, 'data' => $data,'user' =>$user]);
     }
 
     /**

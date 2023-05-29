@@ -2,23 +2,21 @@
 
 @section('content')
 <div class="container pt-5">
-<nav class="navbar navbar-expand-sm bg-light ">
-  <div class="container-fluid">
-    <ul class="navbar-nav">      
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('bens.create') }}">Novo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('bens.index') }}">Consultar</a>
-      </li>      
-    </ul>
-    <div class="container navbar-nav justify-content-center ">
-    <h1>Categorias</h1>
-    </div>
-  </div>
-</nav>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">               
+            <div class="container navbar-nav justify-content-center  ">
+                <h1>{{'Categorias'}}</h1>
+            </div>
+            <ul class="navbar-nav">      
+                <li class="nav-item">
+                @can('role-create')
+                    <a class="btn btn-primary" href="{{ route('bens.index') }}">Voltar</a>
+                @endcan
+                </li>            
+            </ul>
+        </div>
+    </nav>
 </div>
-
 <div class="container">
 @if (isset($ben->id))
         <form  class="row g-3" action={{route('bens.update', ['ben' => $ben->id])}} method='POST' >
@@ -28,7 +26,7 @@
          <form class="row g-3" action="{{route('bens.store')}}" method='POST' >
         @csrf
     @endif
-    <div class="col-md-4">    
+    <div class="col-md-3">    
     
   </div>
   <div class="col-md-3">    
@@ -49,10 +47,13 @@
         </span>
     @enderror
   </div>
-  <div class="col-md-4">    
+  <div class="col-md-2">    
     
   </div>
-  <div class="col-7">
+  <div class="col-md-3">    
+    
+  </div>
+  <div class="col-6">
      @if (isset($ben->id))
     <button type="submit" class="btn btn-primary">Editar</button>
     @else

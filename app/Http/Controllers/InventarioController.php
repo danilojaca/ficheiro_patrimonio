@@ -13,12 +13,19 @@ class InventarioController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:inventario-list|inventario-create|inventario-edit|inventario-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:inventario-create', ['only' => ['create','store']]);
+         $this->middleware('permission:inventario-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:inventario-delete', ['only' => ['destroy']]);
+    }
 
     public function index(Request  $request)
     {
         $user_ou = auth()->user()->ou;
 
-        if ($user_ou != 'Estagiarios') {
+        if ($user_ou == 'Estagiarios') {
 
             $unidade = Edificio::where([
                 ['edificio', 'like', "%$user_ou%"]

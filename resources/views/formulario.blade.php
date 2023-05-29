@@ -9,7 +9,7 @@
             <div class="row g-2">
                 <div class="col-md-7">
                     <div class="form-floating"> 
-                    @if (auth()->user()->ou == $ou)                       
+                    @if (auth()->user()->ou != $ou)                       
                    
                         <select class="form-select @error('search') is-invalid @enderror" name="search" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true">
                         <option data-default disabled selected>Selecione o Edificio</option>

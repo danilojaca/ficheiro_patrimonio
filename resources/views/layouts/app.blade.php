@@ -44,15 +44,29 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('inventario.index') }}">{{'Bens'}}</a>
                                 </li>
+                                @can('edificio') 
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificio'}}</a>
                                 </li>
+                                @endcan
+                                @can('categoria')
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categoria'}}</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">{{'Regras Usuarios'}}</a>
-                                </li>                               
+                                @endcan
+                                @can('role-list')
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{'Users'}}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Permissoes') }}</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                 @endcan   
+                                @can('logs')                               
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{'Logs'}}
@@ -62,7 +76,8 @@
                                         <li><a class="dropdown-item" href="{{ route('logusers.index') }}">{{ __('Logs User') }}</a></li>
                                         
                                     </ul>
-                                </li>                                
+                                </li>
+                                @endcan                                
                             </ul>
                             <ul class="navbar-nav justify-content-end  pe-3">
                                 <li class="nav-item">

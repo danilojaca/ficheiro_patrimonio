@@ -11,9 +11,14 @@ class EdificioController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:edificio');
+    }
+
     public function index(Request $request)
     {
-        $edificios = Edificio::orderby('edificio')->paginate(10);         
+        $edificios = Edificio::orderby('edificio')->paginate(12);         
 
         return view('Edificio.index', ['edificios' => $edificios, 'request' => $request->all()]);
     }

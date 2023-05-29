@@ -2,21 +2,20 @@
 
 @section('content')
 <div class="container pt-5">
-<nav class="navbar navbar-expand-sm bg-light ">
-  <div class="container-fluid">
-    <ul class="navbar-nav">      
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('inventario.create') }}">Novo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('inventario.index') }}">Consultar</a>
-      </li>      
-    </ul>
-    <div class="container navbar-nav justify-content-center ">
-    <h1>BENS</h1>
-    </div>
-  </div>
-</nav>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">               
+            <div class="container navbar-nav justify-content-center  ">
+                <h1>{{'Bens'}}</h1>
+            </div>
+            <ul class="navbar-nav">      
+                <li class="nav-item">
+                @can('role-create')
+                    <a class="btn btn-primary" href="{{ route('inventario.create') }}">Novo</a>
+                @endcan
+                </li>            
+            </ul>
+        </div>
+    </nav>
 </div>
 <div class="container">             
   <table class="table table-bordered">
@@ -46,11 +45,15 @@
          <td>{{$inventario->conservacao}}</td>
          <td>
          <div class="btn-group"> 
+         @can('inventario-edit')
          <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';"><i class="bi bi-pencil-square"></i></button>
+         @endcan
          <form method="post" action="{{route('inventario.destroy', ['inventario' => $inventario->id])}}">
             @method('DELETE')
             @csrf
+          @can('inventario-delete')
             <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';"><i class="bi bi-trash"></i></button>           
+          @endcan
             </form>
              </div></td> 
             </tr>   

@@ -2,23 +2,21 @@
 
 @section('content')
 <div class="container pt-5">
-<nav class="navbar navbar-expand-sm bg-light ">
-  <div class="container-fluid">
-    <ul class="navbar-nav">      
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('edificio.create') }}">Novo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="{{ route('edificio.index') }}">Consultar</a>
-      </li>      
-    </ul>
-    <div class="container navbar-nav justify-content-center ">
-    <h1>EDIFICIOS</h1>
-    </div>
-  </div>
-</nav>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">               
+            <div class="container navbar-nav justify-content-center  ">
+                <h1>{{'EDIFICIOS'}}</h1>
+            </div>
+            <ul class="navbar-nav">      
+                <li class="nav-item">
+                @can('role-create')
+                    <a class="btn btn-primary" href="{{ route('edificio.index') }}">Voltar</a>
+                @endcan
+                </li>            
+            </ul>
+        </div>
+    </nav>
 </div>
-
 <div class="container">
 @if (isset($edificio->id))
         <form  class="row g-3" action={{route('edificio.update', ['edificio' => $edificio->id])}} method='POST' >

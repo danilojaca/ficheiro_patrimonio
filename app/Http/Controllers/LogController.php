@@ -12,6 +12,11 @@ class LogController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:logs');
+    }
+    
     public function index(Request $request)
     {
         
@@ -38,7 +43,7 @@ class LogController extends Controller
         }
     
     }       
-       return view('log', ['logs' => $logs]);
+       return view('logs.log', ['logs' => $logs]);
         
     }
 

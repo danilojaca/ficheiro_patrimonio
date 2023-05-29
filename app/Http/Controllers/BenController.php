@@ -11,10 +11,15 @@ class BenController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct()
+    {
+         $this->middleware('permission:categoria');
+    }
+
     public function index(Request $request)
     {
         
-        $bens = Ben::orderby('categoria')->paginate(10);         
+        $bens = Ben::orderby('categoria')->paginate(12);         
 
         return view('Bens.index', ['bens' => $bens, 'request' => $request->all()]);
     }
