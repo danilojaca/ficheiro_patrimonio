@@ -7,45 +7,31 @@ use App\Models\Ben;
 use App\Models\Edificio;
 use App\Models\Log;
 use Illuminate\Http\Request;
+use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Contracts\Role;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
+use Spatie\Permission\Middlewares\RoleMiddleware;
 
 class InventarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    function __construct()
+    function __construct(Inventario $inventario)
     {
          $this->middleware('permission:inventario-list|inventario-create|inventario-edit|inventario-delete', ['only' => ['index','store']]);
          $this->middleware('permission:inventario-create', ['only' => ['create','store']]);
          $this->middleware('permission:inventario-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:inventario-delete', ['only' => ['destroy']]);
+        
     }
 
-    public function index(Request  $request)
-    {
-        $user_ou = auth()->user()->ou;
-
-        if ($user_ou == 'Estagiarios') {
-
-            $unidade = Edificio::where([
-                ['edificio', 'like', "%$user_ou%"]
-            ])->get();
-    
-            foreach ($unidade as $e) {
-    
-            $centro_edificio_id = $e->id;
-            $inventarios = Inventario::where([
-                ['edificio_id',$centro_edificio_id]
-            ])->orderBy('sala')->paginate(10);
-
-            
-                
-            }
-        }else {
-            $inventarios = Inventario::orderBy('edificio_id')->paginate(10);
-        }       
-       
-        return view('Inventario.index', ['inventarios' => $inventarios,'request' => $request->all()]);
+    public function index(Inventario $inventario)
+    {          
+        $inventarios = $inventario->orderBy('edificio_id')->paginate(10);
+        
+               
+        return view('Inventario.index', ['inventarios' => $inventarios]);
     }
 
     /**
@@ -219,4 +205,6 @@ class InventarioController extends Controller
         
             $request->validate($regras, $feedback);
     }
+
+    
 }

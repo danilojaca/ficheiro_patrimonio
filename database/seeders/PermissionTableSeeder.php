@@ -16,10 +16,7 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'inventario-list',
-            'inventario-create',
-            'inventario-edit',
-            'inventario-delete',
+            'almancil',
            
         ];
       

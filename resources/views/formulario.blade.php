@@ -89,7 +89,7 @@
     </tbody>
   </table>
   @if ($centro != '')
-  <a href='{{ route('formulario.exportar' , ['unidade' => $search, 'sala' => $search1 , 'centro' => $centro, 'siie' => $siie]) }}' class="btn btn-primary">PDF</a>      
+  <a href='{{ route('formulario.exportar', ['unidade' => $search, 'sala' => $search1 , 'centro' => $centro, 'siie' => $siie]) }}' class="btn btn-primary">PDF</a>      
   @endif 
     
 </div>
