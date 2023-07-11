@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Formulario;
 use App\Models\Edificio;
+use App\Models\RoleUnidades;
 use Illuminate\Http\Request;
 
 class FormularioController extends Controller
@@ -20,23 +21,15 @@ class FormularioController extends Controller
     public function index(Request $request)
     {
         $centro_edificio = '';
-        $centro_edificio_id = '';
-        $ou =  'Estagiarios';
-        $user_ou = auth()->user()->ou;      
-
-        if (auth()->user()->ou != $ou ){
+        $centro_edificio_id = '';       
+        $user_id = auth()->user()->id;
             
-        $unidade = Edificio::where([
-            ['edificio', 'like', "%$user_ou%"]
+        $edificios = RoleUnidades::where([
+            ['user_id',$user_id]
         ])->get();
 
-        foreach ($unidade as $e) {
-
-            $centro_edificio_id = $e->id;
-            $centro_edificio = $e->edificio;
-        }
          
-        }
+        
         if($request->input('_token') != ''){
 
         $this->validateLogin($request);
@@ -49,7 +42,16 @@ class FormularioController extends Controller
         $siie = '';
         $sala = '';
 
-        $edificios = Edificio::orderBy('edificio')->get();
+        /*foreach ($unidades as $unidade) {
+
+            dd($unidade->edificio->edificio);
+
+            $edificios = Edificio::where([
+                ['id',$unidade->edificio_id]
+            ])->get();
+        }*/
+      
+
         $inventarios = Formulario::where([
   
                 ['edificio_id', $search]
@@ -72,7 +74,7 @@ class FormularioController extends Controller
             $sala = $inventario->sala;            
         }
     }
-        return view('formulario',['ou' => $ou,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio,'inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
+        return view('formulario',['centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio,'inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
     }
 
     /**

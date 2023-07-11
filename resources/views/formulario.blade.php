@@ -13,7 +13,7 @@
                         <select class="form-select @error('search') is-invalid @enderror" name="search" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true">
                         <option data-default disabled selected>Selecione o Edificio</option>
                         @foreach ($edificios as $edificio)
-                        <option value="{{$edificio->id}}" {{$edificio->id == old('search') ? 'selected' : ''}}>{{$edificio->edificio}}</option>
+                        <option value="{{$edificio->edificio_id}}" {{$edificio->edificio_id == old('search') ? 'selected' : ''}}>{{$edificio->edificio->edificio}}</option>
                         @endforeach 
                         </select>
                         <label for="floatingSelectGrid">Centro de Saude</label>

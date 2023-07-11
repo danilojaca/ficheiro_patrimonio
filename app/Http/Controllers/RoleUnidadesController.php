@@ -64,7 +64,7 @@ class RoleUnidadesController extends Controller
 
     $unidades = $request->input('edificio_id');
 
-    $permission_unidades = $roleUnidades->where([
+    $roleUnidades->where([
         ['user_id',$id],        
         ])->delete(); 
 

@@ -23,4 +23,9 @@ class Inventario extends Model
 
         return $this->belongsTo('App\Models\Edificio');
      }
+
+     public function RoleUnidades(){
+
+        return $this->belongsTo('App\Models\RoleUnidades');
+     }
 }

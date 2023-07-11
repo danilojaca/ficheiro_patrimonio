@@ -6,6 +6,7 @@ use App\Models\Inventario;
 use App\Models\Ben;
 use App\Models\Edificio;
 use App\Models\Log;
+use App\Models\RoleUnidades;
 use Illuminate\Http\Request;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Contracts\Role;
@@ -27,10 +28,15 @@ class InventarioController extends Controller
     }
 
     public function index(Inventario $inventario)
-    {          
-        $inventarios = $inventario->orderBy('edificio_id')->paginate(10);
+    {    
+        $user_id = auth()->user()->id;
+
+        $unidades = RoleUnidades::where([
+            ['user_id',$user_id]
+        ])->pluck('edificio_id')->toArray();
         
-               
+        $inventarios = Inventario::whereIn('edificio_id',$unidades)->orderBy('edificio_id')->orderBy('sala')->paginate(10); 
+         
         return view('Inventario.index', ['inventarios' => $inventarios]);
     }
 
@@ -42,25 +48,12 @@ class InventarioController extends Controller
         
         $centro_edificio = '';
         $centro_edificio_id = '';
-        $user_ou = auth()->user()->ou;      
-
-        if (auth()->user()->ou != 'Estagiarios' ){
-            
-        $unidade = Edificio::where([
-            ['edificio', 'like', "%$user_ou%"]
-        ])->get();
-
-        foreach ($unidade as $e) {
-
-            $centro_edificio_id = $e->id;
-            $centro_edificio = $e->edificio;            
-            
-        }     
-        }
-
+        $user_id = auth()->user()->id;
         
         $bens = Ben::all();
-        $edificios = Edificio::orderBy('edificio')->get();
+        $edificios = RoleUnidades::where([
+            ['user_id',$user_id]
+        ])->get();
         return view('Inventario.create',['bens' => $bens, 'edificios' => $edificios,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio]);
     }
 
@@ -114,8 +107,11 @@ class InventarioController extends Controller
      */
     public function edit(Inventario $inventario)
     {
+        $user_id = auth()->user()->id;
         $bens = Ben::orderBy('categoria')->get();
-        $edificios = Edificio::orderBy('edificio')->get();
+        $edificios = RoleUnidades::where([
+            ['user_id',$user_id]
+        ])->get();
 
 
         return view('Inventario.edit', ['inventario' => $inventario , 'bens' => $bens, 'edificios' => $edificios]);
