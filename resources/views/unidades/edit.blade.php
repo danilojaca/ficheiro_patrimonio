@@ -28,33 +28,30 @@
         </ul>
     </div>
 @endif
-
-{!! Form::open(['method' => 'PATCH','route' => ['unidades.update', $users->id]]) !!}
+<form  action={{route('unidades.update', ['unidade' => $users->id])}} method='POST' >
+        @method('PATCH')
+         @csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            <label>{!! Form::hidden('user_id', $users->id ) !!}
-            {{ $users->name }}
-            </label>
+             <label>{{ $users->name }}</label>             
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Unidades:</strong>
-            <br/>
-            @foreach($unidades as $unidade)
-                <label>{{ Form::checkbox('edificio_id[]', $unidade->id, in_array($unidade->id, $roleunidades) ? true : false, array('class' => 'name')) }}
-                {{ $unidade->edificio }}</label>
-            <br/>
+            <select class="form-select " size="30" multiple aria-label="multiple select example" name="edificio_id[]">
+             @foreach($unidades as $unidade)             
+            <option value="{{$unidade->id }}" {{(in_array($unidade->id, $roleunidades)) ? 'selected' : ''}}>{{$unidade->edificio}}</option>
             @endforeach
-        </div>
+            </select>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center p-4">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
 
 
 

@@ -48,11 +48,22 @@ class RoleUnidadesController extends Controller
     public function edit($id)
     {
         $users = User::find($id);
+        $user = $users->name;        
+
+        $unidades = Edificio::all();
+
+        $roleunidades = RoleUnidades::pluck('edificio_id')->toArray();
+        
+        
+        
+        
+        //dd($unidades);
+       /* $users = User::find($id);
         $user = $users->name;
         $unidades = Edificio::get();
         $roleunidades =  DB::table("permission_unidades")->where("permission_unidades.user_id",$id)
         ->pluck('permission_unidades.edificio_id','permission_unidades.edificio_id')
-        ->all();        
+        ->all(); */       
     
         return view('unidades.edit',compact('user','unidades','users','roleunidades'));
     }
@@ -61,7 +72,7 @@ class RoleUnidadesController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id,RoleUnidades $roleUnidades)    {
-
+        
     $unidades = $request->input('edificio_id');
 
     $roleUnidades->where([

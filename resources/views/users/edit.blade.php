@@ -42,7 +42,7 @@
             {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+    <div class="col-xl-12 col-xl-12 col-xl-12 text-center p0">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
