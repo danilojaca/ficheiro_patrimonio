@@ -32,10 +32,11 @@ Route::middleware(['auth'])->resource('logusers', 'App\Http\Controllers\LogUserC
 Route::middleware(['auth'])->prefix('/registro')->group(function(){
     Route::resource('roles', 'App\Http\Controllers\RoleController');
     Route::resource('users', 'App\Http\Controllers\UserController');
+    Route::resource('unidades', 'App\Http\Controllers\RoleUnidadesController');
     
     });
 
 
 Route::fallback( function(){
-    echo 'Pagina Não Existe. <a href="'.route('index').'"> clique aqui </a> para ir para a pagina inicial';
+    echo 'Pagina Não Existe. <a href="'.route('formulario.index').'"> clique aqui </a> para ir para a pagina inicial';
 });

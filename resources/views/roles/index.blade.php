@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Unidades'}}</h1>
+                <h1>{{'Gerencia de Funçoes'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">

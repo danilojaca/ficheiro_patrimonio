@@ -64,6 +64,7 @@
                                         <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Permissoes') }}</a></li>
                                         
+                                        
                                     </ul>
                                 </li>
                                  @endcan   
@@ -78,7 +79,8 @@
                                         
                                     </ul>
                                 </li>
-                                @endcan                                
+                                @endcan
+                                                                
                             </ul>
                             <ul class="navbar-nav justify-content-end  pe-3">
                                 <li class="nav-item">

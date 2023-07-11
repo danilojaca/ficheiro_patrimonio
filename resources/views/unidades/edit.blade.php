@@ -6,11 +6,11 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Funçoes'}}</h1>
+                <h1>{{'Gerencia de Unidades'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ route('roles.index') }}">Voltar</a>
+                    <a class="btn btn-primary" href="{{ route('users.index') }}">Voltar</a>
                 </li>            
             </ul>
         </div>
@@ -29,22 +29,23 @@
     </div>
 @endif
 
-
-{!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
+{!! Form::open(['method' => 'PATCH','route' => ['unidades.update', $users->id]]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <label>{!! Form::hidden('user_id', $users->id ) !!}
+            {{ $users->name }}
+            </label>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Permission:</strong>
+            <strong>Unidades:</strong>
             <br/>
-            @foreach($permission as $value)
-                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
+            @foreach($unidades as $unidade)
+                <label>{{ Form::checkbox('edificio_id[]', $unidade->id, in_array($unidade->id, $roleunidades) ? true : false, array('class' => 'name')) }}
+                {{ $unidade->edificio }}</label>
             <br/>
             @endforeach
         </div>
@@ -56,5 +57,6 @@
 {!! Form::close() !!}
 
 
+
+
 @endsection
-<p class="text-center text-primary"><small>Tutorial by Mywebtuts.com</small></p>
