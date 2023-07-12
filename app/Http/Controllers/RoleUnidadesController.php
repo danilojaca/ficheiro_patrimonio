@@ -52,19 +52,8 @@ class RoleUnidadesController extends Controller
 
         $unidades = Edificio::all();
 
-        $roleunidades = RoleUnidades::pluck('edificio_id')->toArray();
+        $roleunidades = RoleUnidades::where('user_id',$id)->pluck('edificio_id')->toArray();
         
-        
-        
-        
-        //dd($unidades);
-       /* $users = User::find($id);
-        $user = $users->name;
-        $unidades = Edificio::get();
-        $roleunidades =  DB::table("permission_unidades")->where("permission_unidades.user_id",$id)
-        ->pluck('permission_unidades.edificio_id','permission_unidades.edificio_id')
-        ->all(); */       
-    
         return view('unidades.edit',compact('user','unidades','users','roleunidades'));
     }
 
