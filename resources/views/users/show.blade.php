@@ -32,5 +32,14 @@
             @endif
         </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Unidades:</strong>            
+                @foreach($unidades as $unidade)
+                    {{ $unidade->edificio->edificio }}
+                    <br>
+                @endforeach            
+        </div>
+    </div>
 </div>
 @endsection

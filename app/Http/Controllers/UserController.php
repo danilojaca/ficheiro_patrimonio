@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\RoleUnidades;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -69,7 +70,10 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        $unidades = RoleUnidades::where([
+            ['user_id',$id]
+        ])->get();
+        return view('users.show',compact('user','unidades'));
     }
     
     /**
