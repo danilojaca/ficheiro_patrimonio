@@ -14,4 +14,12 @@ class Formulario extends Model
 
         return $this->belongsTo('App\Edificio');
      }
+     public function Categoria(){
+
+        return $this->belongsTo('App\Models\Ben');
+     }
+     public function Unidade(){
+
+      return $this->belongsTo('App\Models\Unidades');
+   }
 }

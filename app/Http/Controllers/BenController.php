@@ -59,7 +59,8 @@ class BenController extends Controller
 
         ]);}
             
-            return redirect()->route('bens.index');
+            return redirect()->route('bens.index')
+                            ->with('success','Categoria Criada com Sucesso');
        
     }
 
@@ -99,7 +100,8 @@ class BenController extends Controller
         'operacao' => 'edit',
 
         ]);       
-        return redirect()->route('bens.index');
+        return redirect()->route('bens.index')
+                        ->with('success','Categoria Atualizada com Sucesso');
     }
 
     /**
@@ -108,7 +110,7 @@ class BenController extends Controller
     public function destroy(Ben $ben)
     {
         $ben->delete();
-
+        
         //Log de Ação
         Log::create([
         'user_id' => auth()->user()->id,
@@ -116,7 +118,8 @@ class BenController extends Controller
         'operacao' => 'delete',
     
             ]);  
-        return redirect()->route('bens.index');
+        return redirect()->route('bens.index')
+                            ->with('success','Categoria Excluido com Sucesso');
     }
 
     protected function validateLogin(Request $request)

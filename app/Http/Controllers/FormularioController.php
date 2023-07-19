@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Formulario;
 use App\Models\Edificio;
+use App\Models\Formulario;
+use App\Models\Unidades;
 use App\Models\RoleUnidades;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class FormularioController extends Controller
         $centro_edificio_id = '';       
         $user_id = auth()->user()->id;
             
-        $edificios = RoleUnidades::where([
+        $roleunidades = RoleUnidades::where([
             ['user_id',$user_id]
         ])->get();
 
@@ -41,20 +42,12 @@ class FormularioController extends Controller
         $centro = ''; 
         $siie = '';
         $sala = '';
+        $unidade = '';
 
-        /*foreach ($unidades as $unidade) {
-
-            dd($unidade->edificio->edificio);
-
-            $edificios = Edificio::where([
-                ['id',$unidade->edificio_id]
-            ])->get();
-        }*/
-      
 
         $inventarios = Formulario::where([
   
-                ['edificio_id', $search]
+                ['unidade_id', $search]
 
         ])->where([
 
@@ -62,19 +55,24 @@ class FormularioController extends Controller
         
         ])->get();
 
+       
+
         foreach ($inventarios as $inventario) {
-        $edificio = Edificio::where('id', $inventario->edificio_id)->first();
+        
+        $unidades = Unidades::where('id', $inventario->unidade_id)->first();
 
-        if ($search = $inventario->edificio_id); {
-                $centro = $edificio->edificio;
-                $siie =  $edificio->id_siie;
-
+        if ($search = $inventario->unidade_id); {
+                $centro = $unidades->edificio->edificio;
+                $siie =  $unidades->edificio->id_siie;
+                $unidade = $unidades->unidade;
+                
+            
          }
          if ($search1 = $inventario->sala); {
             $sala = $inventario->sala;            
         }
     }
-        return view('formulario',['centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio,'inventarios' => $inventarios,'siie' => $siie, 'centro' => $centro, 'edificios' => $edificios,'search' => $search, 'search1' => $search1, 'sala' => $sala]); 
+        return view('formulario',compact('unidade','centro_edificio_id','centro_edificio','inventarios','siie','centro','search', 'search1', 'sala','roleunidades')); 
     }
 
     /**

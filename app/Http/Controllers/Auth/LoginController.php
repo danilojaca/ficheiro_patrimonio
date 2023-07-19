@@ -104,13 +104,19 @@ class LoginController extends Controller
                 'password' => Hash::make($password),
                 
             ]);
+            
         } 
+        $accountname = User::where([
+            ['username',$username]
+        ])->get();
+        $id = $accountname[0]['id'];
 
         //Derrubar usuarios com acesso simultaneo
+        
         $sessiondata = SessionData::where([
             ['user_id',$id]
         ])->get();
-
+    
                 
         if (isset($sessiondata[0])) { 
 

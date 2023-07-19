@@ -12,8 +12,8 @@
                    
                         <select class="form-select @error('search') is-invalid @enderror" name="search" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true">
                         <option data-default disabled selected>Selecione o Edificio</option>
-                        @foreach ($edificios as $edificio)
-                        <option value="{{$edificio->edificio_id}}" {{$edificio->edificio_id == old('search') ? 'selected' : ''}}>{{$edificio->edificio->edificio}}</option>
+                        @foreach ($roleunidades as $roleunidade)
+                        <option value="{{$roleunidade->unidade_id}}">{{$roleunidade->unidade->unidade}}</option>
                         @endforeach 
                         </select>
                         <label for="floatingSelectGrid">Centro de Saude</label>
@@ -55,7 +55,7 @@
         <tr>
             <th>SIIE edificio Origem</th>
             <td>{{$siie}}</td>
-            <td rowspan="2" colspan="2">{{$centro}}</td>
+            <td rowspan="2" colspan="2">{{$unidade}}  {{$centro}} </td>
         </tr>
         <tr>
             <th  >Codigo Sala Origem</th>
@@ -74,7 +74,7 @@
     <tbody>
          @foreach ($inventarios as $inventario )
          <tr>
-            <td>{{$inventario->categoria}}  {{$inventario->modelo}}  {{$inventario->n_serie}}</td>
+            <td>{{$inventario->categoria->sub_categoria}}  {{$inventario->modelo}}  {{$inventario->n_serie}}</td>
             <td>{{$inventario->bem_inventariado}}</td>
             <td>{{$inventario->n_inventario}}</td>
             <td>{{$inventario->conservacao}}</td>                    
@@ -83,7 +83,7 @@
     </tbody>
   </table>
   @if ($centro != '')
-  <a href='{{ route('formulario.exportar', ['unidade' => $search, 'sala' => $search1 , 'centro' => $centro, 'siie' => $siie]) }}' class="btn btn-primary">PDF</a>      
+  <a href='{{ route('formulario.exportar', ['unidade_id' => $search, 'sala' => $search1 , 'centro' => $centro, 'siie' => $siie]) }}' class="btn btn-primary">PDF</a>      
   @endif 
     
 </div>

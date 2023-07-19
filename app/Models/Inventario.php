@@ -9,8 +9,8 @@ class Inventario extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'edificio_id',
-        'categoria',
+        'unidade_id',
+        'categoria_id',
         'sala',
         'modelo',
         'n_inventario',
@@ -19,13 +19,17 @@ class Inventario extends Model
         'conservacao'
     ];
      
-    public function Edificio(){
+    public function Unidade(){
 
-        return $this->belongsTo('App\Models\Edificio');
+        return $this->belongsTo('App\Models\Unidades');
      }
 
      public function RoleUnidades(){
 
         return $this->belongsTo('App\Models\RoleUnidades');
      }
+     public function Categoria(){
+
+      return $this->belongsTo('App\Models\Ben');
+   }
 }

@@ -46,14 +46,11 @@
             <strong>{{ $message }}</strong>
         </span>
     @enderror
-  </div>
-  <div class="col-md-2">    
+  </div>  
+  <div class="col-md-8">    
     
   </div>
-  <div class="col-md-3">    
-    
-  </div>
-  <div class="col-6">
+  <div class="col-md-1">
      @if (isset($ben->id))
     <button type="submit" class="btn btn-primary">Editar</button>
     @else

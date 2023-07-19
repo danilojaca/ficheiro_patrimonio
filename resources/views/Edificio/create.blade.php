@@ -26,7 +26,7 @@
          <form class="row g-3" action="{{route('edificio.store')}}" method='POST' >
         @csrf
     @endif
-  <div class="col-md-3">    
+  <div class="col-md-1">    
     <label  class="form-label">ID Spms</label>
     <input type="text" name='id_spms' class="form-control @error('id_spms') is-invalid @enderror" value="{{ $edificio->id_spms ?? old('id_spms')}}">
     @error('id_spms')
@@ -35,7 +35,7 @@
         </span>
     @enderror
   </div>
-  <div class="col-md-3">
+  <div class="col-md-1">
     <label  class="form-label">SIIE Edificio</label>
     <input type="text" name='id_siie' class="form-control @error('id_siie') is-invalid @enderror" value="{{ $edificio->id_siie ?? old('id_siie')}}" >
     @error('id_siie')
@@ -44,7 +44,7 @@
         </span>
     @enderror
   </div>
-  <div class="col-md-6">
+  <div class="col-md-7">
     <label  class="form-label">Edificio</label>
     <input type="text" name='edificio' class="form-control @error('edificio') is-invalid @enderror" value="{{ $edificio->edificio ?? old('edificio')}}" >
     @error('edificio')
@@ -53,7 +53,7 @@
         </span>
     @enderror
   </div>
-  <div class="col-6">
+  <div class="col-md-3">
     <label class="form-label">Concelho</label>
     <input type="text" name='concelho' class="form-control @error('concelho') is-invalid @enderror" value="{{ $edificio->concelho ?? old('concelho')}}" >
     @error('concelho')
@@ -62,18 +62,36 @@
         </span>
     @enderror
   </div>
-  <div class="col-6">
-    <label class="form-label">Unidade</label>
-    <input type="text" name='unidade' class="form-control @error('unidade') is-invalid @enderror" value="{{ $edificio->unidade ?? old('unidade')}}">
-    @error('unidade')
+  <div class="col-md-3">
+    <label class="form-label">Aces</label>
+    <input type="text" name='aces' class="form-control @error('aces') is-invalid @enderror" value="{{ $edificio->aces ?? old('aces')}}">
+    @error('aces')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>
     @enderror
-  </div> 
- 
-  
-  <div class="col-12">
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Morada</label>
+    <input type="text" name='morada' class="form-control @error('morada') is-invalid @enderror" value="{{ $edificio->morada ?? old('morada')}}">
+    @error('morada')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">IP Router</label>
+    <input type="text" name='ip_router' class="form-control @error('ip_router') is-invalid @enderror" value="{{ $edificio->ip_router ?? old('ip_router')}}">
+    @error('ip_router')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+  </div>   
+ <div class="col-md-11">
+  </div>
+  <div class="col-md-1">
      @if (isset($edificio->id))
     <button type="submit" class="btn btn-primary">Editar</button>
     @else

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('inventarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('edificio_id');          
-            $table->string('categoria');
-            $table->string('sub_categoria');
+            $table->unsignedBigInteger('unidade_id');          
+            $table->unsignedBigInteger('categoria_id');
             $table->string('sala');
             $table->string('modelo')->nullable();            
             $table->string('n_inventario')->nullable()->unique();
@@ -23,7 +22,8 @@ return new class extends Migration
             $table->string('bem_inventariado');
             $table->string('conservacao'); 
             $table->timestamps();
-            $table->foreign('edificio_id')->references('id')->on('edificios');
+            $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->foreign('categoria_id')->references('id')->on('bens');
         });
     }
 

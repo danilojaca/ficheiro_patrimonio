@@ -7,6 +7,7 @@ use App\Models\Ben;
 use App\Models\Edificio;
 use App\Models\Log;
 use App\Models\RoleUnidades;
+use App\Models\Unidades;
 use Illuminate\Http\Request;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Contracts\Role;
@@ -33,11 +34,11 @@ class InventarioController extends Controller
 
         $unidades = RoleUnidades::where([
             ['user_id',$user_id]
-        ])->pluck('edificio_id')->toArray();
+        ])->pluck('unidade_id')->toArray();
         
-        $inventarios = Inventario::whereIn('edificio_id',$unidades)->orderBy('edificio_id')->orderBy('sala')->paginate(10); 
+        $inventarios = Inventario::whereIn('unidade_id',$unidades)->orderBy('unidade_id')->orderBy('sala')->paginate(10); 
          
-        return view('Inventario.index', ['inventarios' => $inventarios]);
+        return view('Inventario.index', compact('inventarios') );
     }
 
     /**
@@ -45,16 +46,16 @@ class InventarioController extends Controller
      */
     public function create()
     {
-        
+        $categorias = array('Informatica','Clinico','Mobiliario','Outros');
         $centro_edificio = '';
         $centro_edificio_id = '';
         $user_id = auth()->user()->id;
         
         $bens = Ben::all();
-        $edificios = RoleUnidades::where([
+        $roleunidades = RoleUnidades::where([
             ['user_id',$user_id]
         ])->get();
-        return view('Inventario.create',['bens' => $bens, 'edificios' => $edificios,'centro_edificio_id' => $centro_edificio_id,'centro_edificio' => $centro_edificio]);
+        return view('Inventario.create',compact('categorias','bens','roleunidades','centro_edificio_id','centro_edificio'));
     }
 
     /**
@@ -67,31 +68,32 @@ class InventarioController extends Controller
             $this->validateLogin($request);
            
 
-        }
-
+        }  
+        
         Inventario::create($request->all());
            //Log de Ação
            $i = Inventario::where([
-            ['edificio_id', $request->input('edificio_id')]
-           ])->where([['categoria', $request->input('categoria')]
-           ])->where([['sala', $request->input('sala')]
-           ])->where([['n_inventario', $request->input('n_inventario')]
-           ])->where([['n_serie', $request->input('n_serie')]
-           ])->where([['bem_inventariado', $request->input('bem_inventariado')]
-           ])->where([['conservacao', $request->input('conservacao')]])->get();
+            ['unidade_id', $request->input('unidade_id')],
+            ['categoria_id', $request->input('categoria_id')],
+            ['sala', $request->input('sala')],
+            ['n_inventario', $request->input('n_inventario')],
+            ['n_serie', $request->input('n_serie')],
+            ['bem_inventariado', $request->input('bem_inventariado')],
+            ['conservacao', $request->input('conservacao')]])->get();
            
         foreach ($i as $e) {
-        $edificio = Edificio::where('id', $e->edificio_id)->first();    
+        $unidade = Unidades::where('id', $e->unidade_id)->first();    
 
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Patrimonio de Id: $e->id, Edificio: $edificio->edificio, Categoria: $e->categoria, Sala: $e->sala, Nº Inventario: $e->n_inventario, NºSerie: $e->n_serie, Bem Inventariado: $e->bem_inventariado, Conservação: $e->conservacao " ,
+            'log'=> "Patrimonio de Id: $e->id, Unidade: $unidade->unidade, Categoria: $e->categoria_id, Sala: $e->sala, Nº Inventario: $e->n_inventario, NºSerie: $e->n_serie, Bem Inventariado: $e->bem_inventariado, Conservação: $e->conservacao " ,
             'operacao' => 'create',
 
         ]);}
 
-            return redirect()->route('inventario.index');
+            return redirect()->route('inventario.index')
+                            ->with('success','Ben Criado com Sucesso');
     }
 
     /**
@@ -107,14 +109,15 @@ class InventarioController extends Controller
      */
     public function edit(Inventario $inventario)
     {
+        $categorias = array('Informatica','Clinico','Mobiliario','Outros');
         $user_id = auth()->user()->id;
         $bens = Ben::orderBy('categoria')->get();
-        $edificios = RoleUnidades::where([
+        $roleunidades = RoleUnidades::where([
             ['user_id',$user_id]
         ])->get();
 
 
-        return view('Inventario.edit', ['inventario' => $inventario , 'bens' => $bens, 'edificios' => $edificios]);
+        return view('Inventario.edit', compact('categorias','inventario', 'bens', 'roleunidades'));
     }
 
     /**
@@ -134,14 +137,15 @@ class InventarioController extends Controller
         
 
         //Log de Ação
-        $edificio = Edificio::where('id', $inventario->edificio_id)->first(); 
+        $unidade = Unidades::where('id', $inventario->unidade_id)->first(); 
         Log::create([
         'user_id' => auth()->user()->id,
-        'log'=> "Patrimonio de Id: $inventario->id, Edificio: $edificio->edificio, Categoria: $inventario->categoria, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao " ,
+        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao " ,
         'operacao' => 'edit',
         
                 ]);
-        return redirect()->route('inventario.index');
+        return redirect()->route('inventario.index')
+                            ->with('success','Ben Atualizado com Sucesso');
     }
 
     /**
@@ -151,14 +155,15 @@ class InventarioController extends Controller
     {
         $inventario->delete();
         //Log de Ação
-        $edificio = Edificio::where('id', $inventario->edificio_id)->first(); 
+        $unidade = Unidades::where('id', $inventario->unidade_id)->first(); 
         Log::create([
         'user_id' => auth()->user()->id,
-        'log'=> "Patrimonio de Id: $inventario->id, Edificio: $edificio->edificio, Categoria: $inventario->categoria, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
+        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
         'operacao' => 'delete',
         
                 ]);
-        return redirect()->route('inventario.index');
+        return redirect()->route('inventario.index')
+                    ->with('success','Ben Excluido com Sucesso');
     }
 
     protected function validateLogin(Request $request)
@@ -166,8 +171,8 @@ class InventarioController extends Controller
         if($request->input('n_serie') != '')  {            
 
             $regras = [
-                'edificio_id' => 'required',            
-                'categoria' => 'required',
+                'unidade_id' => 'required',            
+                'categoria_id' => 'required',
                 'sala' => 'required',                
                 'bem_inventariado' => 'required',
                 'n_serie' => 'unique:inventarios',
@@ -176,8 +181,8 @@ class InventarioController extends Controller
             }
             elseif ($request->input('n_inventario') != '') {
                 $regras = [
-                    'edificio_id' => 'required',            
-                    'categoria' => 'required',
+                    'unidade_id' => 'required',            
+                    'categoria_id' => 'required',
                     'sala' => 'required',                
                     'bem_inventariado' => 'required',
                     'n_inventario' => 'unique:inventarios',
@@ -185,8 +190,8 @@ class InventarioController extends Controller
                     ];
             }else {
                 $regras = [
-                    'edificio_id' => 'required',            
-                    'categoria' => 'required',
+                    'unidade_id' => 'required',            
+                    'categoria_id' => 'required',
                     'sala' => 'required',                
                     'bem_inventariado' => 'required',                    
                     'conservacao' => 'required',

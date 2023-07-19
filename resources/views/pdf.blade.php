@@ -21,13 +21,9 @@
             <table class="table table-bordered">
                 <thead> 
                     <tr>
-                        <th colspan="3" style="border:0px solid black;" ></th>
-                        <th style="border:0px solid black; text-align: right">Data: {{date ('d-m-Y')}}</th>
-                    </tr> 
-                    <tr>
                         <th>SIIE edificio Origem</th>
                         <td>{{$siie}}</td>
-                        <td rowspan="2" colspan="2" style="width:330px;">{{$centro}}</td>
+                        <td rowspan="2" colspan="2" style="width:330px;">{{$unidade}}  {{$centro}} </td>
                     </tr>
                     <tr>
                         <th  >Codigo Sala Origem</th>
@@ -46,7 +42,7 @@
                 <tbody>
                         @foreach ($inventarios as $inventario )
                     <tr>
-                        <td style="text-align: justify;">{{$inventario->categoria}} {{$inventario->modelo}} {{$inventario->n_serie}}</td>
+                        <td style="text-align: justify;">{{$inventario->categoria->sub_categoria}} {{$inventario->modelo}} {{$inventario->n_serie}}</td>
                         <td>{{$inventario->bem_inventariado}}</td>
                         <td>{{$inventario->n_inventario}}</td>
                         <td>{{$inventario->conservacao}}</td>                    
@@ -58,8 +54,10 @@
     <script type="text/php">
     if ( isset($pdf) ) {
         $pdf->page_text(270, 810, "Pagina: {PAGE_NUM} de {PAGE_COUNT}", "helvetica", 10, array(0,0,0));
+        $pdf->page_text(10, 795, "Elaborado por {{auth()->user()->name}}", "helvetica", 10, array(0,0,0));
+        $pdf->page_text(10, 810, "{{date ('d-m-Y')}} ", "helvetica", 10, array(0,0,0));
     }
-</script>
+    </script>
       
     </body>
 </html>

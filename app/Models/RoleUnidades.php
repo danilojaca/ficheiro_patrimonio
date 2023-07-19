@@ -12,13 +12,13 @@ class RoleUnidades extends Model
     protected $table = 'permission_unidades';
     protected $fillable = [
       'user_id',
-      'edificio_id',
+      'unidade_id',
       
   ];
 
-    public function Edificio(){
+    public function Unidade(){
 
-        return $this->belongsTo('App\Models\Edificio');
+        return $this->belongsTo('App\Models\Unidades');
      }
 
      public function User(){

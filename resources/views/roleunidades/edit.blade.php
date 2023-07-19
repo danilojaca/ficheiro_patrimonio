@@ -28,7 +28,7 @@
         </ul>
     </div>
 @endif
-<form  action={{route('unidades.update', ['unidade' => $users->id])}} method='POST' >
+<form  action={{route('roleunidades.update', ['roleunidade' => $users->id])}} method='POST' >
         @method('PATCH')
          @csrf
 <div class="row">
@@ -43,7 +43,7 @@
             <strong>Unidades:</strong>
             <select class="form-select " size="30" multiple aria-label="multiple select example" name="edificio_id[]">
              @foreach($unidades as $unidade)             
-            <option value="{{$unidade->id }}" {{(in_array($unidade->id, $roleunidades)) ? 'selected' : ''}}>{{$unidade->edificio}}</option>
+            <option value="{{$unidade->id }}" {{(in_array($unidade->id, $roleunidades)) ? 'selected' : ''}}>{{$unidade->edificio->edificio}}-{{$unidade->unidade}}</option>
             @endforeach
             </select>
     </div>

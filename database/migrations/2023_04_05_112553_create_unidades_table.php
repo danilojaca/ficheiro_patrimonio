@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permission_unidades', function (Blueprint $table) {
-           
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('edificio_id');            
+        Schema::create('unidades', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('edificio_id');
+            $table->string('unidade');
             $table->timestamps();
             $table->foreign('edificio_id')->references('id')->on('edificios');
-            $table->foreign('user_id')->references('id')->on('users');
         });
-
     }
 
     /**
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permission_unidades');
+        Schema::dropIfExists('unidades');
     }
 };

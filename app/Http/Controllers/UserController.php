@@ -70,10 +70,10 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        $unidades = RoleUnidades::where([
+        $roleunidades = RoleUnidades::where([
             ['user_id',$id]
         ])->get();
-        return view('users.show',compact('user','unidades'));
+        return view('users.show',compact('user','roleunidades'));
     }
     
     /**

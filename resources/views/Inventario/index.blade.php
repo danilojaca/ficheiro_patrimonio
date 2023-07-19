@@ -17,11 +17,16 @@
         </div>
     </nav>
 </div>
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success">
+        <p>{{ $message }}</p>
+    </div>
+    @endif
 <div class="container">             
   <table class="table table-bordered">
      <thead>
         <tr>            
-            <th >Edificio</th>
+            <th >Unidade</th>
             <th>Categoria</th>
             <th>Sala</th>
             <th>Modelo</th>  
@@ -35,8 +40,8 @@
         <tbody>        
         @foreach ($inventarios as $inventario )
         <tr>       
-         <td>{{$inventario->edificio->edificio}}</td>       
-         <td>{{$inventario->categoria}}</td>
+         <td>{{$inventario->unidade->unidade}}</td>       
+         <td>{{$inventario->categoria->sub_categoria}}</td>
          <td>{{$inventario->sala}}</td>
          <td>{{$inventario->modelo}}</td>
          <td>{{$inventario->n_inventario}}</td>

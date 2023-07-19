@@ -28,13 +28,13 @@
     @endif
   <div class="col-md-7">   
         <label  class="form-label">Centro de Saude</label>    
-      <select class="form-select @error('edificio_id') is-invalid @enderror" name="edificio_id" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
-        <option data-default disabled selected>Selecione o Edificio</option>
-        @foreach ($edificios as $edificio)
-        <option value="{{$edificio->edificio_id}}" {{$edificio->edificio_id == $inventario->edificio_id ? 'selected' : ''}}>{{$edificio->edificio->edificio}}</option>
-        @endforeach 
-      </select>      
-      @error('edificio_id')
+      <select class="form-select @error('unidade_id') is-invalid @enderror" name="unidade_id" aria-label="Floating label select example" data-live-search="true" >
+                    <option data-default disabled selected >Selecione o Edificio</option>
+                    @foreach ($roleunidades as $roleunidade)
+                    <option value="{{$roleunidade->unidade_id}}" {{$roleunidade->unidade_id == $inventario->unidade_id ? 'selected' : ''}}>{{$roleunidade->unidade->unidade}}</option>
+                    @endforeach 
+                  </select>              
+                  @error('unidade_id')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
         </span>
@@ -42,31 +42,19 @@
   </div>
   <div class="col-md-4"> 
       <label  class="form-label">Categoria</label>   
-      <select class="form-select @error('categoria') is-invalid @enderror" name="categoria" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true" >
-          <option data-default disabled selected>Selecione a Categoria</option>
-          <optgroup label="Informatica">
-          @foreach ($bens as $ben)
-          @if ($ben->categoria === 'Informatica')
-          <option value="{{$ben->sub_categoria}}" {{$ben->sub_categoria  == $inventario->categoria ? 'selected' : ''}}>{{$ben->sub_categoria}}</option>
-          @endif 
-          @endforeach
-          </optgroup>
-          <optgroup label="Clinico">
-          @foreach ($bens as $ben)                                          
-          @if ($ben->categoria === 'Clinico')
-          <option value="{{$ben->sub_categoria}}" {{$ben->sub_categoria  == $inventario->categoria ? 'selected' : ''}} >{{$ben->sub_categoria}}</option>
-          @endif 
-          @endforeach
-          </optgroup>
-          <optgroup label="Mobiliario">
-          @foreach ($bens as $ben)                                          
-          @if ($ben->categoria === 'Mobiliario')
-          <option value="{{$ben->sub_categoria}}" {{$ben->sub_categoria  == $inventario->categoria ? 'selected' : ''}}>{{$ben->sub_categoria}}</option>
-          @endif 
-          @endforeach
-          </optgroup>
-      </select>
-      @error('categoria')
+       <select class="form-select @error('categoria_id') is-invalid @enderror" name="categoria_id" aria-label="Floating label select example" data-live-search="true" >
+                    <option data-default disabled selected>Selecione a Categoria</option>
+                      @foreach ($categorias as $categoria)
+                        <optgroup label="{{$categoria}}">
+                          @foreach ($bens as $ben)
+                            @if ($ben->categoria === $categoria)
+                              <option value="{{$ben->id}}" {{$ben->id  == $inventario->categoria_id ? 'selected' : ''}}>{{$ben->sub_categoria}}</option>
+                            @endif 
+                          @endforeach
+                        </optgroup>
+                      @endforeach                     
+                  </select>
+      @error('categoria_id')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
         </span>
@@ -140,9 +128,9 @@
         </span>
       @enderror
   </div>
- 
-  
-  <div class="col-12">
+  <div class="col-md-11">
+    </div>
+  <div class="col-md-1">
   @if (isset($inventario->id))
     <button type="submit" class="btn btn-primary">Editar</button>
     @else

@@ -38,7 +38,7 @@
                 <td>
                     <a class="btn btn-outline-light text-dark" href="{{ route('users.show',$user->id) }}"><i class="bi bi-clipboard"></i></a>
                     <a class="btn btn-outline-light text-dark" href="{{ route('users.edit',$user->id) }}"><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-outline-light text-dark" href="{{ route('unidades.edit',$user->id) }}"><i class="bi bi-house-gear"></i></a>                
+                    <a class="btn btn-outline-light text-dark" href="{{ route('roleunidades.edit',$user->id) }}"><i class="bi bi-house-gear"></i></a>                
                 </td>
             </tr>
         @endforeach

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoleUnidades;
-use App\Models\Edificio;
+use App\Models\Unidades;
 use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
@@ -50,11 +50,11 @@ class RoleUnidadesController extends Controller
         $users = User::find($id);
         $user = $users->name;        
 
-        $unidades = Edificio::all();
+        $unidades = Unidades::all();
 
-        $roleunidades = RoleUnidades::where('user_id',$id)->pluck('edificio_id')->toArray();
+        $roleunidades = RoleUnidades::where('user_id',$id)->pluck('unidade_id')->toArray();
         
-        return view('unidades.edit',compact('user','unidades','users','roleunidades'));
+        return view('roleunidades.edit',compact('user','unidades','users','roleunidades'));
     }
 
     /**
@@ -70,7 +70,7 @@ class RoleUnidadesController extends Controller
 
     foreach ($unidades as $unidade) {
     $roleUnidades->create([
-        'edificio_id' => $unidade,
+        'unidade_id' => $unidade,
         'user_id' => $id,
     ]);
 }     

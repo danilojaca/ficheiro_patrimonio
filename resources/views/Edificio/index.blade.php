@@ -17,6 +17,11 @@
         </div>
     </nav>
 </div>
+@if ($message = Session::get('success'))
+    <div class="alert alert-success">
+        <p>{{ $message }}</p>
+    </div>
+    @endif
 <div class="container">             
   <table class="table table-bordered">
     <thead>
@@ -24,7 +29,9 @@
                 <th>ID SIIE</th>
                 <th>Edificio</th>
                 <th>Concelho</th>
-                <th>Unidade</th>
+                <th>Aces</th>
+                <th>Morada</th>
+                <th>IP Router</th>
                 <th colspan='2'></th>   
             </thead>
             <tbody>
@@ -34,7 +41,9 @@
                 <td>{{$edificio->id_siie}}</td>
                 <td>{{$edificio->edificio}}</td>
                 <td>{{$edificio->concelho}}</td>
-                <td>{{$edificio->unidade}}</td>
+                <td>{{$edificio->aces}}</td>
+                <td>{{$edificio->morada}}</td>
+                <td>{{$edificio->ip_router}}</td>
                 <td>
                 <div class="btn-group">  
                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';"><i class="bi bi-pencil-square"></i></button>

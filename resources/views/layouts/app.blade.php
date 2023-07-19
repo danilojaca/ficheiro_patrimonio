@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-
+    <script> src="resources/js/custom.js"</script>
+    
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -42,17 +43,24 @@
                         </div>
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                 @can('inventario-list')
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('inventario.index') }}">{{'Bens'}}</a>
                                 </li>
+                                @endcan
+                                 @can('unidade')
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('unidade.index') }}">{{'Unidades'}}</a>
+                                </li>
+                                @endcan
                                 @can('edificio') 
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificio'}}</a>
+                                    <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificios'}}</a>
                                 </li>
                                 @endcan
                                 @can('categoria')
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categoria'}}</a>
+                                    <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categorias'}}</a>
                                 </li>
                                 @endcan
                                 @can('role-list')

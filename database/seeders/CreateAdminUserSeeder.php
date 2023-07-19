@@ -17,7 +17,7 @@ class CreateAdminUserSeeder extends Seeder
     {   $id = '1';
         $user = User::find($id);
       
-        $role = Role::create(['name' => 'Central']);
+        $role = Role::create(['name' => 'Informatico']);
        
         $permissions = Permission::pluck('id','id')->all();
      

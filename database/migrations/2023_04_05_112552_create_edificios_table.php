@@ -17,8 +17,11 @@ return new class extends Migration
             $table->integer('id_siie');
             $table->string('edificio');
             $table->string('concelho');
-            $table->string('unidade');
+            $table->string('aces');
+            $table->string('morada');
+            $table->string('ip_router');
             $table->timestamps();
+
         });
     }
 

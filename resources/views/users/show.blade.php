@@ -35,8 +35,8 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Unidades:</strong>            
-                @foreach($unidades as $unidade)
-                    {{ $unidade->edificio->edificio }}
+                @foreach($roleunidades as $roleunidade)
+                    {{ $roleunidade->unidade->unidade }}
                     <br>
                 @endforeach            
         </div>
