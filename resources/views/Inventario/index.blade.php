@@ -26,7 +26,7 @@
   <table class="table table-bordered">
      <thead>
         <tr>            
-            <th >Unidade</th>
+            <th >Edificio</th>
             <th>Categoria</th>
             <th>Sala</th>
             <th>Modelo</th>  

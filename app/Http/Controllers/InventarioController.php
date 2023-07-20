@@ -55,7 +55,7 @@ class InventarioController extends Controller
         $roleunidades = RoleUnidades::where([
             ['user_id',$user_id]
         ])->get();
-        return view('Inventario.create',compact('categorias','bens','roleunidades','centro_edificio_id','centro_edificio'));
+        return view('Inventario.create1',compact('categorias','bens','roleunidades','centro_edificio_id','centro_edificio'));
     }
 
     /**
@@ -63,35 +63,43 @@ class InventarioController extends Controller
      */
     public function store(Request $request)
     {
+        
         if($request->input('_token') != ''){
 
-            $this->validateLogin($request);
-           
+            $this->validateLogin($request);           
 
         }  
-        
-        Inventario::create($request->all());
-           //Log de Ação
-           $i = Inventario::where([
-            ['unidade_id', $request->input('unidade_id')],
-            ['categoria_id', $request->input('categoria_id')],
-            ['sala', $request->input('sala')],
-            ['n_inventario', $request->input('n_inventario')],
-            ['n_serie', $request->input('n_serie')],
-            ['bem_inventariado', $request->input('bem_inventariado')],
-            ['conservacao', $request->input('conservacao')]])->get();
-           
-        foreach ($i as $e) {
-        $unidade = Unidades::where('id', $e->unidade_id)->first();    
 
+        $unidades = $request->input('unidade_id')[0];
+
+        $sala = $request->input('sala')[0];        
+        
+        $count = count($request->categoria_id);
+        
+        for ($i=0; $i < $count ; $i++) { 
+
+        $inventario =  Inventario::create([
+                'unidade_id' => $unidades,                
+                'sala' => $sala,
+                'modelo' => $request->modelo[$i],
+                'n_inventario' => $request->n_inventario[$i],
+                'categoria_id' => $request->categoria_id[$i],
+                'n_serie' => $request->n_serie[$i],
+                'bem_inventariado' => $request->bem_inventariado[$i],
+                'conservacao' => $request->conservacao[$i],
+            ]);
+
+           //Log de Ação 
+        $unidade = Unidades::where('id', $unidades)->first();
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Patrimonio de Id: $e->id, Unidade: $unidade->unidade, Categoria: $e->categoria_id, Sala: $e->sala, Nº Inventario: $e->n_inventario, NºSerie: $e->n_serie, Bem Inventariado: $e->bem_inventariado, Conservação: $e->conservacao " ,
+            'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
             'operacao' => 'create',
 
-        ]);}
+        ]);
 
+    }
             return redirect()->route('inventario.index')
                             ->with('success','Ben Criado com Sucesso');
     }
@@ -158,7 +166,7 @@ class InventarioController extends Controller
         $unidade = Unidades::where('id', $inventario->unidade_id)->first(); 
         Log::create([
         'user_id' => auth()->user()->id,
-        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
+        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
         'operacao' => 'delete',
         
                 ]);

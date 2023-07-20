@@ -10,13 +10,13 @@
                 <div class="col-md-7">
                     <div class="form-floating">
                    
-                        <select class="form-select @error('search') is-invalid @enderror" name="search" id="floatingSelectGrid" aria-label="Floating label select example" data-live-search="true">
+                        <select class="form-select @error('search') is-invalid @enderror" name="search" id="search" aria-label="Floating label select example" data-live-search="true">
                         <option data-default disabled selected>Selecione o Edificio</option>
                         @foreach ($roleunidades as $roleunidade)
                         <option value="{{$roleunidade->unidade_id}}">{{$roleunidade->unidade->unidade}}</option>
                         @endforeach 
                         </select>
-                        <label for="floatingSelectGrid">Centro de Saude</label>
+                        <label for="search">Centro de Saude</label>
                        
                 
                         
@@ -29,8 +29,8 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <input  class="form-control @error('search1') is-invalid @enderror" name='search1' id="floatingInputGrid"  value="{{ old('search1')}}">
-                        <label for="floatingInputGrid">Sala</label>
+                        <input  class="form-control @error('search1') is-invalid @enderror" name='search1' id="search1"  value="{{ old('search1')}}">
+                        <label for="search1">Sala</label>
                             @error('search1')
                                  <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
