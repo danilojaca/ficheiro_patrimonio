@@ -21,22 +21,22 @@
             <table class="table table-bordered">
                 <thead> 
                     <tr>
-                        <th>SIIE edificio Origem</th>
+                        <th>{{"SIIE edificio Origem"}}</th>
                         <td>{{$siie}}</td>
-                        <td rowspan="2" colspan="2" style="width:330px;">{{$unidade}}  {{$centro}} </td>
+                        <td rowspan="2" colspan="2" style="width:330px;">{{$unidade}} | {{$centro}} </td>
                     </tr>
                     <tr>
-                        <th  >Codigo Sala Origem</th>
+                        <th >{{"Codigo Sala Origem"}}</th>
                         <td >{{$sala}}</td>
                     </tr>                                                              
                     <tr>
-                        <th colspan="4">Contagem de Nº Ordem</th>
+                        <th colspan="4">{{"Contagem de Nº Ordem"}}</th>
                     </tr>
                     <tr>
-                        <th style="width:260px;">Designação Bem</th>
-                        <th>Bem Inventariado</th>
-                        <th>Nº Inventario</th>
-                        <th>Estado Conservação</th>                    
+                        <th style="width:260px;">{{"Designação Bem"}}</th>
+                        <th>{{"Bem Inventariado"}}</th>
+                        <th>{{"Nº Inventario"}}</th>
+                        <th>{{"Estado Conservação"}}</th>                    
                     </tr> 
                 </thead>                  
                 <tbody>

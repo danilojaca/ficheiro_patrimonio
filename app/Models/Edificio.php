@@ -15,6 +15,9 @@ class Edificio extends Model
         'concelho',
         'aces',
         'morada',
-        'ip_router'
+        'ip_router',
+        'cp',
+        'dias_funcionamento',
+        'horarios_funcionamento'
     ];
 }

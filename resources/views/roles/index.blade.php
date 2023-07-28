@@ -11,7 +11,7 @@
             <ul class="navbar-nav">      
                 <li class="nav-item">
                 @can('role-create')
-                    <a class="btn btn-primary" href="{{ route('roles.create') }}">Novo</a>
+                    <a class="btn btn-primary" href="{{ route('roles.create') }}"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
             </ul>

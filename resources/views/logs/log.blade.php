@@ -13,7 +13,7 @@
             <div class="col-md-2">
                 <div class="form-floating">
                     <input  class="form-control @error('username') is-invalid @enderror" name='username' id="floatingInputGrid"  value="{{ old('username')}}">
-                    <label for="floatingInputGrid">Usuario</label>
+                    <label for="floatingInputGrid">{{"Usuario"}}</label>
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -24,7 +24,7 @@
                 <div class="col-md-2">
                     <div class="form-floating">
                         <input type="date" class="form-control @error('data') is-invalid @enderror" name='data' id="floatingInputGrid"  value="{{ old('data')}}">
-                        <label for="floatingInputGrid">Data</label>
+                        <label for="floatingInputGrid">{{"Data"}}</label>
                             @error('data')
                                  <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -32,9 +32,9 @@
                             @enderror                        
                     </div>
                 </div> 
-                <div class="col-md-2">                
-                <button type="submit" class="btn btn-primary">Pesquisar</button>
-                <a href='{{ route('logs.index') }}' class="btn btn-primary">Limpar</a>                
+                <div class="col-md-2 pt-2">                
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                <a href='{{ route('logs.index') }}' class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a>                
                 </div>            
             </div>
             </form> 

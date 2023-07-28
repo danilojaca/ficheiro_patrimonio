@@ -9,7 +9,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ route('roles.index') }}">Voltar</a>
+                    <a class="btn btn-primary" href="{{ route('roles.index') }}"><i class="bi bi-reply-fill"></i></a>
                 </li>            
             </ul>
         </div>
@@ -32,13 +32,13 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Name:</strong>
+            <strong>{{"Nome:"}}</strong>
             {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Permission:</strong>
+            <strong>{{"Permissão:"}}</strong>
             <br/>
             @foreach($permission as $value)
                 <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>
 {!! Form::close() !!}

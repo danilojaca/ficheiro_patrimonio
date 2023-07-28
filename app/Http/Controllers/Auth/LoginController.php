@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\LogUser;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Middleware\StartSession;
@@ -97,13 +98,15 @@ class LoginController extends Controller
                 
             ]);
 
-        }else {
-            User::create([              
+        }else {            
+        $user =  User::create([              
                 'name' => $name,
                 'username' => $username,
                 'password' => Hash::make($password),
                 
             ]);
+        $role = Role::find(3);
+        $user->assignRole([$role->id]);
             
         } 
         $accountname = User::where([

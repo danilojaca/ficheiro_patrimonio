@@ -18,7 +18,10 @@ class EdificioController extends Controller
 
     public function index(Request $request)
     {
-        $edificios = Edificio::orderby('edificio')->paginate(12);         
+        $search = $request->input('search');
+        $edificios = Edificio::where('edificio',"like","%$search%")
+        ->orwhere('id_spms',"like","%$search%")
+        ->orwhere('id_siie',"like","%$search%")->orderby('edificio')->paginate(9);         
 
         return view('Edificio.index', compact('edificios') );
     }
@@ -76,7 +79,7 @@ class EdificioController extends Controller
      */
     public function edit(Edificio $edificio)
     {
-        dd($edificio);
+       
         return view('Edificio.create', compact('edificio') );
     }
 
@@ -86,10 +89,32 @@ class EdificioController extends Controller
     public function update(Request $request, Edificio $edificio)
     {
         if($request->input('_token') != ''){
-           
-            $this->validateLogin($request);
+
+            if ($request->input('id_spms') == $edificio->id_spms) {
               
+            $regras = [
+            'id_spms' => 'required',
+            'id_siie' => 'required',
+            'edificio' => 'required',
+            'concelho' => 'required',
+            'aces' => 'required',
+            'morada' => 'required',
+            'ip_router' => 'required',
+            'cp' => 'required',
+            'dias_funcionamento' => 'required',
+            'horarios_funcionamento' => 'required',
+        ];
+        $feedback = [            
+            'unique' => ':attribute ja existe',
+            'required'=>'Campo :attribute Obrigatorio',    
+        ];
+
+            $request->validate($regras,$feedback);
+        }else {
+            $this->validateLogin($request);
+        }
             }
+
         $edificio->update($request->all());
 
         //Log de Ação
@@ -124,6 +149,7 @@ class EdificioController extends Controller
 
     protected function validateLogin(Request $request)
     {
+        
         $regras = [
             'id_spms' => 'required|unique:edificios',
             'id_siie' => 'required|unique:edificios',
@@ -132,6 +158,9 @@ class EdificioController extends Controller
             'aces' => 'required',
             'morada' => 'required',
             'ip_router' => 'required',
+            'cp' => 'required',
+            'dias_funcionamento' => 'required',
+            'horarios_funcionamento' => 'required',
         ];
         $feedback = [            
             'unique' => ':attribute ja existe',

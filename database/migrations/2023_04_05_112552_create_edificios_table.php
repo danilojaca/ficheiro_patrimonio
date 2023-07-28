@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('aces');
             $table->string('morada');
             $table->string('ip_router');
+            $table->string('cp');
+            $table->string('dias_funcionamento');
+            $table->string('horarios_funcionamento');
             $table->timestamps();
 
         });

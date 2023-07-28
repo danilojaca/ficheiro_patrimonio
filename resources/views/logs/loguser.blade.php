@@ -32,9 +32,9 @@
                             @enderror                        
                     </div>
                 </div> 
-                <div class="col-md-2">                
-                <button type="submit" class="btn btn-primary">Pesquisar</button>
-                <a href='{{ route('logusers.index') }}' class="btn btn-primary">Limpar</a>                
+                <div class="col-md-2 pt-2">                
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                <a href='{{ route('logusers.index') }}' class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a>                
                 </div>            
             </div>
             </form> 

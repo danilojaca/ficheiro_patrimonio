@@ -21,24 +21,44 @@ class InventarioController extends Controller
      */
     function __construct(Inventario $inventario)
     {
-         $this->middleware('permission:inventario-list|inventario-create|inventario-edit|inventario-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:inventario-create', ['only' => ['create','store']]);
-         $this->middleware('permission:inventario-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:inventario-delete', ['only' => ['destroy']]);
+         $this->middleware("permission:inventario-list|inventario-create|inventario-edit|inventario-delete", ["only" => ["index","store"]]);
+         $this->middleware("permission:inventario-create", ["only" => ["create","store"]]);
+         $this->middleware("permission:inventario-edit", ["only" => ["edit","update"]]);
+         $this->middleware("permission:inventario-delete", ["only" => ["destroy"]]);
         
     }
 
-    public function index(Inventario $inventario)
+    public function index(Request $request)
     {    
         $user_id = auth()->user()->id;
+        
+        $search = $request->input("search");
 
         $unidades = RoleUnidades::where([
-            ['user_id',$user_id]
-        ])->pluck('unidade_id')->toArray();
+            ["user_id",$user_id]
+        ])->pluck("unidade_id")->toArray();
         
-        $inventarios = Inventario::whereIn('unidade_id',$unidades)->orderBy('unidade_id')->orderBy('sala')->paginate(10); 
-         
-        return view('Inventario.index', compact('inventarios') );
+        $inventario = Inventario::whereIn("unidade_id",$unidades);
+                
+        if (is_numeric($search)) {
+
+        $inventarios = $inventario->Where("n_inventario","like","%$search%")
+        ->orderBy("unidade_id")->orderBy("sala")->paginate(10);
+
+        }elseif(isset($search)){
+        $edificios = Edificio::where("edificio", "like", "%$search%")->pluck("id")->toArray();
+
+        $u = Unidades::whereIn("edificio_id",$edificios)
+            ->orWhere("unidade", "like", "%$search%")->pluck("id")->toArray();
+        
+        $inventarios = $inventario->WhereIn("unidade_id",$u)
+        ->orderBy("unidade_id")->orderBy("sala")->paginate(10);
+
+        }else{
+
+            $inventarios = $inventario->orderBy("unidade_id")->orderBy("sala")->paginate(10);
+        }
+        return view("Inventario.index", compact("inventarios") );
     }
 
     /**
@@ -46,62 +66,77 @@ class InventarioController extends Controller
      */
     public function create()
     {
-        $categorias = array('Informatica','Clinico','Mobiliario','Outros');
-        $centro_edificio = '';
-        $centro_edificio_id = '';
+        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
+        $conservacao = array("Muito Bom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
+        $centro_edificio = "";
+        $centro_edificio_id = "";
         $user_id = auth()->user()->id;
+        
         
         $bens = Ben::all();
         $roleunidades = RoleUnidades::where([
-            ['user_id',$user_id]
+            ["user_id",$user_id]
         ])->get();
-        return view('Inventario.create1',compact('categorias','bens','roleunidades','centro_edificio_id','centro_edificio'));
+        return view("Inventario.create",compact("conservacao","categorias","bens","roleunidades","centro_edificio_id","centro_edificio"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    { 
         
-        if($request->input('_token') != ''){
+        if($request->input("_token") != ""){
+            $regras = [
+                "unidade_id" => "required|string",
+                "sala" => "required|string",             
+                "categoria_id" => "required|array",                               
+                "bem_inventariado" => "required",
+                "n_serie" => "unique:inventarios|array",
+                "n_inventario" => "unique:inventarios|array",
+                "conservacao" => "required|array",
+             ];
+           
+            $feedback = [
+                "required"=>"Campo :attribute Obrigatorio",
+                "unique"=>"Esse :attribute já existe",
+                    ];
+            
+            $request->validate($regras,$feedback);
+        } 
 
-            $this->validateLogin($request);           
+        $unidades = $request->input("unidade_id")[0];
 
-        }  
-
-        $unidades = $request->input('unidade_id')[0];
-
-        $sala = $request->input('sala')[0];        
-        
+        $sala = $request->input("sala")[0];        
+    
         $count = count($request->categoria_id);
         
-        for ($i=0; $i < $count ; $i++) { 
-
+        for ($i=0; $i < $count ; $i++) {
+          
         $inventario =  Inventario::create([
-                'unidade_id' => $unidades,                
-                'sala' => $sala,
-                'modelo' => $request->modelo[$i],
-                'n_inventario' => $request->n_inventario[$i],
-                'categoria_id' => $request->categoria_id[$i],
-                'n_serie' => $request->n_serie[$i],
-                'bem_inventariado' => $request->bem_inventariado[$i],
-                'conservacao' => $request->conservacao[$i],
+                "unidade_id" => $unidades,                
+                "sala" => $sala,
+                "modelo" => $request->modelo[$i],
+                "n_inventario" => $request->n_inventario[$i],
+                "categoria_id" => $request->categoria_id[$i],
+                "n_serie" => $request->n_serie[$i],
+                "bem_inventariado" => $request->bem_inventariado[$i],
+                "conservacao" => $request->conservacao[$i],
             ]);
 
            //Log de Ação 
-        $unidade = Unidades::where('id', $unidades)->first();
+        $unidade = Unidades::where("id", $unidades)->first();
          
         Log::create([
-            'user_id' => auth()->user()->id,
-            'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
-            'operacao' => 'create',
+            "user_id" => auth()->user()->id,
+            "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
+            "operacao" => "create",
 
         ]);
 
     }
-            return redirect()->route('inventario.index')
-                            ->with('success','Ben Criado com Sucesso');
+            return redirect()->route("inventario.index")
+                            ->with("success","Ben Criado com Sucesso");
     }
 
     /**
@@ -117,15 +152,16 @@ class InventarioController extends Controller
      */
     public function edit(Inventario $inventario)
     {
-        $categorias = array('Informatica','Clinico','Mobiliario','Outros');
+        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
         $user_id = auth()->user()->id;
-        $bens = Ben::orderBy('categoria')->get();
+        $bens = Ben::orderBy("categoria")->get();
         $roleunidades = RoleUnidades::where([
-            ['user_id',$user_id]
+            ["user_id",$user_id]
         ])->get();
 
+        $conservacao = array("Muito Bom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
 
-        return view('Inventario.edit', compact('categorias','inventario', 'bens', 'roleunidades'));
+        return view("Inventario.edit", compact("conservacao","categorias","inventario", "bens", "roleunidades"));
     }
 
     /**
@@ -134,26 +170,59 @@ class InventarioController extends Controller
     public function update(Request $request, Inventario $inventario)
     {
         
-        if($request->input('_token') != ''){
+        if($request->input("_token") != ""){
+
+         if ($request->input("n_inventario") == $inventario->n_inventario) {
+            $regras = [
+                "unidade_id" => "required",            
+                "categoria_id" => "required",
+                "sala" => "required",                
+                "bem_inventariado" => "required",
+                "conservacao" => "required",
+                ];
+                $feedback = [
+        
+                    "required"=>"Campo :attribute Obrigatorio",
+                    "unique"=>"Esse :attribute já existe",
+        
+                 ];
+                 $request->validate($regras, $feedback);
+         }elseif ($request->input("n_serie") == $inventario->n_serie) {
+            $regras = [
+                "unidade_id" => "required",            
+                "categoria_id" => "required",
+                "sala" => "required",                
+                "bem_inventariado" => "required",
+                "conservacao" => "required",
+                ];
+                $feedback = [
+        
+                    "required"=>"Campo :attribute Obrigatorio",
+                    "unique"=>"Esse :attribute já existe",
+        
+                 ];
+                 $request->validate($regras, $feedback);
+         }else {
+          
 
             $this->validateLogin($request);
                 
-    
+        }  
             } 
                  
             $inventario->update($request->all());
         
 
         //Log de Ação
-        $unidade = Unidades::where('id', $inventario->unidade_id)->first(); 
+        $unidade = Unidades::where("id", $inventario->unidade_id)->first(); 
         Log::create([
-        'user_id' => auth()->user()->id,
-        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao " ,
-        'operacao' => 'edit',
+        "user_id" => auth()->user()->id,
+        "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao " ,
+        "operacao" => "edit",
         
                 ]);
-        return redirect()->route('inventario.index')
-                            ->with('success','Ben Atualizado com Sucesso');
+        return redirect()->route("inventario.index")
+                            ->with("success","Ben Atualizado com Sucesso");
     }
 
     /**
@@ -163,52 +232,52 @@ class InventarioController extends Controller
     {
         $inventario->delete();
         //Log de Ação
-        $unidade = Unidades::where('id', $inventario->unidade_id)->first(); 
+        $unidade = Unidades::where("id", $inventario->unidade_id)->first(); 
         Log::create([
-        'user_id' => auth()->user()->id,
-        'log'=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
-        'operacao' => 'delete',
+        "user_id" => auth()->user()->id,
+        "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
+        "operacao" => "delete",
         
                 ]);
-        return redirect()->route('inventario.index')
-                    ->with('success','Ben Excluido com Sucesso');
+        return redirect()->route("inventario.index")
+                    ->with("success","Ben Excluido com Sucesso");
     }
 
     protected function validateLogin(Request $request)
     {
-        if($request->input('n_serie') != '')  {            
+        if($request->input("n_serie") != "")  {            
 
             $regras = [
-                'unidade_id' => 'required',            
-                'categoria_id' => 'required',
-                'sala' => 'required',                
-                'bem_inventariado' => 'required',
-                'n_serie' => 'unique:inventarios',
-                'conservacao' => 'required',
+                "unidade_id" => "required",
+                "sala" => "required",             
+                "categoria_id" => "required",                               
+                "bem_inventariado" => "required",
+                "n_serie" => "unique:inventarios",
+                "conservacao" => "required",
                 ];
             }
-            elseif ($request->input('n_inventario') != '') {
+            elseif ($request->input("n_inventario") != "") {
                 $regras = [
-                    'unidade_id' => 'required',            
-                    'categoria_id' => 'required',
-                    'sala' => 'required',                
-                    'bem_inventariado' => 'required',
-                    'n_inventario' => 'unique:inventarios',
-                    'conservacao' => 'required',
+                    "unidade_id" => "required",
+                    "sala" => "required",             
+                    "categoria_id" => "required",              
+                    "bem_inventariado" => "required",
+                    "n_inventario" => "unique:inventarios",
+                    "conservacao" => "required",
                     ];
             }else {
                 $regras = [
-                    'unidade_id' => 'required',            
-                    'categoria_id' => 'required',
-                    'sala' => 'required',                
-                    'bem_inventariado' => 'required',                    
-                    'conservacao' => 'required',
+                    "unidade_id" => "required",
+                    "sala" => "required",             
+                    "categoria_id" => "required",               
+                    "bem_inventariado" => "required",                    
+                    "conservacao" => "required",
                     ];
             }
             $feedback = [
         
-                    'required'=>'Campo :attribute Obrigatorio',
-                    'unique'=>'Esse :attribute já existe',
+                    "required"=>"Campo :attribute Obrigatorio",
+                    "unique"=>"Esse :attribute já existe",
         
                  ];
         

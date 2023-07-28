@@ -22,6 +22,7 @@ class PermissionTableSeeder extends Seeder
             'role-delete',            
             'edificio',
             'categoria',
+            'unidade',
             'logs',
             'inventario-list',
             'inventario-create',

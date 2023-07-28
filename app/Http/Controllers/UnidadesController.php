@@ -16,9 +16,15 @@ class UnidadesController extends Controller
     {
          $this->middleware('permission:unidade');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $unidade = Unidades::orderby('unidade')->paginate(12);         
+        $search = $request->input('search');
+
+        $edificios = Edificio::where("edificio","like","%$search%")->pluck('id')->toArray();
+
+        $unidade = Unidades::wherein('edificio_id',$edificios)
+        ->orwhere('unidade',"like","%$search%")
+        ->orderby('edificio_id')->paginate(10);         
 
         return view('unidade.index', compact('unidade'));
     }
@@ -134,6 +140,7 @@ class UnidadesController extends Controller
 
     protected function validateLogin(Request $request)
     {
+        
         $regras = [
             'edificio_id' => 'required',
             'unidade' => 'required',            

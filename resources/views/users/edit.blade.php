@@ -9,7 +9,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ route('users.index') }}">Voltar</a>
+                    <a class="btn btn-primary" href="{{ route('users.index') }}"><i class="bi bi-reply-fill"></i></a>
                 </li>            
             </ul>
         </div>
@@ -32,18 +32,18 @@
 <div class="row g-2">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Nome:</strong>            
+            <strong>{{"Nome:"}}</strong>            
             {{$user->name}}
         </div>
     </div>    
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Funções:</strong>
+            <strong>{{"Funções:"}}</strong>
             {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
         </div>
     </div>
     <div class="col-xl-12 col-xl-12 col-xl-12 text-center p0">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>
 {!! Form::close() !!}
