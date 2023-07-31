@@ -9,6 +9,7 @@ use App\Models\Log;
 use App\Models\RoleUnidades;
 use App\Models\Unidades;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Contracts\Role;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
@@ -67,7 +68,7 @@ class InventarioController extends Controller
     public function create()
     {
         $categorias = array("Informatica","Clinico","Mobiliario","Outros");
-        $conservacao = array("Muito Bom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
+        $conservacao = array("MuitoBom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
         $centro_edificio = "";
         $centro_edificio_id = "";
         $user_id = auth()->user()->id;
@@ -84,30 +85,15 @@ class InventarioController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    { 
-        
+    {          
         if($request->input("_token") != ""){
-            $regras = [
-                "unidade_id" => "required|string",
-                "sala" => "required|string",             
-                "categoria_id" => "required|array",                               
-                "bem_inventariado" => "required",
-                "n_serie" => "unique:inventarios|array",
-                "n_inventario" => "unique:inventarios|array",
-                "conservacao" => "required|array",
-             ];
-           
-            $feedback = [
-                "required"=>"Campo :attribute Obrigatorio",
-                "unique"=>"Esse :attribute já existe",
-                    ];
-            
-            $request->validate($regras,$feedback);
+
+            $this->validateLogin($request);
         } 
 
         $unidades = $request->input("unidade_id")[0];
 
-        $sala = $request->input("sala")[0];        
+       /* $sala = $request->input("sala")[0];        
     
         $count = count($request->categoria_id);
         
@@ -134,7 +120,20 @@ class InventarioController extends Controller
 
         ]);
 
-    }
+    }*/
+
+    $inventario =  Inventario::create($request->all());
+    
+    //Log de Ação 
+        $unidade = Unidades::where("id", $unidades)->first();     
+    Log::create([
+        "user_id" => auth()->user()->id,
+        "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
+        "operacao" => "create",
+
+    ]);
+
+
             return redirect()->route("inventario.index")
                             ->with("success","Ben Criado com Sucesso");
     }

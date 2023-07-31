@@ -25,7 +25,7 @@
     <div class="row g-2" >
         <form  class="row g-2" action="/registro/inventario" method="GET">
         <div class="col-md-4">  
-            <input  type="text" name="search" id="search" class="form-control" placeholder="Filtrar Unidade ou N Inventario">            
+            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Filtrar Unidade ou N Inventario">            
             <input type="submit" hidden />           
         </div> 
         <div class="col-md-4">  
