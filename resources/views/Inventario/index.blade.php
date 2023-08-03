@@ -7,12 +7,18 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h1>{{"Bens"}}</h1>
             </div>
-            <ul class="navbar-nav g-2">      
+            <ul class="navbar-nav g-3">      
+                <li class="nav-item">
+                @can("inventariomultiplos")
+                    <a class="btn btn-primary" href="{{ route("inventariomultiplos.create") }}"><i class="bi bi-plus-circle-dotted"></i></a>
+                @endcan
+                </li> 
                 <li class="nav-item">
                 @can("role-create")
                     <a class="btn btn-primary" href="{{ route("inventario.create") }}"><i class="bi bi-plus-lg"></i></a>
                 @endcan
-            </ul>
+                </li>
+            </ul>            
         </div>
     </nav>
 </div>

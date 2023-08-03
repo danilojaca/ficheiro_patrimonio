@@ -18,7 +18,7 @@
     </nav>
 </div>
 <div class="container mt-">
-        <form  action="{{route("inventario.store")}}" method="POST" >
+        <form  action="{{route("inventariomultiplos.store")}}" method="POST" >
               @csrf 
             <div class="row g-3">  
                 <div class="col-md-1">
@@ -28,7 +28,7 @@
                   <select  class="form-select @error("unidade_id") is-invalid @enderror" name="unidade_id"  aria-label="Default select example">
                     <option  disabled selected value="{{NULL}}">{{"Selecione a Unidade"}}</option>
                     @foreach ($roleunidades as $roleunidade)
-                    <option value="{{$roleunidade->unidade_id}}" {{$roleunidade->unidade_id == old("unidade_id") ? "selected" : ""}}>{{$roleunidade->unidade->unidade}} | {{$roleunidade->unidade->edificio->edificio}}</option>
+                    <option value="{{$roleunidade->unidade_id}}">{{$roleunidade->unidade->unidade}} | {{$roleunidade->unidade->edificio->edificio}}</option>
                     @endforeach 
                   </select>               
                   @error("unidade_id")

@@ -27,6 +27,7 @@ Route::resource('inventario', 'App\Http\Controllers\InventarioController');
 Route::resource('edificio', 'App\Http\Controllers\EdificioController');
 Route::resource('bens', 'App\Http\Controllers\BenController');
 Route::resource('unidade', 'App\Http\Controllers\UnidadesController');
+Route::resource('inventariomultiplos', 'App\Http\Controllers\InventarioMultiplosController');
 });
 Route::middleware(['auth'])->resource('logs', 'App\Http\Controllers\LogController');
 Route::middleware(['auth'])->resource('logusers', 'App\Http\Controllers\LogUserController');

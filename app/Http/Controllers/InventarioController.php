@@ -93,35 +93,6 @@ class InventarioController extends Controller
 
         $unidades = $request->input("unidade_id")[0];
 
-       /* $sala = $request->input("sala")[0];        
-    
-        $count = count($request->categoria_id);
-        
-        for ($i=0; $i < $count ; $i++) {
-          
-        $inventario =  Inventario::create([
-                "unidade_id" => $unidades,                
-                "sala" => $sala,
-                "modelo" => $request->modelo[$i],
-                "n_inventario" => $request->n_inventario[$i],
-                "categoria_id" => $request->categoria_id[$i],
-                "n_serie" => $request->n_serie[$i],
-                "bem_inventariado" => $request->bem_inventariado[$i],
-                "conservacao" => $request->conservacao[$i],
-            ]);
-
-           //Log de Ação 
-        $unidade = Unidades::where("id", $unidades)->first();
-         
-        Log::create([
-            "user_id" => auth()->user()->id,
-            "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria ID: $inventario->categoria_id, Sala: $sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao" ,
-            "operacao" => "create",
-
-        ]);
-
-    }*/
-
     $inventario =  Inventario::create($request->all());
     
     //Log de Ação 
