@@ -35,10 +35,12 @@
                 
                 <div class="col-md-2 pt-4">                
                 <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                <a href="{{ route("relatorio.index") }}" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a>                
+                <a href="{{ route("relatorio.index") }}" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a> 
+                @can("imprimir")               
                 @if ($_token)
                     <a href="{{ route("relatorio.exportar", ["unidade_id" => $search, "categoria_id" => $search1]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf"></i></a>      
                 @endif
+                @endcan
                 </div> 
                 
                 <div class="col-md-4">                     

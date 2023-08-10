@@ -41,9 +41,11 @@
                 <div class="col-md-2 pt-2">                
                 <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
                 <a href="{{ route("formulario.index") }}" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a>                
+                @can("imprimir") 
                 @if ($centro != "")
                     <a href="{{ route("formulario.exportar", ["unidade_id" => $search, "sala" => $search1 , "centro" => $centro, "siie" => $siie]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf"></i></a>      
                 @endif
+                @endcan
                 </div>            
             </div>
             </form> 
