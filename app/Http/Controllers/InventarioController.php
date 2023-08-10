@@ -91,7 +91,7 @@ class InventarioController extends Controller
             $this->validateLogin($request);
         } 
 
-        $unidades = $request->input("unidade_id")[0];
+        $unidades = $request->input("unidade_id");
 
     $inventario =  Inventario::create($request->all());
     

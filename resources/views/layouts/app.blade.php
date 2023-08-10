@@ -75,6 +75,11 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categorias'}}</a>
                                 </li>
                                 @endcan
+                                @can('relatorio')
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('relatorio.index') }}">{{'Relatorios'}}</a>
+                                </li>
+                                @endcan
                                 @can('role-list')
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
