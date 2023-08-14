@@ -108,7 +108,7 @@
       <select class="form-select @error('conservacao') is-invalid @enderror" name="conservacao" id="floatingSelectGrid" aria-label="Default select example">
         <option data-default disabled selected>{{"Selecione o Estado de Conservação"}}</option>
         @foreach ( $conservacao as $conservar )
-            <option value={{$conservar}} {{$conservar == old("conservacao") ? 'selected' : ''}}>{{$conservar}}</option>  
+            <option value="{{$conservar}}" {{$conservar == old("conservacao") ? 'selected' : ''}}>{{$conservar}}</option>  
         @endforeach
                
       </select>

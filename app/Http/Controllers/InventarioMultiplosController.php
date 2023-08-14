@@ -7,6 +7,7 @@ use App\Models\Inventario;
 use App\Models\Ben;
 use App\Models\Edificio;
 use App\Models\Log;
+use App\Models\Conservacao;
 use App\Models\RoleUnidades;
 use App\Models\Unidades;
 
@@ -34,7 +35,7 @@ class InventarioMultiplosController extends Controller
     public function create()
     {
         $categorias = array("Informatica","Clinico","Mobiliario","Outros");
-        $conservacao = array("MuitoBom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
+        $conservacao = Conservacao::pluck('conservacao')->toArray();
         $centro_edificio = "";
         $centro_edificio_id = "";
         $user_id = auth()->user()->id;

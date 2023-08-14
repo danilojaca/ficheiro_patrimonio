@@ -121,7 +121,7 @@
                   <select  class="form-select @error("conservacao") is-invalid @enderror" name="conservacao[]" aria-label="Default select example">
                     <option  disabled selected value="{{NULL}}">{{"Selecione Conservação"}}</option>
                     @foreach ( $conservacao as $conservar )
-                      <option value={{$conservar}}>{{$conservar}}</option>  
+                      <option value="{{$conservar}}">{{$conservar}}</option>  
                     @endforeach
                           
                   </select>

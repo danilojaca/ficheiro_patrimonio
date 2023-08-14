@@ -8,6 +8,7 @@ use App\Models\Edificio;
 use App\Models\Log;
 use App\Models\RoleUnidades;
 use App\Models\Unidades;
+use App\Models\Conservacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Contracts\Permission;
@@ -68,7 +69,7 @@ class InventarioController extends Controller
     public function create()
     {
         $categorias = array("Informatica","Clinico","Mobiliario","Outros");
-        $conservacao = array("MuitoBom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
+        $conservacao = Conservacao::pluck('conservacao')->toArray();
         $centro_edificio = "";
         $centro_edificio_id = "";
         $user_id = auth()->user()->id;
@@ -129,8 +130,8 @@ class InventarioController extends Controller
             ["user_id",$user_id]
         ])->get();
 
-        $conservacao = array("Muito Bom","Bom","Razoavel","Mau","Avariado","Indefinido","Abatido");
-
+        $conservacao = Conservacao::pluck('conservacao')->toArray();
+        //dd( $conservacao);
         return view("Inventario.edit", compact("conservacao","categorias","inventario", "bens", "roleunidades"));
     }
 
