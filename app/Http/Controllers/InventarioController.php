@@ -68,7 +68,10 @@ class InventarioController extends Controller
      */
     public function create()
     {
-        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
+        $quantidadecategoria = Ben::pluck("categoria")->ToArray();
+        $quantidadecategoria = array_count_values($quantidadecategoria);
+        $categorias = array_keys($quantidadecategoria);
+        //dd($categorias);
         $conservacao = Conservacao::pluck('conservacao')->toArray();
         $centro_edificio = "";
         $centro_edificio_id = "";
@@ -123,7 +126,9 @@ class InventarioController extends Controller
      */
     public function edit(Inventario $inventario)
     {
-        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
+        $quantidadecategoria = Ben::pluck("categoria")->ToArray();
+        $quantidadecategoria = array_count_values($quantidadecategoria);
+        $categorias = array_keys($quantidadecategoria);
         $user_id = auth()->user()->id;
         $bens = Ben::orderBy("categoria")->get();
         $roleunidades = RoleUnidades::where([

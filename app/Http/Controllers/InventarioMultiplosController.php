@@ -34,7 +34,9 @@ class InventarioMultiplosController extends Controller
      */
     public function create()
     {
-        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
+        $quantidadecategoria = Ben::pluck("categoria")->ToArray();
+        $quantidadecategoria = array_count_values($quantidadecategoria);
+        $categorias = array_keys($quantidadecategoria);
         $conservacao = Conservacao::pluck('conservacao')->toArray();
         $centro_edificio = "";
         $centro_edificio_id = "";
