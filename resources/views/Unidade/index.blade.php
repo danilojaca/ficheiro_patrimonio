@@ -27,8 +27,8 @@
     <form  class="row g-2" action="/registro/unidade" method="GET" id="myForm">
              
         <div class="col-md-3">  
-            <input  type="text" name="search" id="search" class="form-control">
-            <input type="submit" hidden /> 
+            <input  type="text" name="search" id="search" class="form-control" placeholder="Filtrar Unidade">
+            <input type="submit" hidden > 
         </div>
                 <div class="col-md-4">  
          <a class="btn btn-primary" href="{{ route("unidade.index") }}"><i class="bi bi-arrow-clockwise"></i></a>

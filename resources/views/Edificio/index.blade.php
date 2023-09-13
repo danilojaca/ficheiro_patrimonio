@@ -26,7 +26,7 @@
     <div class="row g-2"> 
     <form class="row g-2" action="/registro/edificio" method="GET" id="myForm">
        <div class="col-md-3">  
-            <input  type="text" name="search" id="search" class="form-control">
+            <input  type="text" name="search" id="search" class="form-control" placeholder="Filtrar Edificio">
             <input type="submit" hidden /> 
         </div>
         <div class="col-md-4">  

@@ -89,7 +89,6 @@
                                         <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Permissoes') }}</a></li>
                                         
-                                        
                                     </ul>
                                 </li>
                                  @endcan   
@@ -105,7 +104,9 @@
                                     </ul>
                                 </li>
                                 @endcan
-                                                                
+                                 <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#" onclick="openWin()"><i class="bi bi-map"></i> {{'Plantas'}}</a>
+                                </li>                               
                             </ul>      
                         </div>
                     </div>
@@ -119,4 +120,11 @@
     </div>
      
 </body>
+<script>
+
+function openWin() {
+  myWindow = window.open("\\srv-dcfaro\ACES_Central\Informatica NSICA\Cadastro - Mapas\PLantas-Central_PDF", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
+ 
+}
+</script>
 </html>

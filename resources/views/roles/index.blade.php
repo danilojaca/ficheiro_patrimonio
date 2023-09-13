@@ -57,7 +57,7 @@
 </table>
 
 
-{!! $roles->render() !!}
+{!! $roles->withQueryString()->links("pagination::bootstrap-5") !!}
 
 
 

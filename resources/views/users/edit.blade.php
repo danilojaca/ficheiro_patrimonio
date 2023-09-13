@@ -18,7 +18,7 @@
 
 @if (count($errors) > 0)
     <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <strong>oops!</strong> Houve alguns problemas com sua entrada.<br><br>
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -28,7 +28,10 @@
 @endif
 
 
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+
+<form method="POST" action={{route('users.update',['user' => $user->id])}}>
+@method('PATCH')
+@csrf
 <div class="row g-2">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -39,14 +42,19 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>{{"Funções:"}}</strong>
-            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+            <select class="form-select " size="10" multiple aria-label="multiple select example" name="roles[]">
+             @foreach($roles as $key => $role)             
+            <option value="{{$role}}" {{(in_array($role, $userRole)) ? 'selected' : ''}}>{{$role}} </option>
+            @endforeach
+            </select>
+            
         </div>
     </div>
     <div class="col-xl-12 col-xl-12 col-xl-12 text-center p0">
         <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
 
 
 

@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Funçoes'}}</h1>
+                <h1>{{'Gerencia de Grupo'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
@@ -20,7 +20,7 @@
 
 @if (count($errors) > 0)
     <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <strong>oops!</strong> Houve alguns problemas com sua entrada.<br><br>
         <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -28,14 +28,14 @@
         </ul>
     </div>
 @endif
-
-
-{!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
+<form method="POST" action={{route('roles.update',['role' => $role->id])}}>
+@method('PATCH')
+@csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>{{"Nome:"}}</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <input type="text" class="form-control" name="name" placeholder="Nome" value="{{$role->name}}" >
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -43,8 +43,7 @@
             <strong>{{"Permissão:"}}</strong>
             <br/>
             @foreach($permission as $value)
-                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
+            <input class="form-check-input" type="checkbox" value="{{$value->id}}" name="permission[]" {{(in_array($value->id, $rolePermissions)) ? 'checked' : ''}}><label>{{ $value->name }}</label>
             <br/>
             @endforeach
         </div>
@@ -53,7 +52,7 @@
         <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
 
 
 @endsection

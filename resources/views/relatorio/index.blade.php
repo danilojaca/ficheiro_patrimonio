@@ -1,8 +1,9 @@
+
 @extends("layouts.app")
 
 @section("content")
 <div class="container pt-5">
-    <nav class="navbar navbar-expand-sm bg-light">
+    <nav class="navbar navbar-expand-sm ">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
                 <h1>{{"RELATORIO"}}</h1>
@@ -16,9 +17,9 @@
             <form action="/relatorio" method="GET">
             @csrf            
             <div class="row g-2">
-            <div class="col-md-3">
+            <div class="col-md-2">
             </div>
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <label for="search">{{"Centro de Saude"}}</label>
                         <select class="form-select @error("search") is-invalid @enderror" name="search" id="search" aria-label="Default select example" >
                             <option data-default disabled selected>{{"Selecione o Edificio"}}</option>
@@ -43,7 +44,7 @@
                 @endcan
                 </div> 
                 
-                <div class="col-md-4">                     
+                <div class="col-md-3">                     
                     
                 </div>           
             </div>
@@ -83,5 +84,11 @@
 
   </table>   
 </div>
-
+<script>
+$( '#search' ).select2( {
+    theme: "bootstrap-5",
+    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+    placeholder: $( this ).data( 'placeholder' ),
+} );
+</script>
 @endsection

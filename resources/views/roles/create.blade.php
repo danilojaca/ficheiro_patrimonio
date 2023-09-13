@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Funçoes'}}</h1>
+                <h1>{{'Gerencia de Grupo'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
@@ -18,7 +18,7 @@
 
 @if (count($errors) > 0)
     <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <strong>oops!</strong> Houve alguns problemas com sua entrada.<br><br>
         <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -27,13 +27,13 @@
     </div>
 @endif
 
-
-{!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+<form method="POST" action="{{route('roles.store')}}">
+@csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>{{"Nome:"}}</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <input type="text" class="form-control" name="name" placeholder="Nome" >
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -41,8 +41,7 @@
             <strong>{{"Permissão:"}}</strong>
             <br/>
             @foreach($permission as $value)
-                <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
+            <input class="form-check-input" type="checkbox" value="{{$value->id}}" name="permission[]"><label>{{ $value->name }}</label>
             <br/>
             @endforeach
         </div>
@@ -51,7 +50,7 @@
         <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
 
 
 

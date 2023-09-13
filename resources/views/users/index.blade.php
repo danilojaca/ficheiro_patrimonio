@@ -31,7 +31,7 @@
                 <td>
                     @if(!empty($user->getRoleNames()))
                         @foreach($user->getRoleNames() as $v)
-                           {{ $v }}
+                           {{ $v }} {{count($user->getRoleNames()) > 1 ? " ," : ""}}
                         @endforeach
                     @endif
                 </td>
