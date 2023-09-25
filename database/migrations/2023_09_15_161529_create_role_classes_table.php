@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permission_unidades', function (Blueprint $table) {
-           
+        Schema::create('role_classes', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('unidade_id');
-            $table->softDeletes();            
-            $table->timestamps();
+            $table->string('sala');
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->foreign('user_id')->references('id')->on('users');
         });
-
     }
 
     /**
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permission_unidades');
+        Schema::dropIfExists('role_classes');
     }
 };

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('bem_inventariado');
             $table->string('conservacao'); 
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->foreign('categoria_id')->references('id')->on('bens');
         });

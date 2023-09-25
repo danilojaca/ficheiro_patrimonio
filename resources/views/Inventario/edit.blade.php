@@ -18,14 +18,9 @@
     </nav>
 </div>
 <div class="container">
-@if (isset($inventario->id))
         <form  class="row g-3" action={{route('inventario.update', ['inventario' => $inventario->id])}} method='POST' >
-        @method('PUT')
-         @csrf 
-    @else
-         <form class="row g-3" action="{{route('inventario.store')}}" method='POST' >
-        @csrf
-    @endif
+        @method('PATCH')
+         @csrf
   <div class="col-md-7">   
         <label  class="form-label">{{"Centro de Saude"}}</label>    
       <select class="form-select @error('unidade_id') is-invalid @enderror" name="unidade_id" aria-label="Default select example" >
@@ -41,19 +36,8 @@
       @enderror
   </div>
   <div class="col-md-4"> 
-      <label  class="form-label">{{"Categoria"}}</label>   
-       <select class="form-select @error('categoria_id') is-invalid @enderror" name="categoria_id" aria-label="Default select example">
-                    <option data-default disabled selected>{{"Selecione a Categoria"}}</option>
-                      @foreach ($categorias as $categoria)
-                        <optgroup label="{{$categoria}}">
-                          @foreach ($bens as $ben)
-                            @if ($ben->categoria === $categoria)
-                              <option value="{{$ben->id}}" {{$ben->id  == $inventario->categoria_id ? 'selected' : ''}}>{{$ben->sub_categoria}}</option>
-                            @endif 
-                          @endforeach
-                        </optgroup>
-                      @endforeach                     
-                  </select>
+      <label  class="form-label">{{"Categoria"}}</label>
+      <input type="text" name='categoria_id' class="form-control @error('sala') is-invalid @enderror" value="{{$inventario->categoria->sub_categoria}}" disabled> 
       @error('categoria_id')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
@@ -71,7 +55,7 @@
   </div>
   <div class="col-md-2">
     <label  class="form-label ">{{"Modelo"}}</label>
-    <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{$inventario->modelo ?? old('modelo')}}">
+    <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{$inventario->modelo ?? old('modelo')}}" disabled>
       @error('modelo')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
@@ -79,8 +63,8 @@
       @enderror
   </div>
   <div class="col-2">
-    <label class="form-label ">{{"Nº Inventariado"}}</label>
-    <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{$inventario->n_inventario ?? old('n_inventario')}}" >
+    <label class="form-label ">{{"Nº Inventario"}}</label>
+    <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{$inventario->n_inventario ?? old('n_inventario')}}" disabled>
       @error('n_inventario')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
@@ -89,7 +73,7 @@
   </div>
   <div class="col-3">
     <label class="form-label ">{{"Nº Serie"}}</label>
-    <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{$inventario->n_serie ?? old('n_serie')}}" >
+    <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{$inventario->n_serie ?? old('n_serie')}}" disabled>
       @error('n_serie')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
@@ -127,11 +111,7 @@
   <div class="col-md-11">
     </div>
   <div class="col-md-1">
-  @if (isset($inventario->id))
     <button type="submit" class="btn btn-primary">{{"Editar"}}</button>
-    @else
-    <button type="submit" class="btn btn-primary">{{"Cadastrar"}}</button>
-     @endif
   </div>
 </form>
  </div>

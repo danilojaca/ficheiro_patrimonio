@@ -23,15 +23,22 @@
     </nav>
 </div>
     @if ($message = Session::get("success"))
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show">
         <p>{{ $message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    @if ($message = Session::get("danger"))
+    <div class="alert alert-danger alert-dismissible fade show">
+        <p>{{ $message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 <div class="container pb-2">    
     <div class="row g-2" >
         <form  class="row g-2" action="/registro/inventario" method="GET">
         <div class="col-md-4">  
-            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Filtrar Unidade ou N Inventario">            
+            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Filtrar Unidade , N Inventario ou Categoria">            
             <input type="submit" hidden />           
         </div> 
         <div class="col-md-4">  
@@ -53,35 +60,40 @@
             <th>{{"Bem Inventariado"}}</th>  
             <th>{{"Conservação"}}</th>
             <th colspan="2"></th>
-            <tr>    
-        </thead>
-        <tbody>        
+        <tr>    
+     </thead>
+     <tbody>        
         @foreach ($inventarios as $inventario )
         <tr>       
-         <td>{{$inventario->unidade->unidade}} | {{$inventario->unidade->edificio->edificio}}</td>       
-         <td>{{$inventario->categoria->sub_categoria}}</td>
-         <td>{{$inventario->sala}}</td>
-         <td>{{$inventario->modelo}}</td>
-         <td>{{$inventario->n_inventario}}</td>
-         <td>{{$inventario->n_serie}}</td>
-         <td>{{$inventario->bem_inventariado}}</td>
-         <td>{{$inventario->conservacao}}</td>
-         <td>
-         <div class="btn-group"> 
-         @can("inventario-edit")
-         <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';"><i class="bi bi-pencil-square"></i></button>
-         @endcan
-         <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
-            @method("DELETE")
-            @csrf
-          @can("inventario-delete")
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';"><i class="bi bi-trash"></i></button>           
-          @endcan
-            </form>
-             </div></td> 
-            </tr>   
+            <td>{{$inventario->unidade->unidade}} | {{$inventario->unidade->edificio->edificio}}</td>       
+            <td>{{$inventario->categoria->sub_categoria}}</td>
+            <td>{{$inventario->sala}}</td>
+            <td>{{$inventario->modelo}}</td>
+            <td>{{$inventario->n_inventario}}</td>
+            <td>{{$inventario->n_serie}}</td>
+            <td>{{$inventario->bem_inventariado}}</td>
+            <td>{{$inventario->conservacao}}</td>
+            <td>
+                <div class="btn-group"> 
+                    @foreach ( $salas as $sala => $unidade)
+                        @if ($inventario->unidade->id == $unidade && $inventario->sala == $sala)
+                            @can("inventario-edit")
+                                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';"><i class="bi bi-pencil-square"></i></button>
+                            @endcan
+                            @can("inventario-delete")
+                                <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
+                                @method("DELETE")
+                                @csrf
+                                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';"><i class="bi bi-trash"></i></button>
+                                </form>               
+                            @endcan
+                        @endif
+                    @endforeach
+                </div>
+            </td> 
+        </tr>   
         @endforeach
-        </tbody>
+     </tbody>
   </table>
     {!! $inventarios->withQueryString()->links("pagination::bootstrap-5") !!}
 </div>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('edificio_id');
             $table->string('unidade');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('edificio_id')->references('id')->on('edificios');
         });
     }

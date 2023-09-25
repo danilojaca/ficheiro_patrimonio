@@ -56,6 +56,8 @@
     $quantidadeSalas = array_count_values($quantidadeSalas);
     $quantidadeSalas = count($quantidadeSalas);
 
+    $edificiosaces = $relatorios->
+
     $relatorio = $relatorios->first();
     $aces = $relatorio->unidade->edificio->aces;
     $edificio = $relatorio->unidade->edificio->edificio;
@@ -63,6 +65,9 @@
     $siie = $relatorio->unidade->edificio->id_siie;
     $spms = $relatorio->unidade->edificio->id_spms;
 
+    $edificiosaces = App\Models\Edificio::where("aces",$aces)->pluck("edificio")->toArray();
+    $quantidadeEdificios = array_count_values($edificiosaces);
+    $quantidadeEdificios = count($quantidadeEdificios);
 @endphp
 
             <div class="container-left">
@@ -71,7 +76,31 @@
                         <tr>            
                             <th colspan="6">{{"Relatorio"}}</th>
                         </tr>
-                         
+                        @if ($n == 0)
+                        <tr>            
+                            <th colspan="4">{{"Aces"}}</th>
+                            <td colspan="2">{{$aces}}</td>
+                        </tr>           
+                            <th colspan="2">{{"Salas"}}</th>
+                            <td>{{$quantidadeSalas}}</td>
+                            <th colspan="2">{{"Edificios"}}</th>
+                            <td >{{$quantidadeEdificios}}</td>                            
+                        </tr>
+                         @endif
+                        @if ($n == 1)
+                        <tr>            
+                            <th colspan="2">{{"SIIE Edificio Origem"}}</th>
+                            <td>{{$siie}}</td>
+                            <th colspan="2">{{"Site ID Edificio Origem"}}</th>
+                            <td>{{$spms}}</td>  
+                        </tr>           
+                            <th colspan="2">{{"Salas"}}</th>
+                            <td>{{$quantidadeSalas}}</td>
+                            <th colspan="2">{{"Edificio"}}</th>
+                            <td >{{$edificio}}</td>                            
+                        </tr>
+                         @endif
+                         @if ($n == 2)
                         <tr>            
                             <th colspan="2">{{"SIIE Edificio Origem"}}</th>
                             <td>{{$siie}}</td>
@@ -81,9 +110,19 @@
                             <th colspan="2">{{"Salas"}}</th>
                             <td>{{$quantidadeSalas}}</td>
                             <th colspan="2">{{"Unidade"}}</th>
-                            <td >{{$unidade}}</td>
-                            
+                            <td >{{$unidade}}</td>                            
                         </tr>
+                         @endif
+                         @if ($n == 3)
+                        <tr>           
+                            <th colspan="2">{{"Salas"}}</th>
+                            <td>{{$quantidadeSalas}}</td>
+                            <th colspan="2">{{"Edificios"}}</th>
+                            <td >{{$quantidadeEdificios}}</td>                   
+                        </tr>
+                         @endif
+                        
+
                         <tr>            
                             <th colspan="3">{{"Objetos"}}</th>
                             <th colspan="3">{{"Quantidade"}}</th>
@@ -91,7 +130,7 @@
                     </thead>
                     <tbody> 
                         @foreach ( $quantidadeObjetos as  $x => $val)
-                            @foreach ( $categoria as $ben)
+                            @foreach ( $categorias as $ben)
                                 @if ($ben->id == $x)
                                     <tr>       
                                         <td colspan="3">{{$ben->sub_categoria}}</td>

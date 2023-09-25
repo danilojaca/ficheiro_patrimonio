@@ -17,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -80,18 +80,24 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('relatorio.index') }}">{{'Relatorios'}}</a>
                                 </li>
                                 @endcan
-                                @can('role-list')
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{'Users'}}
+                                    {{'Permissoes'}}
                                     </a>
                                     <ul class="dropdown-menu">
+                                     @can('role-list')
                                         <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Permissoes') }}</a></li>
+                                     @endcan
+                                     @can('role-list')    
+                                        <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Perfis') }}</a></li>
+                                     @endcan 
+                                     @can('role-class')   
+                                        <li><a class="dropdown-item" href="{{ route('roleclass') }}">{{ __('Salas') }}</a></li>
+                                     @endcan    
                                         
                                     </ul>
                                 </li>
-                                 @endcan   
+                                   
                                 @can('logs')                               
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,7 +129,7 @@
 <script>
 
 function openWin() {
-  myWindow = window.open("\\srv-dcfaro\ACES_Central\Informatica NSICA\Cadastro - Mapas\PLantas-Central_PDF", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
+  myWindow = window.open("file:///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
  
 }
 </script>

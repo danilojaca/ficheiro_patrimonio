@@ -16,10 +16,16 @@
             </ul>
         </div>
     </nav>
-</div>
-@if ($message = Session::get("success"))
-    <div class="alert alert-success">
+</div> @if ($message = Session::get("success"))
+    <div class="alert alert-success alert-dismissible fade show">
         <p>{{ $message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    @if ($message = Session::get("danger"))
+    <div class="alert alert-danger alert-dismissible fade show">
+        <p>{{ $message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 <div class="container pb-2"> 

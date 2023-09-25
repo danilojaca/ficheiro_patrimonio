@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\RoleUnidades;
 use App\Models\Unidades;
 use App\Models\User;
+use App\Models\RoleClass;
+use App\Models\Inventario;
 use Illuminate\Http\Request;
 use DB;
 
@@ -13,6 +15,11 @@ class RoleUnidadesController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    function __construct(){
+
+        $this->middleware("permission:role-class", ["only" => ["roleclass","roleclassupdate"]]);
+    }
     public function index(Request $request)
     {
         //
@@ -60,7 +67,7 @@ class RoleUnidadesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id,RoleUnidades $roleUnidades)    {
+    public function update(Request $request, $id, RoleUnidades $roleUnidades)    {
         
     $unidades = $request->input('edificio_id');
 
@@ -76,7 +83,7 @@ class RoleUnidadesController extends Controller
 }     
     
         return redirect()->route('users.index')
-                        ->with('success','Role updated successfully');
+                        ->with('success','Regra Atualizada com Sucesso');
     
     }
 
@@ -86,5 +93,48 @@ class RoleUnidadesController extends Controller
     public function destroy(RoleUnidades $roleUnidades)
     {
         //
+    }
+
+    public function roleclass(Request $request)
+
+    {   
+        $salas = array();
+        $id_unidade = "";
+        $users = array();
+        $user_id = auth()->user()->id;
+        $unidades =  RoleUnidades::where('user_id',$user_id)->get();
+        if ($request->input('unidade_id') != ""){
+        $id_unidade = $request->input('unidade_id');
+        $users = RoleUnidades::where("unidade_id",$id_unidade)->get();
+        }
+        $usuario = $request->input('user');
+        if (isset($usuario)) {            
+            $salas = Inventario::where('unidade_id',$id_unidade)->pluck('sala')->toArray();
+            $salas = array_count_values($salas);
+        } 
+        
+        $salasexist = RoleClass::where([['user_id',$usuario],['unidade_id',$id_unidade]])->pluck("sala")->toArray();
+                
+        return view('roleunidades.roleclass',compact('unidades','users','id_unidade','usuario','salas','salasexist'));        
+
+    }
+
+    public function roleclassupdate(Request $request, RoleClass $roleclass){
+
+        $salas = $request->salas;
+        $unidade = $request->input('unidade');
+        $user = $request->input('user');
+
+        $roleclass->where([['user_id',$user],['unidade_id',$unidade]])->delete();
+
+        foreach ($salas as $sala) {
+            $roleclass->create([
+                'user_id' => $user,
+                'unidade_id' => $unidade,
+                'sala' => $sala,
+            ]);
+        }
+
+        return redirect()->back();
     }
 }

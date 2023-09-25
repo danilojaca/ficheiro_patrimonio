@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventario;
 use App\Models\Unidades;
+use App\Models\Edificio;
 use App\Models\Ben;
-use App\Models\RoleUnidades;
 
 class RelatorioController extends Controller
 {
@@ -19,42 +19,43 @@ class RelatorioController extends Controller
     }
     public function index(Request $request)
     {   $_token = NULL;
-        $search = 0;
-        $search1 = 0;
-        $categorias = array("Informatica","Clinico","Mobiliario","Outros");
-        $user_id = auth()->user()->id;
-            
-        $roleunidades = RoleUnidades::where([
-            ['user_id',$user_id]
-        ])->get();
+        $arrayrelatorio = NULL;
 
-        $bens = Ben::all();
-        $relatorios = Inventario::where("unidade_id",$request->input("search"))->orderBy("categoria_id")->get();
-      
-       if ($request->search1 != "" && $request->input("search") != "") {
+        $unidades =  Unidades::all();
+        $edificios =  Edificio::all();
+        $categorias =  Ben::all();
+
+        $allaces = $edificios-> pluck("aces")->toArray();
+        $allaces = array_count_values($allaces);
+        $allaces = array_keys($allaces);
         
-        $relatorios = Inventario::whereIn("categoria_id",$request->search1)->where("unidade_id",$request->input("search"))->orderBy("categoria_id")->get();
-       }elseif ($request->search1 != "") {
+        $quantidadecategoria = $categorias->pluck("categoria")->ToArray();
+        $quantidadecategoria = array_count_values($quantidadecategoria);
+        $dcategoria = array_keys($quantidadecategoria);
 
-        $relatorios = Inventario::whereIn("categoria_id",$request->search1)->orderBy("categoria_id")->get();
-       }
+        $acs = $edificios->where("aces",$request->input("aces"))->pluck("id")->toArray();
+        $acs = $unidades->whereIn("edificio_id",$acs)->pluck("id")->toArray();
+        
+        $centrosaude = $unidades->where("edificio_id",$request->input("edificio"))->pluck("id")->toArray();
+
+        $relatorios = Inventario::whereIn("unidade_id",$centrosaude)->orWhere("unidade_id",$request->input("unidade"))->orWhere("categoria_id",$request->input("categoria"))->orWhereIn("unidade_id",$acs)->paginate(8);
+
         if ($request->input("_token")) {
             $_token = $relatorios->first();
 
-         if ($request->input("search") != "") {
-            $search = $request->input("search");
-         } 
+            $aces = $acs;
+            $aces = implode(",",$aces);            
+            $edificio = $centrosaude;            
+            $edificio = implode(",",$edificio);
+            $unidade = $request->input("unidade");
+            $categoria = $request->input("categoria");
 
-        if (isset($request->search1)) {
-            
-            $search1 = implode(',', $request->search1);            
-            
-         }   
-           
-            
-        }
+            $arrayrelatorio = array($aces,$edificio,$unidade,$categoria);
+            $arrayrelatorio = implode("|",$arrayrelatorio);
+
+         }
         
-        return view("relatorio.index",compact("_token","search","search1","request","relatorios","roleunidades","bens","categorias"));
+        return view("relatorio.index",compact("_token","unidades","edificios","categorias","dcategoria","relatorios","allaces","arrayrelatorio"));
     }
 
     /**

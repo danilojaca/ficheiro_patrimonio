@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('operacao');
             $table->string('ip_remoto');            
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

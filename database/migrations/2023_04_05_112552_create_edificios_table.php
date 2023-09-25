@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('dias_funcionamento');
             $table->string('horarios_funcionamento');
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }

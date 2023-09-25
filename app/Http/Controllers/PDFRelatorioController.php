@@ -11,34 +11,39 @@ use PDF;
 
 class PDFRelatorioController extends Controller
 {
-    public function exportar($unidade_id, $categoria_id){                          
+    public function exportar($arrayrelatorio){                          
         
-        $categoria_id = explode(',', $categoria_id);
+        $arrayrelatorio = explode("|",$arrayrelatorio); 
 
-        if ($unidade_id != 0 && $categoria_id != 0) {
-            $relatorios = Inventario::whereIn('categoria_id', $categoria_id)
-            ->where('unidade_id', $unidade_id)
-            ->orderBy('unidade_id')->orderBy('categoria_id')->get();
-        }
+            $aces = explode(",",$arrayrelatorio[0]);            
+            $edificio = explode(",",$arrayrelatorio[1]);   
+            $unidade = $arrayrelatorio[2];
+            $categoria = $arrayrelatorio[3]; 
+            
+            
 
-        if ($categoria_id != 0) {
-            $relatorios = Inventario::whereIn('categoria_id', $categoria_id)
-            ->orderBy('unidade_id')->orderBy('categoria_id')->get();
-        }
+            $relatorios = Inventario::whereIn("unidade_id",$edificio)->orWhere("unidade_id",$unidade)->orWhere("categoria_id",$categoria)->orWhereIn("unidade_id",$aces)->get();
 
-        if ($unidade_id != 0) {
-            $relatorios = Inventario::where('unidade_id', $unidade_id)
-            ->orderBy('unidade_id')->orderBy('categoria_id')->get();
-           
-        }
-          
+            
 
-       
+          if ($aces[0] != "") {            
+            $n = 0;
+            
+          }elseif ($edificio[0] != "") {
+            $n = 1;
+          }
+          elseif ($unidade != "") {
+            $n = 2;
+          }
+          elseif ($categoria != "") {
+            $n = 3;
+          }     
 
-        $categoria = Ben::all();
+         $categorias = Ben::all();
          $pdf = PDF::loadView('relatorio.pdf',[
          'relatorios' => $relatorios,
-         'categoria' => $categoria,
+         'categorias' => $categorias,
+         'n' => $n,
          ]);
          $pdf->setPaper('a4', 'portrait');
          $pdf->render();

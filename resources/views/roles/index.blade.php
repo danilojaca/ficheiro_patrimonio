@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Funçoes'}}</h1>
+                <h1>{{'Gerencia de Perfil'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
@@ -19,8 +19,9 @@
     </nav>
 </div>
 @if ($message = Session::get('success'))
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show">
         <p>{{ $message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 

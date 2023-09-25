@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('log');
             $table->string('operacao');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

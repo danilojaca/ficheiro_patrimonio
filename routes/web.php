@@ -22,7 +22,7 @@ Auth::routes();
 Route::middleware(['auth'])->resource('formulario', 'App\Http\Controllers\FormularioController');
 Route::middleware(['auth'])->get('pdf/{unidade_id}/{sala}/{centro}/{siie}', 'App\Http\Controllers\PDFController@exportar')
        ->name('formulario.exportar');
-Route::middleware(['auth'])->get('pdfrelatorio/{unidade_id}/{categoria_id}', 'App\Http\Controllers\PDFRelatorioController@exportar')
+Route::middleware(['auth'])->get('pdfrelatorio/{arrayrelatorio}', 'App\Http\Controllers\PDFRelatorioController@exportar')
        ->name('relatorio.exportar');       
 Route::middleware(['auth'])->prefix('/registro')->group(function(){
 Route::resource('inventario', 'App\Http\Controllers\InventarioController');
@@ -38,6 +38,8 @@ Route::middleware(['auth'])->prefix('/registro')->group(function(){
     Route::resource('roles', 'App\Http\Controllers\RoleController');
     Route::resource('users', 'App\Http\Controllers\UserController');
     Route::resource('roleunidades', 'App\Http\Controllers\RoleUnidadesController');
+    Route::get('roles_salas', 'App\Http\Controllers\RoleUnidadesController@roleclass')->name('roleclass');
+    Route::post('roles_salas', 'App\Http\Controllers\RoleUnidadesController@roleclassupdate')->name('roleclassupdate');
     
     });
 

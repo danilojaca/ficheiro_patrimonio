@@ -10,6 +10,7 @@ class RoleUnidades extends Model
 {
     use HasFactory;
     protected $table = 'permission_unidades';
+    public $timestamps = false;
     protected $fillable = [
       'user_id',
       'unidade_id',

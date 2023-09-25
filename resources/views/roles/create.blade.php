@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Grupo'}}</h1>
+                <h1>{{'Gerencia de Perfil'}}</h1>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
@@ -17,13 +17,14 @@
 </div>
 
 @if (count($errors) > 0)
-    <div class="alert alert-danger">
+    <div class="alert alert-danger alert-dismissible fade show">
         <strong>oops!</strong> Houve alguns problemas com sua entrada.<br><br>
         <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
         </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
 
