@@ -6,9 +6,9 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Unidades'}}</h1>
+                <h1>{{'Gestão de Salas'}}</h1>
             </div>
-            <ul class="navbar-nav">      
+            <ul class="navbar-nav">   
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{{ route('roleclass') }}"><i class="bi bi-arrow-clockwise"></i></a>
                 </li>            
@@ -59,7 +59,7 @@ $("#user").change(function(){
      
 });
 </script>
-<form method="POST" action="{{route('roleclassupdate')}}">
+<form method="POST" action="{{route('roleclassupdate')}}" id="salas_form">
  @csrf
     <div class="col-md-2 pt-3">
     @php
@@ -69,15 +69,15 @@ $("#user").change(function(){
     $operador = implode(",",$operador);
 
     @endphp
-    <strong>Operador</strong>
-            <input  type="text" class="form-control" value="{{$operador}}"  readonly>
+    <strong>Utilizador</strong><br>
+            {{$operador}}
     </div>
     <div class="col-md-6 pt-1">
         <strong>Salas</strong>
             <div class="form-check">
                 @foreach ($salas as $key => $value)
-                <input class="form-check-input" type="checkbox" value="{{$key}}" {{(in_array($key, $salasexist)) ? 'checked' : ''}} id="flexCheckDefault" name="salas[]">
-                <label class="form-check-label" for="flexCheckDefault">{{$key}}</label>
+                <input class="form-check-input" type="checkbox" value="{{$key}}" {{(in_array($key, $salasexist)) ? 'checked' : ''}} id="salas" name="salas[]">
+                <label class="form-check-label" for="salas">{{$key}}</label>
                 <br>
                 @endforeach    
             </div>
@@ -85,7 +85,7 @@ $("#user").change(function(){
             <input type="hidden" value="{{$usuario}}" name="user">
     </div>
     <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
+        <button type="submit" class="btn btn-primary">{{"Gravar"}}</button>
     </div>
 </div>
 </form>

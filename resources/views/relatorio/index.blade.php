@@ -6,13 +6,16 @@
     <nav class="navbar navbar-expand-sm ">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{"RELATORIO"}}</h1>
+                <h2>{{"RELATORIO"}}</h2>
             </div>
         </div>
     </nav>
 </div>
 <div class="container-xxl ">
     <div class="row ">
+    <div class="col-md-12 offset-md-3 ">
+                <h6>{{'Clique na Opção de Pesquisa desejada e em seguida seleciona um item para a criação do relatorio'}}</h6> 
+            </div> 
         <div class="col-md-12 p-0">
             <form action="/relatorio" method="GET">
             @csrf            
@@ -51,8 +54,8 @@
                     </div>
                 </div>
                 <div class="col-md-2 pt-4">                
-                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                <a href="{{ route("relatorio.index") }}" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></a> 
+                <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>
+                <a href="{{ route("relatorio.index") }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a> 
                 @can("imprimir")               
                 @if ($_token)
                     <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf"></i></a>      

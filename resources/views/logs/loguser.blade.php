@@ -47,10 +47,10 @@
   <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Usuario</th>
-            <th>Log</th>
-            <th>IP</th>
-            <th>Data e Hora</th>                  
+            <th>{{"Utilizador"}}</th>
+            <th>{{"Log"}}</th>
+            <th>{{"IP"}}</th>
+            <th>{{"Data e Hora"}}</th>                  
         </tr> 
     </thead>                  
     <tbody>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Unidades;
 use App\Models\Edificio;
+use App\Models\Inventario;
 use App\Models\Log;
+use App\Models\RoleUnidades;
 use Illuminate\Http\Request;
 
 class UnidadesController extends Controller
@@ -123,6 +125,17 @@ class UnidadesController extends Controller
      */
     public function destroy(Unidades $unidade)
     {  
+
+        $inventario = Inventario::where('unidade_id',$unidade->id)->pluck('id')->toArray();
+              
+                
+        if (!empty($inventario)) {    
+
+            return redirect()->route('unidade.index')
+            ->with('danger','Unidade Possui Bens Vinculados ');
+      }else{
+        
+        RoleUnidades::where('unidade_id',$unidade->id)->delete();
        
         $unidade->delete();       
 
@@ -134,7 +147,9 @@ class UnidadesController extends Controller
 
         ]);
         return redirect()->route('unidade.index')
-                                ->with('success','Edificio Excluido com Sucesso');
+                                ->with('success','Unidade Excluido com Sucesso');
+        
+      }
 
     }
 

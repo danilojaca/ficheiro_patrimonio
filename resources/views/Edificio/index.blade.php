@@ -5,12 +5,12 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{"EDIFICIOS"}}</h1>
+                <h2>{{"Edificios"}}</h2>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
                 @can("role-create")
-                    <a class="btn btn-primary" href="{{ route("edificio.create") }}"><i class="bi bi-plus-lg"></i></a>
+                    <a class="btn btn-primary" href="{{ route("edificio.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
             </ul>
@@ -32,11 +32,11 @@
     <div class="row g-2"> 
     <form class="row g-2" action="/registro/edificio" method="GET" id="myForm">
        <div class="col-md-3">  
-            <input  type="text" name="search" id="search" class="form-control" placeholder="Filtrar Edificio">
-            <input type="submit" hidden /> 
+            <input  type="text" name="search" id="search" class="form-control" placeholder="Pesquisar Edificio">
         </div>
-        <div class="col-md-4">  
-         <a class="btn btn-primary" href="{{ route("edificio.index") }}"><i class="bi bi-arrow-clockwise"></i></a>
+        <div class="col-md-4">
+        <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>  
+         <a class="btn btn-primary" href="{{ route("edificio.index") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
         </div>    
     </form>
     </div>
@@ -70,12 +70,12 @@
                 <td>{{$edificio->ip_router}}</td>
                 <td>
                 <div class="btn-group">  
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';"><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
 
                 <form method="post" action="{{route("edificio.destroy", ["edificio" => $edificio->id])}}">
                 @method("DELETE")
                 @csrf
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';"><i class="bi bi-trash"></i></button>           
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
                 </form>
                  </div></td> 
                 </tr>  

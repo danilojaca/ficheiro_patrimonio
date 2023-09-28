@@ -5,12 +5,12 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{"Categorias"}}</h1>
+                <h2>{{"Categorias"}}</h2>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
                 @can("role-create")
-                    <a class="btn btn-primary" href="{{ route("bens.create") }}"><i class="bi bi-plus-lg"></i></a>
+                    <a class="btn btn-primary" href="{{ route("bens.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
             </ul>
@@ -42,11 +42,11 @@
          <td>{{$ben->categoria}}</td>
          <td>{{$ben->sub_categoria}}</td>
          <td><div class="btn-group">             
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.edit', ['ben' => $ben->id])}}';"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.edit', ['ben' => $ben->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
             <form  method="post" action="{{route("bens.destroy", ["ben" => $ben->id])}}">
             @method("DELETE")
             @csrf
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';"><i class="bi bi-trash"></i></button>           
+            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
             </form>
             </div> </td> 
             </tr>  

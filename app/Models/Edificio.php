@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Edificio extends Model
 {
     use HasFactory,SoftDeletes;
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'id_spms',
         'id_siie',

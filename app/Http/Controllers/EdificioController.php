@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Edificio;
 use Illuminate\Http\Request;
 use App\Models\Log;
+use App\Models\Unidades;
 
 class EdificioController extends Controller
 {
@@ -132,7 +133,16 @@ class EdificioController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Edificio $edificio)
-    {
+    {   
+        $unidade = Unidades::where('edificio_id',$edificio->id)->pluck('id')->toArray();
+
+        
+        if (!empty($unidade)) {    
+
+            return redirect()->route('unidade.index')
+            ->with('danger','Edificio Possui Unidades Vinculados ');
+      }else {
+        
         
         $edificio->delete();
 
@@ -145,6 +155,7 @@ class EdificioController extends Controller
         ]);
         return redirect()->route('edificio.index')
                                 ->with('success','Edificio Excluido com Sucesso');
+      }
     }
 
     protected function validateLogin(Request $request)

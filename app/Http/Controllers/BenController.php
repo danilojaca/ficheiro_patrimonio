@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ben;
 use App\Models\Log;
+use App\Models\Inventario;
 use Illuminate\Http\Request;
 
 class BenController extends Controller
@@ -109,6 +110,14 @@ class BenController extends Controller
      */
     public function destroy(Ben $ben)
     {
+
+        $inventario = Inventario::where('categoria_id',$ben->id)->pluck('id')->toArray();
+       
+        if (!empty($inventario)) {    
+
+            return redirect()->route('bens.index')
+            ->with('danger','Categoria Possui Bens Vinculados ');
+      }else{
         $ben->delete();
         
         //Log de Ação
@@ -120,6 +129,7 @@ class BenController extends Controller
             ]);  
         return redirect()->route('bens.index')
                             ->with('success','Categoria Excluido com Sucesso');
+        }
     }
 
     protected function validateLogin(Request $request)

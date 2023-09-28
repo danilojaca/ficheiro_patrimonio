@@ -10,6 +10,7 @@ class Formulario extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'inventarios';
+    protected $dates = ['deleted_at'];
     
     public function Edificio(){
 

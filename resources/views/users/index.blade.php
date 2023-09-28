@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">              
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gerencia de Usuarios'}}</h1>
+                <h1>{{'Gestão de Utilizador'}}</h1>
             </div>
         </div>
     </nav>

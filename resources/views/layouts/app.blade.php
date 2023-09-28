@@ -27,15 +27,19 @@
         <nav class="navbar  bg-primary fixed-top">
             @guest
                 <a class="navbar-brand navbar-dark m-auto" >
-                    {{'Bem Vindo'}}
+                    {{'Bem Vindo À Gestão de Bens Imóveis e Património'}}
                 </a>
             @endguest
             @auth
                 <div class="container-fluid">
-                    <a class="navbar-brand navbar-dark" href="{{ url('/') }}"><i class="bi bi-house"></i></a>
-                        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <a class="navbar-brand navbar-dark" href="{{ url('/') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagina Inicial"><i class="bi bi-house"></i></a>
+                    <a class="navbar-brand navbar-dark m-auto" >
+                    {{'Gestão de Bens Imóveis e Património'}}
+                        </a>
+                        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" data-bs-toggle="tooltip" data-bs-placement="top" title="Menu">
                             <span class="navbar-toggler-icon"></span>
                         </button>
+                        
                     <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ Auth::user()->name }}</h5>
@@ -80,15 +84,16 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('relatorio.index') }}">{{'Relatorios'}}</a>
                                 </li>
                                 @endcan
+                                @can('role-list')
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{'Permissoes'}}
                                     </a>
                                     <ul class="dropdown-menu">
-                                     @can('role-list')
-                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
+                                     @can('role-create')
+                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Utilizadores') }}</a></li>
                                      @endcan
-                                     @can('role-list')    
+                                     @can('role-create')    
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Perfis') }}</a></li>
                                      @endcan 
                                      @can('role-class')   
@@ -97,7 +102,7 @@
                                         
                                     </ul>
                                 </li>
-                                   
+                                @endcan    
                                 @can('logs')                               
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,7 +116,7 @@
                                 </li>
                                 @endcan
                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#" onclick="openWin()"><i class="bi bi-map"></i> {{'Plantas'}}</a>
+                                    <a class="nav-link active" aria-current="page" href="#" onClick="window.parent.location.href ='file://srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF ;'" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
                                 </li>                               
                             </ul>      
                         </div>
@@ -129,7 +134,7 @@
 <script>
 
 function openWin() {
-  myWindow = window.open("file:///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
+  myWindow = window.open("/srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
  
 }
 </script>

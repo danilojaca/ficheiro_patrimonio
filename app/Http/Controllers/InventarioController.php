@@ -56,7 +56,7 @@ class InventarioController extends Controller
 
             $inventarios = $inventario->orderBy("unidade_id")->orderBy("sala")->paginate(10);
         }
-        return view("Inventario.index", compact("inventarios","salas") );
+        return view("Inventario.index", compact("inventarios","salas","search") );
     }
 
     /**
@@ -93,7 +93,7 @@ class InventarioController extends Controller
 
         $unidades = $request->input("unidade_id");
 
-    $inventario =  Inventario::create([$request->all()]);
+    $inventario =  Inventario::create($request->all());
     
     //Log de Ação 
         $unidade = Unidades::where("id", $unidades)->first();     

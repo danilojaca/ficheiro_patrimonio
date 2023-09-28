@@ -29,20 +29,21 @@ class FormularioController extends Controller
             ['user_id',$user_id]
         ])->get();
 
-         
-        
         if($request->input('_token') != ''){
-
-        $this->validateLogin($request);
-
+           
+            $this->validateLogin($request);
+            
         }
         
-        $search = $request->input('search');
-        $search1 = $request->input('search1');  
+        
+        
+        $search = $request->input('unidade');
+        $search1 = $request->input('sala');  
         $centro = ''; 
         $siie = '';
         $sala = '';
         $unidade = '';
+        $salas = array();
 
 
         $inventarios = Formulario::where([
@@ -55,7 +56,12 @@ class FormularioController extends Controller
         
         ])->get();
 
-       
+        if(isset($search)){
+            $salas = Formulario::where('unidade_id',$search)->pluck('sala')->toArray();
+            $salas = array_count_values($salas);
+            
+            
+    }
 
         foreach ($inventarios as $inventario) {
         
@@ -72,7 +78,7 @@ class FormularioController extends Controller
             $sala = $inventario->sala;            
         }
     }
-        return view('formulario',compact('unidade','centro_edificio_id','centro_edificio','inventarios','siie','centro','search', 'search1', 'sala','roleunidades')); 
+        return view('formulario',compact('unidade','centro_edificio_id','centro_edificio','inventarios','siie','centro','search', 'search1', 'sala','roleunidades','salas')); 
     }
 
     /**
@@ -126,12 +132,12 @@ class FormularioController extends Controller
     protected function validateLogin(Request $request)
     {
         $regras = [
-            'search1' => 'required',
-            'search' => 'required',
+            'sala' => 'required',
+            'unidade' => 'required',
         ];
         $feedback = [ 
-            'search.required'=>'Campo Centro de Saude Obrigatorio',
-            'search1.required'=>'Campo Sala Obrigatorio',    
+            'unidade.required'=>'Campo Centro de Saude Obrigatorio',
+            'sala.required'=>'Campo Sala Obrigatorio',    
         ];
 
         $request->validate($regras,$feedback); 

@@ -15,6 +15,7 @@ class Unidades extends Model
         
     ];
 
+    protected $dates = ['deleted_at'];
     public function Edificio(){
 
         return $this->belongsTo('App\Models\Edificio');

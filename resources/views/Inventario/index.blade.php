@@ -5,17 +5,17 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{"Bens"}}</h1>
+                <h2>{{"Bens Imóveis e Património"}}</h2>
             </div>
-            <ul class="navbar-nav g-3">      
-                <li class="nav-item">
+            <ul class="navbar-nav ">      
+                <li class="nav-item p-1">
                 @can("inventariomultiplos")
-                    <a class="btn btn-primary" href="{{ route("inventariomultiplos.create") }}"><i class="bi bi-plus-circle-dotted"></i></a>
+                    <a class="btn btn-primary" href="{{ route("inventariomultiplos.create") }}"><i class="bi bi-plus-circle-dotted" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar Multiplos"></i></a>
                 @endcan
                 </li> 
-                <li class="nav-item">
+                <li class="nav-item p-1">
                 @can("role-create")
-                    <a class="btn btn-primary" href="{{ route("inventario.create") }}"><i class="bi bi-plus-lg"></i></a>
+                    <a class="btn btn-primary" href="{{ route("inventario.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>
             </ul>            
@@ -36,13 +36,13 @@
     @endif
 <div class="container pb-2">    
     <div class="row g-2" >
-        <form  class="row g-2" action="/registro/inventario" method="GET">
+        <form  class="row g-2" action="/registro/inventario" method="GET" id="search_form">
         <div class="col-md-4">  
-            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Filtrar Unidade , N Inventario ou Categoria">            
-            <input type="submit" hidden />           
+            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Pesquisar Unidade , N Inventario ou Categoria" >        
         </div> 
-        <div class="col-md-4">  
-         <a class="btn btn-primary" href="{{ route("inventario.index") }}"><i class="bi bi-arrow-clockwise"></i></a>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>
+         <a class="btn btn-primary" href="{{ route("inventario.index") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
         </div>      
         </form>    
     </div>
@@ -78,13 +78,13 @@
                     @foreach ( $salas as $sala => $unidade)
                         @if ($inventario->unidade->id == $unidade && $inventario->sala == $sala)
                             @can("inventario-edit")
-                                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
                             @endcan
                             @can("inventario-delete")
                                 <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
                                 @method("DELETE")
                                 @csrf
-                                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>
                                 </form>               
                             @endcan
                         @endif

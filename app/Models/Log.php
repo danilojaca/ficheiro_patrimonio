@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Log extends Model
 {
     use HasFactory,SoftDeletes;
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'user_id',
         'log',

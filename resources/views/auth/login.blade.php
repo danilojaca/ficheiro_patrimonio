@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container p-5">
+<nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">               
+            <div class="container navbar-nav justify-content-center">
+                <p>A aplicação foi concebida com o objetivo de modernizar e simplificar o processo de inventariação e gestão dos nossos edifícios e salas.</p>
+            </div>   
+        </div>
+    </nav>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -14,7 +21,7 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Usuario') }}</label>
+                            <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Utilizador') }}</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
@@ -41,7 +48,7 @@
                             </div>
                         </div>
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-8 offset-md-6">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
