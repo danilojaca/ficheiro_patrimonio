@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('salas', function (Blueprint $table) {
             $table->id();
-            $table->string('salas');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('sala');
+            $table->unsignedBigInteger('unidade_id')->nullable();
+            $table->unsignedBigInteger('edificio_id');
+            $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->foreign('edificio_id')->references('id')->on('edificios');
         });
     }
 

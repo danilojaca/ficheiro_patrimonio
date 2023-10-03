@@ -10,7 +10,7 @@
             </div>
             <ul class="navbar-nav">   
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ route('roleclass') }}"><i class="bi bi-arrow-clockwise"></i></a>
+                    <a class="btn btn-primary" href="{{ route('roleclass') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
                 </li>            
             </ul>
         </div>
@@ -18,7 +18,6 @@
 </div>
 @if (count($errors) > 0)
     <div class="alert alert-danger alert-dismissible fade show">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
         <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -59,7 +58,7 @@ $("#user").change(function(){
      
 });
 </script>
-<form method="POST" action="{{route('roleclassupdate')}}" id="salas_form">
+<form method="POST" action="{{route('roleclassupdate')}}" id="sala_form">
  @csrf
     <div class="col-md-2 pt-3">
     @php
@@ -69,24 +68,26 @@ $("#user").change(function(){
     $operador = implode(",",$operador);
 
     @endphp
-    <strong>Utilizador</strong><br>
-            {{$operador}}
+    <strong>Utilizador</strong> : <strong>{{$operador}}</strong>    
     </div>
-    <div class="col-md-6 pt-1">
-        <strong>Salas</strong>
-            <div class="form-check">
+    <span>Selecione as salas Permitidas para o Utilizador</span>
+    <div class="container-fluid pt-1">
+        <strong>Salas</strong><br>
                 @foreach ($salas as $key => $value)
-                <input class="form-check-input" type="checkbox" value="{{$key}}" {{(in_array($key, $salasexist)) ? 'checked' : ''}} id="salas" name="salas[]">
-                <label class="form-check-label" for="salas">{{$key}}</label>
-                <br>
+                <input type="checkbox" class="btn-check" id="{{$key}}" name="salas[]" {{(in_array($key, $salasexist,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $key }}" onchange="document.getElementById('sala_form').submit()">
+            <label class="btn btn-outline-secondary" for="{{$key}}">{{ $key }}</label> 
+                
                 @endforeach    
             </div>
             <input type="hidden" value="{{$id_unidade}}" name="unidade">
             <input type="hidden" value="{{$usuario}}" name="user">
-    </div>
-    <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">{{"Gravar"}}</button>
-    </div>
 </div>
 </form>
+<script>
+$(document).ready(function(){
+    $("#sala_form").on("change", "input:checkbox", function(){
+        $("#sala_form").submit();
+    });
+});
+</script>
 @endsection

@@ -39,13 +39,13 @@
             <input type="text" class="form-control" name="name" placeholder="Nome" value="{{$role->name}}" >
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>{{"Permissão:"}}</strong>
+    <div class="col-xs-12 col-sm-12 col-md-12 pt-2">
+        <strong>{{"Permissão:"}}</strong>
             <br/>
-            @foreach($permission as $value)
-            <input class="form-check-input" type="checkbox" value="{{$value->id}}" name="permission[]" {{(in_array($value->id, $rolePermissions)) ? 'checked' : ''}}><label>{{ $value->name }}</label>
-            <br/>
+        <div class="form-group pt-2">
+            @foreach($permission as $value)            
+            <input type="checkbox" class="btn-check" id="{{$value->id}}" name="permission[]" {{(in_array($value->id, $rolePermissions,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $value->id }}" onchange="document.getElementById('sala_form').submit()">
+            <label class="btn btn-outline-secondary" for="{{$value->id}}">{{ $value->name }}</label> 
             @endforeach
         </div>
     </div>

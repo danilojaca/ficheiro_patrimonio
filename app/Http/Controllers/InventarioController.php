@@ -7,6 +7,7 @@ use App\Models\Ben;
 use App\Models\Edificio;
 use App\Models\Log;
 use App\Models\RoleUnidades;
+use App\Models\Sala;
 use App\Models\RoleClass;
 use App\Models\Unidades;
 use App\Models\Conservacao;
@@ -62,30 +63,44 @@ class InventarioController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        
+        $centro_edificio =NULL;
+        $centro_edificio_id = NULL;
+        $unidade_id = NULL;
+        $salas = NULL;
+
+        //Categorias
         $quantidadecategoria = Ben::pluck("categoria")->ToArray();
         $quantidadecategoria = array_count_values($quantidadecategoria);
-        $categorias = array_keys($quantidadecategoria);
-        //dd($categorias);
+        $categorias = array_keys($quantidadecategoria);        
         $conservacao = Conservacao::pluck('conservacao')->toArray();
-        $centro_edificio = "";
-        $centro_edificio_id = "";
-        $user_id = auth()->user()->id;
         
-        
+
+        //Unidade Liberadas para o Utilizador
+        $user_id = auth()->user()->id;               
         $bens = Ben::all();
         $roleunidades = RoleUnidades::where([
             ["user_id",$user_id]
         ])->get();
-        return view("Inventario.create",compact("conservacao","categorias","bens","roleunidades","centro_edificio_id","centro_edificio"));
+
+        //Salas da Unidade
+        if(!empty($request->input('unidade'))){
+        $unidade_id = $request->input('unidade');
+        $salas = Sala::where('unidade_id',$unidade_id)->pluck('sala')->toArray();
+            
+        }
+
+        return view("Inventario.create",compact("conservacao","categorias","bens","roleunidades","centro_edificio_id","centro_edificio","unidade_id","salas"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {          
+    {     
+             
         if($request->input("_token") != ""){
 
             $this->validateLogin($request);

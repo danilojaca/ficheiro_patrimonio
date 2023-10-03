@@ -18,23 +18,46 @@
     </nav>
 </div>
 <div class="container">
-         <form class="row g-3" action="{{route('inventario.store')}}" method='POST' >
-        @csrf
-  <div class="col-md-7">   
-        <label  class="form-label">{{"Centro de Saude"}}</label>    
-      <select class="form-select @error('unidade_id') is-invalid @enderror" name="unidade_id" aria-label="Default select example" >
-                    <option data-default disabled selected >{{"Selecione o Edificio"}}</option>
+  <form action="/registro/inventario/create" method="GET" id="unidade_id_form">      
+  <div class="col-md-12">   
+        <label  class="form-label">{{"Unidade de Saude"}}</label>    
+      <select class="form-select @error('unidade') is-invalid @enderror" name="unidade" id="unidade" aria-label="Default select example" >
+                    <option data-default disabled selected >{{"Selecione a Unidade"}}</option>
                     @foreach ($roleunidades as $roleunidade)
-                    <option value="{{$roleunidade->unidade_id}}" {{$roleunidade->unidade_id == old("unidade_id") ? 'selected' : ''}}>{{$roleunidade->unidade->unidade}} | {{$roleunidade->unidade->edificio->edificio}}</option>
+                    <option value="{{$roleunidade->unidade_id}}" {{$roleunidade->unidade_id == $unidade_id ? 'selected' : ''}}>{{$roleunidade->unidade->unidade}} | {{$roleunidade->unidade->edificio->edificio}}</option>
                     @endforeach 
                   </select>              
-                  @error('unidade_id')
+                  @error('unidade')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
         </span>
       @enderror
   </div>
-  <div class="col-md-4"> 
+  </form>
+<script>
+$("#unidade").change(function(){
+    $("#unidade_id_form").submit();     
+});
+</script>
+@if(!empty($unidade_id))
+    <form class="row g-3" action="{{route('inventario.store')}}" method='POST' >
+      @csrf
+    <input type="hidden" name="unidade_id" value="{{$unidade_id}}">  
+    <div class="col-md-3">
+      <label  class="form-label ">{{"Sala"}}</label>
+      <select class="form-select @error('sala') is-invalid @enderror" name="sala" id="sala" aria-label="Default select example" >
+              <option data-default disabled selected >{{"Selecione a Sala"}}</option>
+                    @foreach ($salas as $sala)
+                    <option value="{{$sala}}">{{$sala}}</option>
+                    @endforeach 
+                  </select>
+      @error('sala')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+      @enderror
+  </div>
+    <div class="col-md-4"> 
       <label  class="form-label">{{"Categoria"}}</label>   
        <select class="form-select @error('categoria_id') is-invalid @enderror" name="categoria_id" aria-label="Default select example">
                     <option data-default disabled selected>{{"Selecione a Categoria"}}</option>
@@ -54,25 +77,16 @@
         </span>
       @enderror
     </div>
-    <div class="col-md-1">
-    <label  class="form-label ">{{"Sala"}}</label>
-    <input type="text" name='sala' class="form-control @error('sala') is-invalid @enderror" value="{{ old('sala')}}" >
-      @error('sala')
-        <span class="invalid-feedback" role="alert">
-          <strong>{{ $message }}</strong>
-        </span>
-      @enderror
-  </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
     <label  class="form-label ">{{"Modelo"}}</label>
-    <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo')}}" placeholder="Apenas Itens Informaticos">
+    <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo')}}" >
       @error('modelo')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
         </span>
       @enderror
   </div>
-  <div class="col-2">
+  <div class="col-md-2">
     <label class="form-label ">{{"Nº Inventariado"}}</label>
     <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{ old('n_inventario')}}" >
       @error('n_inventario')
@@ -81,16 +95,16 @@
         </span>
       @enderror
   </div>
-  <div class="col-3">
+  <div class="col-md-3">
     <label class="form-label ">{{"Nº Serie"}}</label>
-    <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{ old('n_serie')}}" placeholder="Apenas Itens Informaticos" >
+    <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{ old('n_serie')}}" >
       @error('n_serie')
         <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
         </span>
       @enderror
   </div> 
-      <div class="col-md-2"> 
+      <div class="col-md-3"> 
     <label  class="form-label">{{"Bem Inventariado"}}</label>   
       <select class="form-select @error('bem_inventariado') is-invalid @enderror" name="bem_inventariado" id="floatingSelectGrid" aria-label="Default select example">
         <option data-default disabled selected>{{"Selecione uma Opção"}}</option>
@@ -103,7 +117,7 @@
         </span>
       @enderror
   </div>
-      <div class="col-md-3"> 
+      <div class="col-md-4"> 
     <label  class="form-label">{{"Estado de Conservação"}}</label>   
       <select class="form-select @error('conservacao') is-invalid @enderror" name="conservacao" id="floatingSelectGrid" aria-label="Default select example">
         <option data-default disabled selected>{{"Selecione o Estado de Conservação"}}</option>
@@ -124,5 +138,6 @@
     <button type="submit" class="btn btn-primary">{{"Cadastrar"}}</button>     
   </div>
 </form>
+@endif
  </div>
 @endsection

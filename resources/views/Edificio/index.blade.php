@@ -77,6 +77,7 @@
                 @csrf
                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
                 </form>
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.salas', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
                  </div></td> 
                 </tr>  
             @endforeach

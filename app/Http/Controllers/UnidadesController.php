@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Unidades;
 use App\Models\Edificio;
 use App\Models\Inventario;
+use App\Models\Sala;
 use App\Models\Log;
 use App\Models\RoleUnidades;
 use Illuminate\Http\Request;
@@ -166,5 +167,40 @@ class UnidadesController extends Controller
         ];
 
     $request->validate($regras,$feedback); 
+    }
+
+    protected function salas($unidade)
+    {
+        $edificio_id = Unidades::where('id',$unidade)->get();
+        $edificio_id = $edificio_id->first();
+       
+        $edificio = $edificio_id->edificio_id;        
+    
+
+        $salas = Sala::where('edificio_id',$edificio_id->edificio_id)->orderBy('sala')->pluck('sala')->toArray();
+
+        $salasativas = Sala::where('unidade_id',$unidade)->pluck('sala')->toArray();
+
+
+        return view('salas.salaunidade',compact('salas','salasativas','unidade','edificio'));
+    }
+
+    protected function salasupdate($unidade,$edificio_id, Request $request,Sala $salas)
+    {
+     $salas->where('unidade_id',$unidade)->update([
+        'unidade_id' => NULL
+    ]); 
+    
+    $salas->where([['edificio_id',$edificio_id]]);
+    $sala = $salas->whereIn('sala',$request->salas)->get();
+
+    
+    foreach ($sala as $value) {                     
+    $value->update([
+            'unidade_id' => $unidade
+    ]);
+    }
+
+        return redirect()->back();
     }
 }

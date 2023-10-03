@@ -34,9 +34,6 @@ class FormularioController extends Controller
             $this->validateLogin($request);
             
         }
-        
-        
-        
         $search = $request->input('unidade');
         $search1 = $request->input('sala');  
         $centro = ''; 
@@ -78,7 +75,7 @@ class FormularioController extends Controller
             $sala = $inventario->sala;            
         }
     }
-        return view('formulario',compact('unidade','centro_edificio_id','centro_edificio','inventarios','siie','centro','search', 'search1', 'sala','roleunidades','salas')); 
+        return view('formulario.formulario',compact('unidade','centro_edificio_id','centro_edificio','inventarios','siie','centro','search', 'search1', 'sala','roleunidades','salas')); 
     }
 
     /**

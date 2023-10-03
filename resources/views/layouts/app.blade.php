@@ -7,8 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Ficheiro de Patrimonio</title>
-    <link rel="icon" type="images/x-icon" href="img/sns.png" />
+    <title>Gestão de Bens Imóveis e Património</title>
+    <link rel="preload" type="images/x-icon" href="img/sns.png" />
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -116,7 +116,7 @@
                                 </li>
                                 @endcan
                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#" onClick="window.parent.location.href ='file://srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF ;'" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
+                                    <a class="nav-link active" aria-current="page" href="file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
                                 </li>                               
                             </ul>      
                         </div>
@@ -131,11 +131,4 @@
     </div>
      
 </body>
-<script>
-
-function openWin() {
-  myWindow = window.open("/srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF/", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=700");
- 
-}
-</script>
 </html>

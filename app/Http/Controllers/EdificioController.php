@@ -6,6 +6,7 @@ use App\Models\Edificio;
 use Illuminate\Http\Request;
 use App\Models\Log;
 use App\Models\Unidades;
+use App\Models\Sala;
 
 class EdificioController extends Controller
 {
@@ -179,5 +180,37 @@ class EdificioController extends Controller
         ];
 
     $request->validate($regras,$feedback); 
+    }
+    public function salas(Edificio $edificio)
+    {
+        $centro = $edificio->edificio;
+        $edificio_id = $edificio->id;
+        $salas = Sala::where('edificio_id',$edificio->id)->orderBy('sala')->get();
+
+
+        return view('salas.salaedificio',compact('centro','salas','edificio_id'));
+      
+    }
+    public function salaupdate(Request $request,Sala $salas)
+    {
+        $salas->create([
+            'sala' => $request->input('sala'),
+            'edificio_id' => $request->input('edificio_id'),
+            'unidade_id' => NULL
+
+        ]);
+
+
+        return redirect()->back();
+      
+    }
+    public function saladelete(Sala $sala)
+    {
+        
+        $sala->delete();
+
+
+        return redirect()->back();
+      
     }
 }

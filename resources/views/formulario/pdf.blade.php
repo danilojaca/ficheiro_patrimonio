@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
         <style>
             table, td,th{border-collapse:collapse;font-size: 12px;text-align: center;}
+            th{background-color: #87CEFA}
             .table{border-collapse:collapse;margin-left: auto;margin-right: auto;}
             .table-bordered td,.table-bordered th{border:2px solid black}
             .container{padding: 50px 0px 0px 0px;display: flex;flex-direction: row;justify-content: center;align-items: center;}
@@ -13,24 +14,38 @@
         </style>
     </head>
     <body>
-    
         <div class="container-top">
             <img src="img/sns-ars.png" >
         </div>
-        <div class="container">             
+        <div class="container-fluid">             
             <table class="table table-bordered">
-                <thead> 
+                <thead>
                     <tr>
-                        <th>{{"SIIE edificio Origem"}}</th>
-                        <td>{{$siie}}</td>
-                        <td rowspan="2" colspan="2" style="width:330px;">{{$unidade}} | {{$centro}} </td>
+                        <th colspan="4" style="width:550px;">{{"Administração Regional de Saude do Algarve, Folha de Cadastro de Bens Móveis"}}</th>
                     </tr>
                     <tr>
-                        <th >{{"Codigo Sala Origem"}}</th>
-                        <td >{{$sala}}</td>
-                    </tr>                                                              
+                        <th colspan="3">{{"Aces"}}</th>
+                        <th colspan="1">{{"Designação"}}</th>
+                    </tr>
                     <tr>
-                        <th colspan="4">{{"Contagem de Nº Ordem"}}</th>
+                        <td colspan="3" style="width:330px;"> {{$aces}} </td>
+                        <td>{{"Sala Origem"}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">{{"Nome do Edificio"}}</th>
+                        <th colspan="1">{{"SIIE edificio Origem"}}</th>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="width:330px;"> {{$centro}} </td>
+                        <td>{{$siie}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">{{"Unidade Funcional"}}</th>
+                        <th colspan="1">{{"Codigo Sala Origem"}}</th>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="width:330px;"> {{$unidade}} </td>
+                        <td >{{$sala}}</td>
                     </tr>
                     <tr>
                         <th style="width:260px;">{{"Designação Bem"}}</th>
@@ -54,8 +69,8 @@
     <script type="text/php">
     if ( isset($pdf) ) {
         $pdf->page_text(270, 810, "Pagina: {PAGE_NUM} de {PAGE_COUNT}", "helvetica", 10, array(0,0,0));
-        $pdf->page_text(10, 795, "Elaborado por {{auth()->user()->name}}", "helvetica", 10, array(0,0,0));
-        $pdf->page_text(10, 810, "{{date ('d-m-Y')}} ", "helvetica", 10, array(0,0,0));
+        $pdf->page_text(20, 795, "Elaborado por {{auth()->user()->name}}", "helvetica", 10, array(0,0,0));
+        $pdf->page_text(20, 810, "{{date ('d-m-Y')}} ", "helvetica", 10, array(0,0,0));
     }
     </script>
       

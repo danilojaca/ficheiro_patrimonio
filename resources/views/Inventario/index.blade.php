@@ -84,7 +84,7 @@
                                 <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
                                 @method("DELETE")
                                 @csrf
-                                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.destroy', ['inventario' => $inventario->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>
                                 </form>               
                             @endcan
                         @endif

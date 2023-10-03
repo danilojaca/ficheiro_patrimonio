@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RoleUnidades;
 use App\Models\Unidades;
 use App\Models\User;
+use App\Models\Sala;
 use App\Models\RoleClass;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
@@ -67,20 +68,45 @@ class RoleUnidadesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id, RoleUnidades $roleUnidades)    {
-        
-    $unidades = $request->input('edificio_id');
+    public function update(Request $request, $id, RoleUnidades $roleUnidades)  
+    {
+        //Excluir Permissões de Unidades 
+        $roleUnidades->where([
+            ['user_id',$id],        
+            ])->delete(); 
+        //
+        $unidades = $request->unidade_id;
+        //Excluir Permissões de Salas Das Unidades Retiradas
+        RoleClass::where('user_id',$id)->whereNotIn('unidade_id',$unidades)->delete(); 
+        //
+        foreach ($unidades as $unidade) {
+            //Criar Permissões de Unidades    
+            $roleUnidades->create([
+                'unidade_id' => $unidade,
+                'user_id' => $id,
+            ]);
+            //
 
-    $roleUnidades->where([
-        ['user_id',$id],        
-        ])->delete(); 
-
-    foreach ($unidades as $unidade) {
-    $roleUnidades->create([
-        'unidade_id' => $unidade,
-        'user_id' => $id,
-    ]);
-}     
+            //Criar Permissões de Salas para Unidades Selecionadas
+            $unidade_id = RoleClass::where([
+                ['user_id',$id],
+                ['unidade_id',$unidade]
+            ])->pluck('unidade_id')->toArray();
+            $unidade_id = array_count_values($unidade_id);
+            $unidade_id = array_key_first($unidade_id);
+                if (!$unidade_id == $unidade) { 
+                    $salas = Sala::where('unidade_id',$unidade)->pluck('sala')->toArray();
+                    foreach ($salas as $sala) {      
+                        RoleClass::create([
+                            'user_id' => $id,
+                            'unidade_id' => $unidade,
+                            'sala' => $sala,
+                        ]);
+                    }
+                }
+            
+        }    
+     
     
         return redirect()->route('users.index')
                         ->with('success','Regra Atualizada com Sucesso');
@@ -99,7 +125,7 @@ class RoleUnidadesController extends Controller
 
     {   
         $salas = array();
-        $id_unidade = "";
+        $id_unidade = NULL;
         $users = array();
         $user_id = auth()->user()->id;
         $unidades =  RoleUnidades::where('user_id',$user_id)->get();
@@ -109,7 +135,7 @@ class RoleUnidadesController extends Controller
         }
         $usuario = $request->input('user');
         if (isset($usuario)) {            
-            $salas = Inventario::where('unidade_id',$id_unidade)->pluck('sala')->toArray();
+            $salas = Sala::where('unidade_id',$id_unidade)->pluck('sala')->toArray();
             $salas = array_count_values($salas);
         } 
         

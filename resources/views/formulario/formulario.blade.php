@@ -69,7 +69,7 @@ $("#unidade").change(function(){
                         <a href="{{ route("formulario.index") }}" class="btn btn-primary" data-bs-toggle="tooltip"  title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>                
                         @can("imprimir") 
                         @if ($centro != "")
-                            <a href="{{ route("formulario.exportar", ["unidade_id" => $search, "sala" => $search1 , "centro" => $centro, "siie" => $siie]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf"></i></a>      
+                            <a href="{{ route("formulario.exportar", ["unidade_id" => $search, "sala" => $search1 , "centro" => $centro, "siie" => $siie]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf" data-bs-toggle="tooltip" data-bs-placement="top" title="Imprimir"></i></a>      
                         @endif
                         @endcan
                     </div>    

@@ -27,8 +27,13 @@ Route::middleware(['auth'])->get('pdfrelatorio/{arrayrelatorio}', 'App\Http\Cont
 Route::middleware(['auth'])->prefix('/registro')->group(function(){
 Route::resource('inventario', 'App\Http\Controllers\InventarioController');
 Route::resource('edificio', 'App\Http\Controllers\EdificioController');
+Route::get('edificio/salas/{edificio}', 'App\Http\Controllers\EdificioController@salas')->name('edificio.salas');
+Route::post('edificio/salas', 'App\Http\Controllers\EdificioController@salaupdate')->name('edificio.salaupdate');
+Route::delete('edificio/salas/{sala}', 'App\Http\Controllers\EdificioController@saladelete')->name('edificio.saladelete');
 Route::resource('bens', 'App\Http\Controllers\BenController');
 Route::resource('unidade', 'App\Http\Controllers\UnidadesController');
+Route::get('unidade/salas/{unidade}', 'App\Http\Controllers\UnidadesController@salas')->name('unidade.salas');
+Route::patch('unidade/salas/{unidade}/{edificio_id}', 'App\Http\Controllers\UnidadesController@salasupdate')->name('unidade.salasupdate');
 Route::resource('inventariomultiplos', 'App\Http\Controllers\InventarioMultiplosController');
 });
 Route::middleware(['auth'])->resource('logs', 'App\Http\Controllers\LogController');
