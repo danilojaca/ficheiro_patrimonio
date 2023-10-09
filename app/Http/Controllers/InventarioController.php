@@ -20,10 +20,10 @@ class InventarioController extends Controller
      */
     function __construct(Inventario $inventario)
     {
-         $this->middleware("permission:inventario-list|inventario-create|inventario-edit|inventario-delete", ["only" => ["index","store"]]);
-         $this->middleware("permission:inventario-create", ["only" => ["create","store"]]);
-         $this->middleware("permission:inventario-edit", ["only" => ["edit","update"]]);
-         $this->middleware("permission:inventario-delete", ["only" => ["destroy"]]);
+         $this->middleware("permission:visualizar-inventario", ["only" => ["index"]]);
+         $this->middleware("permission:criar-inventario", ["only" => ["create","store"]]);
+         $this->middleware("permission:editar-inventario", ["only" => ["edit","update"]]);
+         $this->middleware("permission:excluir-inventario", ["only" => ["destroy"]]);
         
     }
 
@@ -135,8 +135,10 @@ class InventarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Inventario $inventario)
+    public function edit(Inventario $inventario,Request $request)
     {
+        
+
         $quantidadecategoria = Ben::pluck("categoria")->ToArray();
         $quantidadecategoria = array_count_values($quantidadecategoria);
         $categorias = array_keys($quantidadecategoria);
@@ -147,8 +149,18 @@ class InventarioController extends Controller
         ])->get();
 
         $conservacao = Conservacao::pluck('conservacao')->toArray();
-        //dd( $conservacao);
-        return view("Inventario.edit", compact("conservacao","categorias","inventario", "bens", "roleunidades"));
+
+        //Salas da Unidade
+        $unidade_id = $inventario->unidade_id;
+        $salas = Sala::where('unidade_id',$unidade_id)->pluck('sala')->toArray();
+
+        if(!empty($request->input('unidade'))){
+            $unidade_id = $request->input('unidade');
+            $salas = Sala::where('unidade_id',$unidade_id)->pluck('sala')->toArray();
+                
+            }
+
+        return view("Inventario.edit", compact("conservacao","categorias","inventario", "bens", "roleunidades","unidade_id","salas"));
     }
 
     /**

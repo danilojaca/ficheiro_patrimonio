@@ -42,8 +42,8 @@
             <strong>{{"Permissão:"}}</strong>
             <br/>
             @foreach($permission as $value)
-            <input class="form-check-input" type="checkbox" value="{{$value->id}}" name="permission[]"><label>{{ $value->name }}</label>
-            <br/>
+            <input type="checkbox" class="btn-check" id="{{$value->id}}" name="permission[]" autocomplete="off" value="{{ $value->id }}">
+            <label class="btn btn-outline-secondary mb-1 " for="{{$value->id}}">{{ $value->name }}</label> 
             @endforeach
         </div>
     </div>

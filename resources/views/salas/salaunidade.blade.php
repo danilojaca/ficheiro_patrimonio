@@ -10,9 +10,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                @can("role-create")
                     <a class="btn btn-primary" href="{{ route("unidade.index") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Voltar"><i class="bi bi-reply-fill"></i></a>
-                @endcan
                 </li>            
             </ul>
         </div>

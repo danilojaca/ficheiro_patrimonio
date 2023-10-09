@@ -33,23 +33,23 @@
 @method('PATCH')
 @csrf
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="col-md-12">
         <div class="form-group">
             <strong>{{"Nome:"}}</strong>
             <input type="text" class="form-control" name="name" placeholder="Nome" value="{{$role->name}}" >
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 pt-2">
+    <div class="col-md-12 pt-2">
         <strong>{{"Permissão:"}}</strong>
             <br/>
-        <div class="form-group pt-2">
+        <div class="form-group mb-3 pt-2">
             @foreach($permission as $value)            
             <input type="checkbox" class="btn-check" id="{{$value->id}}" name="permission[]" {{(in_array($value->id, $rolePermissions,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $value->id }}" onchange="document.getElementById('sala_form').submit()">
-            <label class="btn btn-outline-secondary" for="{{$value->id}}">{{ $value->name }}</label> 
+            <label class="btn btn-outline-secondary mb-1 " for="{{$value->id}}">{{ $value->name }}</label> 
             @endforeach
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+    <div class="col-md-12 text-center pt-3">
         <button type="submit" class="btn btn-primary">{{"Salvar"}}</button>
     </div>
 </div>

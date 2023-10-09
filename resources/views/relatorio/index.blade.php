@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-sm ">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h2>{{"RELATORIO"}}</h2>
+                <h2>{{"Relatorio"}}</h2>
             </div>
         </div>
     </nav>

@@ -19,7 +19,7 @@ class RoleUnidadesController extends Controller
 
     function __construct(){
 
-        $this->middleware("permission:role-class", ["only" => ["roleclass","roleclassupdate"]]);
+        $this->middleware("permission:permissao-salas", ["only" => ["roleclass","roleclassupdate"]]);
     }
     public function index(Request $request)
     {

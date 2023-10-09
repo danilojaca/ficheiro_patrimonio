@@ -18,10 +18,10 @@ class RoleController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:visualizar-permissao', ['only' => ['index']]);
+         $this->middleware('permission:criar-permissao', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-permissao', ['only' => ['edit','update']]);
+         $this->middleware('permission:excluir-permissao', ['only' => ['destroy']]);
     }
     
     /**
@@ -65,7 +65,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Grupo Criada com Sucesso');
+                        ->with('success','Perfil Criada com Sucesso');
     }
     /**
      * Display the specified resource.
@@ -120,7 +120,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Grupo Atualizado com Sucesso');
+                        ->with('success','Perfil Atualizado com Sucesso');
     }
     /**
      * Remove the specified resource from storage.
@@ -132,6 +132,6 @@ class RoleController extends Controller
     {
         DB::table("roles")->where('id',$id)->delete();
         return redirect()->route('roles.index')
-                        ->with('success','Grupo Excluido com Sucesso');
+                        ->with('success','Perfil Excluido com Sucesso');
     }
 }

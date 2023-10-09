@@ -10,7 +10,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                @can('role-create')
+                @can('criar-permissao')
                     <a class="btn btn-primary" href="{{ route('roles.create') }}"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
@@ -38,13 +38,13 @@
         <td>{{ ++$i }}</td>
         <td>{{ $role->name }}</td>
         <td><div class="btn-group"> 
-            @can('role-list')
+            @can('visualizar-permissao')
             <a class="btn btn-outline-light text-dark" href="{{ route('roles.show',$role->id) }}"><i class="bi bi-clipboard"></i></a>
             @endcan
-            @can('role-edit')
+            @can('editar-permissao')
                 <a class="btn btn-outline-light text-dark" href="{{ route('roles.edit',$role->id) }}"><i class="bi bi-pencil-square"></i></a>
             @endcan
-            @can('role-delete')            
+            @can('excluir-permissao')            
             <form method="post" action="{{route('roles.destroy', ['role' => $role->id])}}">
             @method('DELETE')
             @csrf

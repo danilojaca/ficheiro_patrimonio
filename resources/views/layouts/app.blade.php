@@ -7,9 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" type="image/png" href="img/sns.png" sizes="96x96">
     <title>Gestão de Bens Imóveis e Património</title>
-    <link rel="preload" type="images/x-icon" href="img/sns.png" />
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -48,30 +47,20 @@
                         
                         </div>
                         <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                <li class="nav-item">
-                                    <a class="nav-link active text-danger" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                                 @can('inventario-list')
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">                                
+                                 @can('visualizar-inventario')
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('inventario.index') }}">{{'Bens'}}</a>
-                                </li>
-                                @endcan
-                                 @can('unidade')
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ route('unidade.index') }}">{{'Unidades'}}</a>
                                 </li>
                                 @endcan
                                 @can('edificio') 
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificios'}}</a>
+                                </li>
+                                @endcan
+                                 @can('unidade')
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('unidade.index') }}">{{'Unidades'}}</a>
                                 </li>
                                 @endcan
                                 @can('categoria')
@@ -84,19 +73,17 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('relatorio.index') }}">{{'Relatorios'}}</a>
                                 </li>
                                 @endcan
-                                @can('role-list')
+                                @can('visualizar-permissao')
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{'Permissoes'}}
                                     </a>
                                     <ul class="dropdown-menu">
-                                     @can('role-create')
-                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Utilizadores') }}</a></li>
-                                     @endcan
-                                     @can('role-create')    
+                                     @can('criar-permissao')
+                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Utilizadores') }}</a></li>                                       
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Perfis') }}</a></li>
                                      @endcan 
-                                     @can('role-class')   
+                                     @can('permissao-salas')   
                                         <li><a class="dropdown-item" href="{{ route('roleclass') }}">{{ __('Salas') }}</a></li>
                                      @endcan    
                                         
@@ -120,7 +107,19 @@
                                 </li>                               
                             </ul>      
                         </div>
-                    </div>
+                            <ul class="navbar-nav justify-content-end flex-grow-1 ps-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active text-danger" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>  
                 </div>
             @endauth
         </nav> 

@@ -87,7 +87,7 @@ $("#unidade").change(function(){
       @enderror
   </div>
   <div class="col-md-2">
-    <label class="form-label ">{{"Nº Inventariado"}}</label>
+    <label class="form-label ">{{"Nº Inventario"}}</label>
     <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{ old('n_inventario')}}" >
       @error('n_inventario')
         <span class="invalid-feedback" role="alert">

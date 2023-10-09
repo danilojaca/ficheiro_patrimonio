@@ -14,7 +14,7 @@
                 @endcan
                 </li> 
                 <li class="nav-item p-1">
-                @can("role-create")
+                @can("criar-inventario")
                     <a class="btn btn-primary" href="{{ route("inventario.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>
@@ -77,10 +77,10 @@
                 <div class="btn-group"> 
                     @foreach ( $salas as $sala => $unidade)
                         @if ($inventario->unidade->id == $unidade && $inventario->sala == $sala)
-                            @can("inventario-edit")
+                            @can("editar-inventario")
                                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
                             @endcan
-                            @can("inventario-delete")
+                            @can("excluir-inventario")
                                 <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
                                 @method("DELETE")
                                 @csrf
