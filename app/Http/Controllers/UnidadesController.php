@@ -192,6 +192,7 @@ class UnidadesController extends Controller
         'unidade_id' => NULL
     ]); 
     
+    if(isset($request->salas)){
     $salas->where([['edificio_id',$edificio_id]]);
     $sala = $salas->whereIn('sala',$request->salas)->get();
 
@@ -201,8 +202,8 @@ class UnidadesController extends Controller
     ]);
     }
 
-    //Mudar Bens de Unidade correspondente a Sala que pertence.
-    
+
+    //Mudar Bens de Unidade correspondente a Sala que pertence.    
     $unidades = Unidades::where('edificio_id',$edificio_id)->pluck('id')->toArray();
     $inventario = Inventario::whereIn('unidade_id',$unidades)->whereIn('sala',$request->salas)->get() ;
 
@@ -210,6 +211,7 @@ class UnidadesController extends Controller
         $bens->update([
             'unidade_id' => $unidade,
         ]);
+    }
     }
 
         return redirect()->back();

@@ -153,6 +153,8 @@ class RoleUnidadesController extends Controller
 
         $roleclass->where([['user_id',$user],['unidade_id',$unidade]])->delete();
 
+        if (isset($salas)) {
+            
         foreach ($salas as $sala) {
             $roleclass->create([
                 'user_id' => $user,
@@ -160,7 +162,7 @@ class RoleUnidadesController extends Controller
                 'sala' => $sala,
             ]);
         }
-
+        }
         return redirect()->back();
     }
 }

@@ -193,6 +193,21 @@ class EdificioController extends Controller
     }
     public function salaupdate(Request $request,Sala $salas)
     {
+        $s = $salas->where([['edificio_id',$request->input('edificio_id')],['sala',$request->input('sala')]])->pluck('sala')->toArray();
+        if (!empty($s)) {
+            
+            $regras = [                
+                'sala' => 'unique:salas',
+            ];
+            $feedback = [            
+                'unique' => 'Essa Sala ja existe nesse Edificio',   
+            ];
+    
+                $request->validate($regras,$feedback);
+        
+        }else {
+        
+
         $salas->create([
             'sala' => $request->input('sala'),
             'edificio_id' => $request->input('edificio_id'),
@@ -200,7 +215,7 @@ class EdificioController extends Controller
 
         ]);
 
-
+        }
         return redirect()->back();
       
     }
