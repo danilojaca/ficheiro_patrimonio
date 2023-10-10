@@ -39,7 +39,7 @@
         @csrf
         <div class="col-md-2">
             <strong>Sala</strong>
-            <input class="form-control @error("sala") is-invalid @enderror" type="text" name="sala" id="sala"> 
+            <input class="form-control @error("sala") is-invalid @enderror" type="text" name="sala" id="sala" value="{{old("sala")}}"> 
             @error("sala")
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
