@@ -67,35 +67,34 @@
 </div>
 <hr>
 <div class="container mt-">             
-  <table class="table table-bordered">
-     <thead>
-        <tr>            
-            <th>{{"Unidade"}}</th>
-            <th>{{"Categoria"}}</th>
-            <th>{{"Sala"}}</th>
-            <th>{{"Modelo"}}</th>  
-            <th>{{"Nº Inventario"}}</th>  
-            <th>{{"Nº Serie"}}</th>  
-            <th>{{"Bem Inventariado"}}</th>  
-            <th>{{"Conservação"}}</th>
+    <table class="table table-bordered">
+        <thead>
+            <tr>            
+                <th>{{"Unidade"}}</th>
+                <th>{{"Categoria"}}</th>
+                <th>{{"Sala"}}</th>
+                <th>{{"Modelo"}}</th>  
+                <th>{{"Nº Inventario"}}</th>  
+                <th>{{"Nº Serie"}}</th>  
+                <th>{{"Bem Inventariado"}}</th>  
+                <th>{{"Conservação"}}</th>
             <tr>    
         </thead>
         <tbody>        
-        @foreach ($relatorios as $relatorio )
-        <tr>       
-         <td>{{$relatorio->unidade->unidade}} | {{$relatorio->unidade->edificio->edificio}}</td>       
-         <td>{{$relatorio->categoria->sub_categoria}}</td>
-         <td>{{$relatorio->sala}}</td>
-         <td>{{$relatorio->modelo}}</td>
-         <td>{{$relatorio->n_inventario}}</td>
-         <td>{{$relatorio->n_serie}}</td>
-         <td>{{$relatorio->bem_inventariado}}</td>
-         <td>{{$relatorio->conservacao}}</td>         
-            </tr>   
-        @endforeach
+            @foreach ($relatorios as $relatorio )
+                <tr>       
+                    <td>{{$relatorio->unidade->unidade}} | {{$relatorio->unidade->edificio->edificio}}</td>       
+                    <td>{{$relatorio->categoria->sub_categoria}}</td>
+                    <td>{{$relatorio->sala}}</td>
+                    <td>{{$relatorio->modelo}}</td>
+                    <td>{{$relatorio->n_inventario}}</td>
+                    <td>{{$relatorio->n_serie}}</td>
+                    <td>{{$relatorio->bem_inventariado}}</td>
+                    <td>{{$relatorio->conservacao}}</td>         
+                </tr>   
+            @endforeach
         </tbody>
-
-  </table> 
+    </table> 
   {!! $relatorios->withQueryString()->links("pagination::bootstrap-5") !!}  
 </div>
 <script>
