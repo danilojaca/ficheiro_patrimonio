@@ -44,6 +44,7 @@
             </tr>
         @endforeach
     </table>
+    {!! $data->withQueryString()->links("pagination::bootstrap-5") !!}
 </div>
 
 
