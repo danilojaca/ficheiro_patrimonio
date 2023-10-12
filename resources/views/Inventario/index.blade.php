@@ -75,8 +75,9 @@
             <td>{{$inventario->conservacao}}</td>
             <td>
                 <div class="btn-group"> 
-                    @foreach ( $salas as $sala => $unidade)
-                        @if ($inventario->unidade->id == $unidade && $inventario->sala == $sala)
+                
+                    @foreach ($salas as $sala => $unidade )
+                        @if ($inventario->unidade->id === $unidade && $inventario->sala === $sala)
                             @can("editar-inventario")
                                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('inventario.edit', ['inventario' => $inventario->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
                             @endcan
@@ -84,11 +85,11 @@
                                 <form method="post" action="{{route("inventario.destroy", ["inventario" => $inventario->id])}}">
                                 @method("DELETE")
                                 @csrf
-                                    <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Abater"><i class="bi bi-trash"></i></button>
                                 </form>               
                             @endcan
                         @endif
-                    @endforeach
+                    @endforeach    
                 </div>
             </td> 
         </tr>   

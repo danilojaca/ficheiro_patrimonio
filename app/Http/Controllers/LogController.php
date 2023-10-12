@@ -23,27 +23,21 @@ class LogController extends Controller
         $data = $request->input('data');
         $user = $request->input('username');
        
-       $username = User::where([
-            ['username', $user ]
-        ])->get();       
+       $username = User::where('username', $user)->get();       
         
-        $logs = Log::where([                    
-            ['created_at','like',"$data%"]
-            
-        ])->get();
+        $logs = Log::where('created_at','like',"$data%")
+            ->orderBy('created_at','desc')->paginate(10);
 
         foreach($username as $u){
-         if($user != ''){
+         if(isset($user)){
         $logs = Log::where([                    
-            ['created_at','like',"$data%"]
-            
-        ])->Where([
+            ['created_at','like',"$data%"],
             ['user_id',$u->id]
-        ])->get();
+        ])->orderBy('created_at','desc')->paginate(10);
         }
     
     }       
-       return view('logs.log', ['logs' => $logs]);
+       return view('logs.log', compact('logs'));
         
     }
 

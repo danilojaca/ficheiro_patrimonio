@@ -28,6 +28,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+<div class="container pb-2"> 
+    <div class="row g-2"> 
+    <form class="row g-2" action="/registro/bens" method="GET" id="myForm">
+       <div class="col-md-3">  
+            <input  type="text" name="search" id="search" class="form-control" placeholder="Pesquisar Sub Categoria">
+        </div>
+        <div class="col-md-4">
+        <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>  
+         <a class="btn btn-primary" href="{{ route("bens.index") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
+        </div>    
+    </form>
+    </div>
+ </div>     
 <div class="container">             
   <table class="table table-bordered">
     <thead>

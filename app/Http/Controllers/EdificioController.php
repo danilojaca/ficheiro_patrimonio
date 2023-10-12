@@ -193,6 +193,18 @@ class EdificioController extends Controller
     }
     public function salaupdate(Request $request,Sala $salas)
     {
+        if (empty($request->input('sala'))) {
+            $regras = [                
+                'sala' => 'required',
+            ];
+            $feedback = [            
+                'required' => 'Campo Sala Obrigatorio',   
+            ];
+    
+                $request->validate($regras,$feedback);
+        }
+
+
         $s = $salas->where([['edificio_id',$request->input('edificio_id')],['sala',$request->input('sala')]])->pluck('sala')->toArray();
         if (!empty($s)) {
             
@@ -205,7 +217,7 @@ class EdificioController extends Controller
     
                 $request->validate($regras,$feedback);
         
-        }else {
+        }
         
 
         $salas->create([
@@ -215,7 +227,7 @@ class EdificioController extends Controller
 
         ]);
 
-        }
+        
         return redirect()->back();
       
     }

@@ -193,15 +193,14 @@ class UnidadesController extends Controller
     ]); 
     
     if(isset($request->salas)){
-    $salas->where([['edificio_id',$edificio_id]]);
-    $sala = $salas->whereIn('sala',$request->salas)->get();
+    $sala = $salas->where('edificio_id',$edificio_id)
+        ->whereIn('sala',$request->salas)->get();    
 
     foreach ($sala as $value) {                     
     $value->update([
             'unidade_id' => $unidade
     ]);
     }
-
 
     //Mudar Bens de Unidade correspondente a Sala que pertence.    
     $unidades = Unidades::where('edificio_id',$edificio_id)->pluck('id')->toArray();

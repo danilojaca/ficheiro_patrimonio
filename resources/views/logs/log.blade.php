@@ -64,7 +64,7 @@
         @endforeach 
     </tbody>
   </table>
- 
+ {!! $logs->withQueryString()->links("pagination::bootstrap-5") !!}
             
 </div>
 

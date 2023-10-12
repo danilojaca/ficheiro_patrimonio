@@ -19,39 +19,19 @@
   <div class="row g-2">
     <div class="col-md-4"> 
         <label  class="form-label">{{"Categoria"}}</label>
-        <input type="text" name='categoria_id' class="form-control @error('sala') is-invalid  @enderror" value="{{$inventario->categoria->sub_categoria}}" disabled> 
-        @error('categoria_id')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-        @enderror
+        <input type="text" name='categoria_id' class="form-control " value="{{$inventario->categoria->sub_categoria}}" disabled>
     </div>    
     <div class="col-md-3">
         <label  class="form-label ">{{"Modelo"}}</label>
-        <input type="text" name='modelo' class="form-control @error('modelo') is-invalid @enderror" value="{{$inventario->modelo ?? old('modelo')}}" disabled>
-        @error('modelo')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-        @enderror
+        <input type="text" name='modelo' class="form-control" value="{{$inventario->modelo ?? old('modelo')}}" disabled>        
     </div>
     <div class="col-2">
         <label class="form-label ">{{"Nº Inventario"}}</label>
-        <input type="text" name='n_inventario' class="form-control @error('n_inventario') is-invalid @enderror" value="{{$inventario->n_inventario ?? old('n_inventario')}}" disabled>
-        @error('n_inventario')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-        @enderror
+        <input type="text" name='n_inventario' class="form-control " value="{{$inventario->n_inventario ?? old('n_inventario')}}" disabled>        
     </div>
     <div class="col-3">
         <label class="form-label ">{{"Nº Serie"}}</label>
-        <input type="text" name='n_serie' class="form-control @error('n_serie') is-invalid @enderror"value="{{$inventario->n_serie ?? old('n_serie')}}" disabled>
-        @error('n_serie')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-        @enderror
+        <input type="text" name='n_serie' class="form-control"value="{{$inventario->n_serie ?? old('n_serie')}}" disabled>
     </div>
   </div>  
     <div class="col-md-12">
@@ -71,6 +51,9 @@
       </form>      
     </div>
 <script>
+$( '#unidade' ).select2( {
+    theme: 'bootstrap-5'
+} );
 $("#unidade").change(function(){
     $("#unidade_id_form").submit();     
 });
@@ -82,10 +65,10 @@ $("#unidade").change(function(){
       <input type="hidden" name="unidade_id" value="{{$unidade_id}}">
       <div class="col-md-3">
           <label  class="form-label ">{{"Sala"}}</label>
-	        <select class="form-select @error('sala') is-invalid @enderror" name="sala" aria-label="Default select example" >
-                <option data-default disabled selected >{{"Selecione a Sala"}}</option>
+	        <select class="form-select @error('sala') is-invalid @enderror" name="sala"  id="sala" data-placeholder="Selecione a Sala" >
+                <option data-default disabled selected ></option>
               @foreach ($salas as $sala)
-                <option value="{{$sala}}">{{$sala}}</option>
+                <option value="{{$sala}}" {{$sala  == $inventario->sala ? 'selected' : ''}}>{{$sala}}</option>
               @endforeach 
           </select>   
           @error('sala')
@@ -94,23 +77,10 @@ $("#unidade").change(function(){
             </span>
           @enderror
       </div>
-      <div class="col-md-3"> 
-          <label  class="form-label">{{"Bem Inventariado"}}</label>   
-          <select class="form-select @error('bem_inventariado') is-invalid @enderror" name="bem_inventariado" id="floatingSelectGrid" aria-label="Default select example">
-              <option data-default disabled selected>{{"Selecione uma Opção"}}</option>
-              <option value="Sim" {{$inventario->bem_inventariado == "Sim" ? 'selected' : '' }}>{{"Sim"}}</option>
-              <option value="Nao" {{$inventario->bem_inventariado == "Nao" ? 'selected' : ''}}>{{"Não"}}</option>        
-          </select>
-          @error('bem_inventariado')
-            <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-            </span>
-          @enderror
-      </div>
       <div class="col-md-4"> 
           <label  class="form-label">{{"Estado de Conservação"}}</label>   
-          <select class="form-select @error('conservacao') is-invalid @enderror" name="conservacao" id="floatingSelectGrid" aria-label="Default select example">
-                <option data-default disabled selected>{{"Selecione o Estado de Conservação"}}</option>
+          <select class="form-select @error('conservacao') is-invalid @enderror" name="conservacao" id="conservacao" data-placeholder="Selecione o Estado de Conservação">
+                <option data-default disabled selected></option>
             @foreach ( $conservacao as $conservar )        
                 <option value="{{$conservar}}" {{$inventario->conservacao == $conservar ? 'selected' : ''}}>{{$conservar}}</option>  
             @endforeach
@@ -129,4 +99,11 @@ $("#unidade").change(function(){
     </form>
   @endif    
 </div>
+<script>
+$( '#sala' ).select2( {
+    theme: 'bootstrap-5'
+} );$( '#conservacao' ).select2( {
+    theme: 'bootstrap-5'
+} );
+</script>
 @endsection

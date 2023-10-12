@@ -30,34 +30,22 @@
 <form method="GET" action="/registro/roles_salas" id="unidade_id_form">
 <div class="row-col-1">
     <div class="col-md-7 offset-md-2">
-        <select class="form-select @error('unidade_id') is-invalid @enderror" name="unidade_id" id="unidade_id"  aria-label="Default select example" >
-            <option data-default disabled selected >{{"Selecione o Unidade"}}</option>
+        <select class="form-select select2 @error('unidade_id') is-invalid @enderror" name="unidade_id" id="unidade_id"  data-placeholder="Selecione o Unidade" >
+            <option data-default disabled selected ></option>
             @foreach ($unidades as $unidade)
                 <option value="{{$unidade->unidade_id}}" {{$unidade->unidade_id == $id_unidade ? 'selected' : ''}}>{{$unidade->unidade->unidade}} | {{$unidade->unidade->edificio->edificio}}</option>
              @endforeach 
         </select> 
     </div>
-<script>
-$("#unidade_id").change(function(){
-     $("#unidade_id_form").submit();
-    
-});
-</script>
    <div id="cvs" class="col-md-7 pt-3 offset-md-2">
-        <select class="form-select @error("unidade_id") is-invalid @enderror" name="user" id="user"  aria-label="Default select example" {{!empty($users) ? "" : "disabled"}} >
-            <option data-default disabled selected >{{"Selecione o Usuario"}}</option> 
+        <select class="form-select select2 @error("unidade_id") is-invalid @enderror" name="user" id="user"  data-placeholder="Selecione o Utilizador" {{!empty($users) ? "" : "disabled"}} >
+            <option data-default disabled selected ></option> 
         @foreach ($users as $user)
             <option value="{{$user->user->id}}" >{{$user->user->name}}</option>
         @endforeach
         </select>
    </div>
 </form>
-<script>
-$("#user").change(function(){
-     $("#unidade_id_form").submit();
-     
-});
-</script>
 <form method="POST" action="{{route('roleclassupdate')}}" id="sala_form">
  @csrf
     <div class="col-md-2 pt-3">
@@ -68,11 +56,11 @@ $("#user").change(function(){
     $operador = implode(",",$operador);
 
     @endphp
-    <strong>Utilizador</strong> : <strong>{{$operador}}</strong>    
+    <strong>{{"Utilizador"}}</strong> : <strong>{{$operador}}</strong>    
     </div>
-    <span>Selecione as salas Permitidas para o Utilizador</span>
+    <span>{{"Selecione as salas Permitidas para o Utilizador"}}</span>
     <div class="container-fluid pt-1">
-        <strong>Salas</strong><br>
+        <strong>{{"Salas"}}</strong><br>
                 @foreach ($salas as $key => $value)
                 <input type="checkbox" class="btn-check" id="{{$key}}" name="salas[]" {{(in_array($key, $salasexist,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $key }}" onchange="document.getElementById('sala_form').submit()">
             <label class="btn btn-outline-secondary" for="{{$key}}">{{ $key }}</label> 
@@ -84,6 +72,21 @@ $("#user").change(function(){
 </div>
 </form>
 <script>
+$( '.select2' ).select2( {
+    theme: 'bootstrap-5'
+} );
+
+
+$("#unidade_id").change(function(){
+     $("#unidade_id_form").submit();
+    
+});
+
+$("#user").change(function(){
+     $("#unidade_id_form").submit();
+     
+});
+
 $(document).ready(function(){
     $("#sala_form").on("change", "input:checkbox", function(){
         $("#sala_form").submit();

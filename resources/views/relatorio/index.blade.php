@@ -17,11 +17,11 @@
                 <h6>{{'Clique na Opção de Pesquisa desejada e em seguida seleciona um item para a criação do relatorio'}}</h6> 
             </div> 
         <div class="col-md-12 p-0">
-            <form action="/relatorio" method="GET">
+            <form action="/relatorio" method="GET" id="relatorio_form">
             @csrf            
             <div class="col-7 offset-md-2 row g-2">
                 <div class="col-md-12 input-group mb-3 " id="div-aces">
-                        <input type="button" class="btn btn-primary remover" value="Aces" id="buttonaces"> 
+                        <input type="button" class="btn btn-primary remover" value="Aces" id="buttonaces">                         
                              @error("aces")
                                  <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -45,7 +45,7 @@
                             @enderror
                     </div>
                     <div class="col-md-12 input-group mb-3" id="div-categoria">
-                        <input type="button" class="btn btn-primary" value="Categoria" id="buttoncategoria"> 
+                        <input type="button" class="btn btn-primary" value="Categoria" id="buttoncategoria">
                              @error("categoria")
                                  <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -53,18 +53,12 @@
                             @enderror
                     </div>
                 </div>
-                <div class="col-md-2 pt-4">                
-                <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>
-                <a href="{{ route("relatorio.index") }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a> 
+                <div class="col-md-2 pt-4">  
                 @can("imprimir")               
                 @if ($_token)
-                    <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary"><i class="bi bi-filetype-pdf"></i></a>      
+                    <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Descarregar"><i class="bi bi-download"></i></a>      
                 @endif
                 @endcan
-                </div> 
-                
-                <div class="col-md-3">                     
-                    
                 </div>           
             </div>
             </form> 
@@ -105,6 +99,13 @@
   {!! $relatorios->withQueryString()->links("pagination::bootstrap-5") !!}  
 </div>
 <script>
+$( ".select2" ).select2( {
+    theme: 'bootstrap-5'
+} );
+$(".select2").change(function(){
+    $("#relatorio_form").submit();     
+});
+
  aces = 0;
 $( "#buttonaces" ).on( "click", function() { 
     aces++
@@ -120,7 +121,7 @@ $( "#buttonaces" ).on( "click", function() {
       $('#categoria').remove();
       categoria = 0;
 
-     $( "#div-aces" ).append('<select class="form-select @error("aces") is-invalid @enderror" name="aces" id="aces" aria-label="Default select example"> <option data-default disabled selected>{{"Selecione o ACES"}}</option> @foreach ($allaces as $allaces)<option value="{{$allaces}}" >{{$allaces}}</option> @endforeach </select>');
+     $( "#div-aces" ).append('<select class="form-select select2 @error("aces") is-invalid @enderror" name="aces" id="aces" data-placeholder="Selecione o ACES"> <option data-default disabled selected></option> @foreach ($allaces as $allaces)<option value="{{$allaces}}" >{{$allaces}}</option> @endforeach </select>');
      aces++
 }}); 
     
@@ -141,7 +142,7 @@ $( "#buttonedificio" ).on( "click", function() {
       $('#categoria').remove();
       categoria = 0;
 
-     $( "#div-edificio" ).append('<select class="form-select @error("edificio") is-invalid @enderror" name="edificio" id="edificio" aria-label="Default select example"> <option data-default disabled selected>{{"Selecione o Edificio"}}</option>@foreach ($edificios as $value)<option value="{{$value->id}}"> {{$value->edificio}} </option>                   @endforeach </select>');
+     $( "#div-edificio" ).append('<select class="form-select select2 @error("edificio") is-invalid @enderror" name="edificio" id="edificio" data-placeholder="Selecione o Edificio"> <option data-default disabled selected></option>@foreach ($edificios as $value)<option value="{{$value->id}}"> {{$value->edificio}} </option>                   @endforeach </select>');
      edificio++
 
 }}); 
@@ -160,7 +161,7 @@ $( "#buttonunidade" ).on( "click", function() {
       $('#categoria').remove();
       categoria = 0;
 
-     $( "#div-unidade" ).append('<select class="form-select @error("unidade") is-invalid @enderror" name="unidade" id="unidade" aria-label="Default select example">                           <option data-default disabled selected>{{"Selecione o Unidade"}}</option> @foreach ($unidades as $value) <option value="{{$value->id}}" >{{$value->unidade}}</option>               @endforeach </select>');
+     $( "#div-unidade" ).append('<select class="form-select select2 @error("unidade") is-invalid @enderror" name="unidade" id="unidade" data-placeholder="Selecione a Unidade"><option data-default disabled selected></option> @foreach ($unidades as $value) <option value="{{$value->id}}" >{{$value->unidade}}</option>               @endforeach </select>');
 }}); 
 
  categoria= 0;
@@ -179,10 +180,8 @@ $( "#buttoncategoria" ).on( "click", function() {
       $('#unidade').remove();
       unidade = 0;
 
-     $( "#div-categoria" ).append('<select class="form-select @error("categoria") is-invalid @enderror" name="categoria" id="categoria" aria-label="Default select example"> <option data-default disabled selected>{{"Selecione a Categoria"}}</option> @foreach ($dcategoria as $descricao)<optgroup label="{{$descricao}}"> @foreach ($categorias as $value) @if ($value->categoria === $descricao)<option value="{{$value->id}}" {{$value->id  == old("categoria_id") ? "selected" : ""}}>{{$value->sub_categoria}}</option> @endif @endforeach </optgroup> @endforeach </select>');
+     $( "#div-categoria" ).append('<select class="form-select select2 @error("categoria") is-invalid @enderror" name="categoria" id="categoria" data-placeholder="Selecione a Categoria"> <option data-default disabled selected></option> @foreach ($dcategoria as $descricao)<optgroup label="{{$descricao}}"> @foreach ($categorias as $value) @if ($value->categoria === $descricao)<option value="{{$value->id}}" {{$value->id  == old("categoria_id") ? "selected" : ""}}>{{$value->sub_categoria}}</option> @endif @endforeach </optgroup> @endforeach </select>');
 }}); 
-
-
 
 </script>
 @endsection

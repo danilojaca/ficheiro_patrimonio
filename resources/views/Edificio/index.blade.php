@@ -9,9 +9,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                @can("role-create")
                     <a class="btn btn-primary" href="{{ route("edificio.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
-                @endcan
                 </li>            
             </ul>
         </div>

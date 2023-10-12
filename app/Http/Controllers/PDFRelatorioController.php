@@ -49,7 +49,7 @@ class PDFRelatorioController extends Controller
          $pdf->render();
          $pdf->getDomPDF()->set_option("enable_php", true);   
              
-         return  $pdf->stream("Relatorio.pdf");
+         return  $pdf->download("Relatorio.pdf");
         
      }
 }

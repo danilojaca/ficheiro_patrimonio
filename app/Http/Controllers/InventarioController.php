@@ -88,7 +88,7 @@ class InventarioController extends Controller
         //Salas da Unidade
         if(!empty($request->input('unidade'))){
         $unidade_id = $request->input('unidade');
-        $salas = Sala::where('unidade_id',$unidade_id)->pluck('sala')->toArray();
+        $salas = Sala::where('unidade_id',$unidade_id)->orderBy('sala')->pluck('sala')->toArray();
             
         }
 
@@ -108,7 +108,24 @@ class InventarioController extends Controller
 
         $unidades = $request->input("unidade_id");
 
-    $inventario =  Inventario::create($request->all());
+        if (empty($request->input("n_inventario"))) { 
+
+            $bem_inventariado = "Nao";
+        }else{
+
+            $bem_inventariado = "Sim";
+        }
+
+    $inventario =  Inventario::create([        
+        "unidade_id" => $request->input("unidade_id") ,
+        "categoria_id" => $request->input("categoria_id"),
+        "modelo" => $request->input("modelo"),
+        "n_inventario" => $request->input("n_inventario"),
+        "n_serie" => $request->input("n_serie"),        
+        "sala" => $request->input("sala") ,
+        "bem_inventariado" =>  $bem_inventariado,
+        "conservacao" => $request->input("conservacao") ,
+    ]);
     
     //Log de Ação 
         $unidade = Unidades::where("id", $unidades)->first();     
@@ -172,8 +189,7 @@ class InventarioController extends Controller
         if($request->input("_token") != ""){
             $regras = [
                 "unidade_id" => "required", 
-                "sala" => "required",                
-                "bem_inventariado" => "required",
+                "sala" => "required",
                 "conservacao" => "required",
                 ];
                 $feedback = [
@@ -185,11 +201,10 @@ class InventarioController extends Controller
         
                  $request->validate($regras, $feedback);
          }
-                 
+            
             $inventario->update([
                 "unidade_id" => $request->input("unidade_id") ,
                 "sala" => $request->input("sala") ,
-                "bem_inventariado" => $request->input("bem_inventariado") ,
                 "conservacao" => $request->input("conservacao") ,
             ]);
         
@@ -214,7 +229,7 @@ class InventarioController extends Controller
         if ($inventario->conservacao !== "Abatido") {
             
             return redirect()->back()
-                    ->with("danger","Apenas Bens Abatidos podem ser excluidos");
+                    ->with("danger","Mudar o Estado de Conservação para Abatido para  Abater o Ben");
 
         }else{
         $inventario->delete();
@@ -227,7 +242,7 @@ class InventarioController extends Controller
         
                 ]);
         return redirect()->route("inventario.index")
-                    ->with("success","Ben Excluido com Sucesso");
+                    ->with("success","Ben Abatido com Sucesso");
         }
     }
 
@@ -238,8 +253,7 @@ class InventarioController extends Controller
             $regras = [
                 "unidade_id" => "required",
                 "sala" => "required",             
-                "categoria_id" => "required",                               
-                "bem_inventariado" => "required",
+                "categoria_id" => "required",
                 "n_serie" => "unique:inventarios",
                 "conservacao" => "required",
                 ];
@@ -248,17 +262,15 @@ class InventarioController extends Controller
                 $regras = [
                     "unidade_id" => "required",
                     "sala" => "required",             
-                    "categoria_id" => "required",              
-                    "bem_inventariado" => "required",
-                    "n_inventario" => "unique:inventarios",
+                    "categoria_id" => "required",
+                    "n_inventario" => "unique:inventarios|numeric",
                     "conservacao" => "required",
                     ];
             }else {
                 $regras = [
                     "unidade_id" => "required",
                     "sala" => "required",             
-                    "categoria_id" => "required",               
-                    "bem_inventariado" => "required",                    
+                    "categoria_id" => "required",                    
                     "conservacao" => "required",
                     ];
             }
@@ -266,6 +278,7 @@ class InventarioController extends Controller
         
                     "required"=>"Campo :attribute Obrigatorio",
                     "unique"=>"Esse :attribute já existe",
+                    "numeric"=>"Esse :attribute precisa ser Numerico",
         
                  ];
         

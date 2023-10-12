@@ -70,14 +70,24 @@ class RoleUnidadesController extends Controller
      */
     public function update(Request $request, $id, RoleUnidades $roleUnidades)  
     {
+        
         //Excluir Permissões de Unidades 
         $roleUnidades->where([
             ['user_id',$id],        
             ])->delete(); 
         //
-        $unidades = $request->unidade_id;
+
+        //dd($request->unidade_id);
+        if (isset($request->unidade_id)) {
+
+            $unidades = $request->unidade_id;
+            
+        }else {
+            $unidades  = array();
+        }
+        
         //Excluir Permissões de Salas Das Unidades Retiradas
-        RoleClass::where('user_id',$id)->whereNotIn('unidade_id',$unidades)->delete(); 
+        RoleClass::where('user_id',$id)->whereNotIn('unidade_id', $unidades)->delete(); 
         //
         foreach ($unidades as $unidade) {
             //Criar Permissões de Unidades    

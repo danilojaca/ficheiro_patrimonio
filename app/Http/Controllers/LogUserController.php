@@ -20,23 +20,17 @@ class LogUserController extends Controller
         $data = $request->input('data');
         $user = $request->input('username'); 
         
-        $log_users = LogUser::where([                    
-            ['created_at','like',"$data%"]
-            
-        ])->get();
+        $log_users = LogUser::where('created_at','like',"$data%")->orderBy('created_at','desc')->paginate(15);
                     
         if (isset($user)) {
                     
         $log_users = LogUser::where([                    
-            ['created_at','like',"$data%"]
-            
-        ])->Where([                    
-            ['user',$user]
-            
-        ])->get();
+            ['created_at','like',"$data%"],                    
+            ['user',$user]            
+        ])->orderBy('created_at','desc')->paginate(15);
     }
     
-        return view('logs.loguser', ['log_users' => $log_users, 'data' => $data,'user' =>$user]);
+        return view('logs.loguser', compact('log_users', 'data','user'));
     }
 
     /**
