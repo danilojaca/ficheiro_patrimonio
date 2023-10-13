@@ -9,7 +9,9 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
+                @can('criar-unidade')
                     <a class="btn btn-primary" href="{{ route("unidade.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
+                @endcan    
                 </li>            
             </ul>
         </div>
@@ -55,14 +57,20 @@
                 <td>{{$uni->edificio->edificio}}</td>
                 <td>{{$uni->unidade}}</td>                
                 <td>
-                <div class="btn-group">  
+                <div class="btn-group">
+                @can('editar-unidade')  
                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.edit', ['unidade'=> $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
+                @endcan
+                @can('excluir-unidade') 
                 <form  method="post" action="{{route("unidade.destroy", ["unidade" => $uni->id])}}">
                     @method("DELETE")
                     @csrf
                     <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
                 </form>
+                @endcan
+                @can('salas-unidade') 
                 <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.salas', ['unidade' => $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
+                @endcan
                  </div></td> 
                 </tr>  
             @endforeach

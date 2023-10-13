@@ -7,10 +7,12 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h2>{{"Edificios"}}</h2>
             </div>
-            <ul class="navbar-nav">      
+            <ul class="navbar-nav">
+            @can('criar-edificio')      
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{{ route("edificio.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
-                </li>            
+                </li>
+            @endcan               
             </ul>
         </div>
     </nav>
@@ -67,15 +69,20 @@
                 <td>{{$edificio->horarios_funcionamento}}</td>
                 <td>{{$edificio->ip_router}}</td>
                 <td>
-                <div class="btn-group">  
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
-
-                <form method="post" action="{{route("edificio.destroy", ["edificio" => $edificio->id])}}">
-                @method("DELETE")
-                @csrf
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
-                </form>
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.salas', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
+                <div class="btn-group"> 
+                @can('salas-edificio')  
+                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.edit', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
+                @endcan
+                @can('salas-edificio')
+                    <form method="post" action="{{route("edificio.destroy", ["edificio" => $edificio->id])}}">
+                    @method("DELETE")
+                    @csrf
+                        <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.destroy', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
+                    </form>
+                @endcan
+                @can('salas-edificio') 
+                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('edificio.salas', ['edificio' => $edificio->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
+                @endcan
                  </div></td> 
                 </tr>  
             @endforeach

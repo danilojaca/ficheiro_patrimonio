@@ -19,7 +19,8 @@ class RoleUnidadesController extends Controller
 
     function __construct(){
 
-        $this->middleware("permission:permissao-salas", ["only" => ["roleclass","roleclassupdate"]]);
+        $this->middleware("permission:salas-permissao-utilizador", ["only" => ["roleclass","roleclassupdate"]]);
+        $this->middleware("permission:unidades-permissao-utilizador", ["only" => ["edit","update"]]);
     }
     public function index(Request $request)
     {
@@ -145,7 +146,7 @@ class RoleUnidadesController extends Controller
         }
         $usuario = $request->input('user');
         if (isset($usuario)) {            
-            $salas = Sala::where('unidade_id',$id_unidade)->pluck('sala')->toArray();
+            $salas = Sala::where('unidade_id',$id_unidade)->orderBy('sala')->pluck('sala')->toArray();
             $salas = array_count_values($salas);
         } 
         

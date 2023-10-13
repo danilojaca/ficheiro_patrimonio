@@ -18,9 +18,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {         
+        $this->middleware('permission:visualizar-permissao-utilizador', ['only' => ['index']]);
+        $this->middleware('permission:criar-permissao-utilizador', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-permissao-utilizador', ['only' => ['edit','update']]);
+        $this->middleware('permission:excluir-permissao-utilizador', ['only' => ['destroy']]);
+        $this->middleware('permission:mostrar-permissao-utilizador', ['only' => ['show']]);
+    }
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
+        $user = $request->input('search');
+        $data = User::where('name','like',"%$user%")->orderBy('name','ASC')->paginate(10);
+
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }

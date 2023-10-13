@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Auth;
 Route::middleware(['auth'])->get('/', function () {
     return redirect()->route('formulario.index');;
 });
+Route::middleware(['auth'])->get('/home', function () {
+    return redirect()->route('formulario.index');;
+});
 
 Auth::routes();
 Route::middleware(['auth'])->resource('formulario', 'App\Http\Controllers\FormularioController');

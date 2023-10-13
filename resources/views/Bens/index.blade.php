@@ -9,7 +9,7 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                @can("role-create")
+                @can("criar-categoria")
                     <a class="btn btn-primary" href="{{ route("bens.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
@@ -54,13 +54,17 @@
         <tr>
          <td>{{$ben->categoria}}</td>
          <td>{{$ben->sub_categoria}}</td>
-         <td><div class="btn-group">             
+         <td><div class="btn-group">
+         @can('editar-categoria')             
             <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.edit', ['ben' => $ben->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
+        @endcan
+        @can('excluir-categoria')    
             <form  method="post" action="{{route("bens.destroy", ["ben" => $ben->id])}}">
             @method("DELETE")
             @csrf
-            <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
+                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('bens.destroy', ['ben' => $ben->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
             </form>
+        @endcan    
             </div> </td> 
             </tr>  
         @endforeach        

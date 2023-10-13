@@ -8,11 +8,6 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h1>{{'Gestão de Salas'}}</h1>
             </div>
-            <ul class="navbar-nav">   
-                <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ route('roleclass') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
-                </li>            
-            </ul>
         </div>
     </nav>
 </div>
@@ -26,51 +21,50 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+<div class="container">
+    <form method="GET" action="/registro/roles_salas" id="unidade_id_form">
+        <div class="col-md-7 offset-2">
+            <select class="form-select select2 @error('unidade_id') is-invalid @enderror" name="unidade_id" id="unidade_id"  data-placeholder="Selecione o Unidade" >
+                    <option data-default disabled selected ></option>
+                @foreach ($unidades as $unidade)
+                    <option value="{{$unidade->unidade_id}}" {{$unidade->unidade_id == $id_unidade ? 'selected' : ''}}>{{$unidade->unidade->unidade}} | {{$unidade->unidade->edificio->edificio}}</option>
+                @endforeach 
+            </select> 
+        </div>
+        <div id="cvs" class="col-md-7 pt-3 offset-2">
+            <select class="form-select select2 @error("unidade_id") is-invalid @enderror" name="user" id="user"  data-placeholder="Selecione o Utilizador" {{!empty($users) ? "" : "disabled"}} >
+                    <option data-default disabled selected ></option> 
+                @foreach ($users as $user)
+                    <option value="{{$user->user->id}}" >{{$user->user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </form>
+    <form method="POST" action="{{route('roleclassupdate')}}" id="sala_form">
+    @csrf
+        <div class="col-md-2 pt-3">
+            @php
+                use App\Models\User;
 
-<form method="GET" action="/registro/roles_salas" id="unidade_id_form">
-<div class="row-col-1">
-    <div class="col-md-7 offset-md-2">
-        <select class="form-select select2 @error('unidade_id') is-invalid @enderror" name="unidade_id" id="unidade_id"  data-placeholder="Selecione o Unidade" >
-            <option data-default disabled selected ></option>
-            @foreach ($unidades as $unidade)
-                <option value="{{$unidade->unidade_id}}" {{$unidade->unidade_id == $id_unidade ? 'selected' : ''}}>{{$unidade->unidade->unidade}} | {{$unidade->unidade->edificio->edificio}}</option>
-             @endforeach 
-        </select> 
-    </div>
-   <div id="cvs" class="col-md-7 pt-3 offset-md-2">
-        <select class="form-select select2 @error("unidade_id") is-invalid @enderror" name="user" id="user"  data-placeholder="Selecione o Utilizador" {{!empty($users) ? "" : "disabled"}} >
-            <option data-default disabled selected ></option> 
-        @foreach ($users as $user)
-            <option value="{{$user->user->id}}" >{{$user->user->name}}</option>
-        @endforeach
-        </select>
-   </div>
-</form>
-<form method="POST" action="{{route('roleclassupdate')}}" id="sala_form">
- @csrf
-    <div class="col-md-2 pt-3">
-    @php
-    use App\Models\User;
+                $operador = User::where('id',$usuario)->pluck('name')->toArray();
+                $operador = implode(",",$operador);
 
-    $operador = User::where('id',$usuario)->pluck('name')->toArray();
-    $operador = implode(",",$operador);
-
-    @endphp
-    <strong>{{"Utilizador"}}</strong> : <strong>{{$operador}}</strong>    
-    </div>
-    <span>{{"Selecione as salas Permitidas para o Utilizador"}}</span>
-    <div class="container-fluid pt-1">
-        <strong>{{"Salas"}}</strong><br>
+            @endphp
+            <strong>{{"Utilizador"}}</strong> : <strong>{{$operador}}</strong>    
+        </div>
+            <span>{{"Selecione as salas Permitidas para o Utilizador"}}</span>
+        <div class="container-fluid pt-1">
+            <strong>{{"Salas"}}</strong><br>
                 @foreach ($salas as $key => $value)
-                <input type="checkbox" class="btn-check" id="{{$key}}" name="salas[]" {{(in_array($key, $salasexist,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $key }}" onchange="document.getElementById('sala_form').submit()">
-            <label class="btn btn-outline-secondary" for="{{$key}}">{{ $key }}</label> 
-                
+                    <input type="checkbox" class="btn-check" id="{{$key}}" name="salas[]" {{(in_array($key, $salasexist,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $key }}" onchange="document.getElementById('sala_form').submit()">
+                    <label class="btn btn-outline-secondary" for="{{$key}}">{{ $key }}</label>
                 @endforeach    
-            </div>
+        </div>
             <input type="hidden" value="{{$id_unidade}}" name="unidade">
             <input type="hidden" value="{{$usuario}}" name="user">
+    </form>       
 </div>
-</form>
+
 <script>
 $( '.select2' ).select2( {
     theme: 'bootstrap-5'

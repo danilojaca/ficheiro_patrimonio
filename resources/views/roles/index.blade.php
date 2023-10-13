@@ -10,8 +10,8 @@
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">
-                @can('criar-permissao')
-                    <a class="btn btn-primary" href="{{ route('roles.create') }}"><i class="bi bi-plus-lg"></i></a>
+                @can('criar-permissao-perfis')
+                    <a class="btn btn-primary" href="{{ route('roles.create') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
                 @endcan
                 </li>            
             </ul>
@@ -38,17 +38,17 @@
         <td>{{ ++$i }}</td>
         <td>{{ $role->name }}</td>
         <td><div class="btn-group"> 
-            @can('visualizar-permissao')
-            <a class="btn btn-outline-light text-dark" href="{{ route('roles.show',$role->id) }}"><i class="bi bi-clipboard"></i></a>
+            @can('mostrar-permissao-perfis')
+            <a class="btn btn-outline-light text-dark" href="{{ route('roles.show',$role->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="bi bi-clipboard"></i></a>
             @endcan
-            @can('editar-permissao')
-                <a class="btn btn-outline-light text-dark" href="{{ route('roles.edit',$role->id) }}"><i class="bi bi-pencil-square"></i></a>
+            @can('editar-permissao-perfis')
+                <a class="btn btn-outline-light text-dark" href="{{ route('roles.edit',$role->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></a>
             @endcan
-            @can('excluir-permissao')            
+            @can('excluir-permissao-perfis')            
             <form method="post" action="{{route('roles.destroy', ['role' => $role->id])}}">
             @method('DELETE')
             @csrf
-            <button class="btn btn-outline-light text-dark" type="submit"><i class="bi bi-trash"></i></button>           
+            <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
             </form>             
             @endcan
             </div>

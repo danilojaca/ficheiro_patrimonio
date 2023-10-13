@@ -60,17 +60,17 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('inventario.index') }}">{{'Bens'}}</a>
                                 </li>
                                 @endcan
-                                @can('edificio') 
+                                @can('visualizar-edificio') 
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('edificio.index') }}">{{'Edificios'}}</a>
                                 </li>
                                 @endcan
-                                 @can('unidade')
+                                 @can('visualizar-unidade')
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('unidade.index') }}">{{'Unidades'}}</a>
                                 </li>
                                 @endcan
-                                @can('categoria')
+                                @can('visualizar-categoria')
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('bens.index') }}">{{'Categorias'}}</a>
                                 </li>
@@ -86,11 +86,13 @@
                                     {{'Permissoes'}}
                                     </a>
                                     <ul class="dropdown-menu">
-                                     @can('criar-permissao')
-                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Utilizadores') }}</a></li>                                       
+                                     @can('visualizar-permissao-utilizador')
+                                        <li><a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Utilizadores') }}</a></li> 
+                                    @endcan  
+                                    @can('visualizar-permissao-perfis')     
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Perfis') }}</a></li>
                                      @endcan 
-                                     @can('permissao-salas')   
+                                     @can('salas-permissao-utilizador')   
                                         <li><a class="dropdown-item" href="{{ route('roleclass') }}">{{ __('Salas') }}</a></li>
                                      @endcan    
                                         
@@ -129,8 +131,7 @@
                         </div>  
                 </div>
             @endauth
-        </nav> 
-
+        </nav>
         <main class="p-4">
             @yield('content')
         </main>

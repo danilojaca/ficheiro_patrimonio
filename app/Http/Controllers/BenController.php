@@ -13,8 +13,11 @@ class BenController extends Controller
      * Display a listing of the resource.
      */
     function __construct()
-    {
-         $this->middleware('permission:categoria');
+    {        
+         $this->middleware("permission:visualizar-categoria", ["only" => ["index"]]);
+         $this->middleware("permission:criar-categoria", ["only" => ["create","store"]]);
+         $this->middleware("permission:editar-categoria", ["only" => ["edit","update"]]);
+         $this->middleware("permission:excluir-categoria", ["only" => ["destroy"]]);
     }
 
     public function index(Request $request)

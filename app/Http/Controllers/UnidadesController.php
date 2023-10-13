@@ -16,8 +16,12 @@ class UnidadesController extends Controller
      * Display a listing of the resource.
      */
     function __construct()
-    {
-         $this->middleware('permission:unidade');
+    {         
+         $this->middleware("permission:visualizar-unidade", ["only" => ["index"]]);
+         $this->middleware("permission:criar-unidade", ["only" => ["create","store"]]);
+         $this->middleware("permission:editar-unidade", ["only" => ["edit","update"]]);
+         $this->middleware("permission:excluir-unidade", ["only" => ["destroy"]]);
+         $this->middleware("permission:salas-unidade", ["only" => ["salas","salasupdate"]]);
     }
     public function index(Request $request)
     {

@@ -15,7 +15,11 @@ class EdificioController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:edificio');
+         $this->middleware("permission:visualizar-edificio", ["only" => ["index"]]);
+         $this->middleware("permission:criar-edificio", ["only" => ["create","store"]]);
+         $this->middleware("permission:editar-edificio", ["only" => ["edit","update"]]);
+         $this->middleware("permission:excluir-edificio", ["only" => ["destroy"]]);
+         $this->middleware("permission:salas-edificio", ["only" => ["salas","salaupdate","saladelete"]]);
     }
 
     public function index(Request $request)

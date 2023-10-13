@@ -16,9 +16,39 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'inventariomultiplos',
+            'visualizar-permissao',
+            'logs',
+            'visualizar-inventario',
+            'criar-inventario',
+            'editar-inventario',
+            'excluir-inventario',
             'relatorio',
-            'imprimir',
+            'visualizar-edificio',
+            'criar-edificio',
+            'editar-edificio',
+            'excluir-edificio',
+            'salas-edificio',
+            'visualizar-unidade',
+            'criar-unidade',
+            'editar-unidade',
+            'excluir-unidade',
+            'salas-unidade',
+            'unidades-permissao-utilizador',
+            'salas-permissao-utilizador',
+            'visualizar-categoria',
+            'criar-categoria',
+            'editar-categoria',
+            'excluir-categoria',
+            'descarregar',
+            'visualizar-permissao-utilizador',
+            'editar-permissao-utilizador',
+            'mostrar-permissao-utilizador',
+            'visualizar-permissao-perfis',
+            'editar-permissao-perfis',
+            'criar-permissao-perfis',
+            'excluir-permissao-perfis',
+            'mostrar-permissao-perfis',
+
          ];
       
         foreach ($permissions as $permission) {

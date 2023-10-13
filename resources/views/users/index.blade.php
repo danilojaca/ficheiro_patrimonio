@@ -16,6 +16,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+<div class="container pb-2">    
+    <div class="row g-2" >
+        <form  class="row g-2" action="/registro/users" method="GET" id="search_form">
+        <div class="col-md-4">  
+            <input  type="text" autocomplete="off" name="search" id="search" class="form-control" placeholder="Pesquisar Utilizador" >        
+        </div> 
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pesquisar"><i class="bi bi-search"></i></button>
+         <a class="btn btn-primary" href="{{ route("users.index") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Limpar Pesquisa"><i class="bi bi-arrow-clockwise"></i></a>
+        </div>      
+        </form>    
+    </div>
+</div>    
 
 <div class="container">   
     <table class="table table-bordered">
@@ -37,9 +50,16 @@
                     @endif
                 </td>
                 <td>
-                    <a class="btn btn-outline-light text-dark" href="{{ route('users.show',$user->id) }}"><i class="bi bi-clipboard"></i></a>
-                    <a class="btn btn-outline-light text-dark" href="{{ route('users.edit',$user->id) }}"><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-outline-light text-dark" href="{{ route('roleunidades.edit',$user->id) }}"><i class="bi bi-house-gear"></i></a>                
+                @can('mostrar-permissao-utilizador')
+                    <a class="btn btn-outline-light text-dark" href="{{ route('users.show',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar"><i class="bi bi-clipboard"></i></a>
+                @endcan
+                @can('editar-permissao-utilizador')    
+                    <a class="btn btn-outline-light text-dark" href="{{ route('users.edit',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                @endcan
+                @can('visualizar-permissao-utilizador')     
+                    <a class="btn btn-outline-light text-dark" href="{{ route('roleunidades.edit',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Permissão Unidades"><i class="bi bi-house-gear"></i></a>
+                @endcan
+                                
                 </td>
             </tr>
         @endforeach

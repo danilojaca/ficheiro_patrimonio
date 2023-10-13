@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 pt-4">  
-                @can("imprimir")               
+                @can("descarregar")               
                 @if ($_token)
                     <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Descarregar"><i class="bi bi-download"></i></a>      
                 @endif

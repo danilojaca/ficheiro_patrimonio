@@ -18,10 +18,11 @@ class RoleController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:visualizar-permissao', ['only' => ['index']]);
-         $this->middleware('permission:criar-permissao', ['only' => ['create','store']]);
-         $this->middleware('permission:editar-permissao', ['only' => ['edit','update']]);
-         $this->middleware('permission:excluir-permissao', ['only' => ['destroy']]);
+         $this->middleware('permission:visualizar-permissao-perfis', ['only' => ['index']]);
+         $this->middleware('permission:criar-permissao-perfis', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-permissao-perfis', ['only' => ['edit','update']]);
+         $this->middleware('excluir:visualizar-permissao-perfis', ['only' => ['destroy']]);
+         $this->middleware('mostrar:visualizar-permissao-perfis', ['only' => ['show']]);
     }
     
     /**
