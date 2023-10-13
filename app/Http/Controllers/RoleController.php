@@ -21,8 +21,8 @@ class RoleController extends Controller
          $this->middleware('permission:visualizar-permissao-perfis', ['only' => ['index']]);
          $this->middleware('permission:criar-permissao-perfis', ['only' => ['create','store']]);
          $this->middleware('permission:editar-permissao-perfis', ['only' => ['edit','update']]);
-         $this->middleware('excluir:visualizar-permissao-perfis', ['only' => ['destroy']]);
-         $this->middleware('mostrar:visualizar-permissao-perfis', ['only' => ['show']]);
+         $this->middleware('permission:visualizar-permissao-perfis', ['only' => ['destroy']]);
+         $this->middleware('permission:visualizar-permissao-perfis', ['only' => ['show']]);
     }
     
     /**
