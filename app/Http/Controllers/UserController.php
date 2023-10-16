@@ -40,7 +40,7 @@ class UserController extends Controller
         $role = DB::table('model_has_roles')->where('model_id',$user)->value('role_id');
         $perfil = Role::find($role);
         //Id Perfil Supervisor é 4
-        if ($perfil->id === 1 or $perfil->name == 'Supervisor') {
+        if ($perfil->id === 4 or $perfil->name == 'Supervisor') {
         //Id Perfil Adminstrativo é 5 e Basico é 6  
          
          $roles = DB::table('model_has_roles')->whereIn('role_id',[5,6])->pluck('model_id')->toArray();
