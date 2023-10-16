@@ -112,7 +112,7 @@
                                 </li>
                                 @endcan
                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
+                                    <a class="nav-link active" aria-current="page" href="file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF" onclick="myFunction()" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
                                 </li>                               
                             </ul>      
                         </div>
@@ -138,4 +138,10 @@
     </div>
      
 </body>
+<script>
+function myFunction() {
+window.open("file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF");
+}
+</script>
+
 </html>

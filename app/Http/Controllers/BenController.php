@@ -81,7 +81,7 @@ class BenController extends Controller
      */
     public function edit(Ben $ben)
     {
-        return view('Bens.create', ['ben' => $ben]);
+        return view('Bens.create', compact('ben'));
     }
 
     /**

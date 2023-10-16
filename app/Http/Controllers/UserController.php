@@ -28,11 +28,26 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        $user = $request->input('search');
-        $data = User::where('name','like',"%$user%")->orderBy('name','ASC')->paginate(10);
+        $utilizador = $request->input('search');
+        //Supervisor so pode ver usuarios abaixo dele 
+        $user = auth()->user()->id;
+        $role = DB::table('model_has_roles')->where('model_id',$user)->value('role_id');
+        $perfil = Role::find($role);
+        //Id Perfil Supervisor é 4
+        if ($perfil->id === 4 or $perfil->name == 'Supervisor') {
+        //Id Perfil Adminstrativo é 5 e Basico é 6    
+         $roles = DB::table('model_has_roles')->whereIn('role_id',[5,6])->pluck('model_id')->toArray();
+
+         $data = User::whereIn('id',$roles)->where('name','like',"%$utilizador%")->orderBy('name','ASC')->paginate(10);
+
+        }else {
+            
+            $data = User::where('name','like',"%$utilizador%")->orderBy('name','ASC')->paginate(10);
+
+        }
 
         return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        ->with('i', ($request->input('page', 1) - 1) * 10);
     }
     
     /**

@@ -141,7 +141,7 @@ class EdificioController extends Controller
     {   
         $unidade = Unidades::where('edificio_id',$edificio->id)->pluck('id')->toArray();
 
-        
+        //Nao deixar Excluir Edificio com Unidades Vinculadas 
         if (!empty($unidade)) {    
 
             return redirect()->route('unidade.index')
@@ -197,6 +197,7 @@ class EdificioController extends Controller
     }
     public function salaupdate(Request $request,Sala $salas)
     {
+        //Unique de Sala no Edificio 
         if (empty($request->input('sala'))) {
             $regras = [                
                 'sala' => 'required',
