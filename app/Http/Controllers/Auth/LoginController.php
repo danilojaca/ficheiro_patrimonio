@@ -105,7 +105,7 @@ class LoginController extends Controller
                 'password' => Hash::make($password),
                 
             ]);
-        $role = Role::find(3);
+        $role = Role::find(6);
         $user->assignRole([$role->id]);
             
         } 
