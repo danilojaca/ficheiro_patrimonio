@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\RoleUnidades;
+use App\Models\Edificio;
+use App\Models\Unidades;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -29,16 +31,28 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $utilizador = $request->input('search');
-        //Supervisor so pode ver usuarios abaixo dele 
-        $user = auth()->user()->id;
+        //Supervisor so pode ver usuarios abaixo e do Seu Aces
+        $user = auth()->user()->id; 
+        $aces = RoleUnidades::Where('user_id',$user)->pluck('unidade_id')->toArray();                
+        $aces = Unidades::where('id',$aces)->pluck('edificio_id')->toArray();
+        $aces = Edificio::where('id', $aces)->value('aces');        
+        
         $role = DB::table('model_has_roles')->where('model_id',$user)->value('role_id');
         $perfil = Role::find($role);
         //Id Perfil Supervisor é 4
-        if ($perfil->id === 4 or $perfil->name == 'Supervisor') {
-        //Id Perfil Adminstrativo é 5 e Basico é 6    
+        if ($perfil->id === 1 or $perfil->name == 'Supervisor') {
+        //Id Perfil Adminstrativo é 5 e Basico é 6  
+         
          $roles = DB::table('model_has_roles')->whereIn('role_id',[5,6])->pluck('model_id')->toArray();
+         
+         $edificio = Edificio::where('aces',$aces)->pluck('id')->toArray();
+         $utilizador_aces = RoleUnidades::whereHas('Unidade',function($q) use($edificio){
+            $q->whereIn('edificio_id',$edificio);
+         })->get();
 
-         $data = User::whereIn('id',$roles)->where('name','like',"%$utilizador%")->orderBy('name','ASC')->paginate(10);
+         $utilizador_aces = $utilizador_aces->whereIn('user_id',$roles)->pluck('user_id')->toArray();        
+
+         $data = User::whereIn('id',$utilizador_aces)->where('name','like',"%$utilizador%")->orderBy('name','ASC')->paginate(10);
 
         }else {
             
