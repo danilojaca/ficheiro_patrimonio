@@ -18,7 +18,7 @@
 
 @if (count($errors) > 0)
     <div class="alert alert-danger alert-dismissible fade show">
-        <strong>oops!</strong> Houve alguns problemas com sua entrada.<br><br>
+        <strong>oops!</strong> Houve alguns problemas.<br><br>
         <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -34,7 +34,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>{{"Nome:"}}</strong>
-            <input type="text" class="form-control" name="name" placeholder="Nome" >
+            <input type="text" class="form-control" name="name" placeholder="Nome" value="{{old("name")}}">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">

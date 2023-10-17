@@ -33,7 +33,7 @@ $nameunidade = $name->first();
         @csrf
     @foreach($salas as $sala)
             <input type="checkbox" class="btn-check" id="{{$sala}}" name="salas[]" {{(in_array($sala, $salasativas,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $sala }}" onchange="document.getElementById('sala_form').submit()">
-            <label class="btn btn-outline-secondary" for="{{$sala}}">{{ $sala }}</label> 
+            <label class="btn btn-outline-secondary mb-1" for="{{$sala}}">{{ $sala }}</label> 
     @endforeach 
 </div>
 </form> 

@@ -60,6 +60,10 @@ class RoleController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
+        ],[
+            'unique' => 'Esse Perfil já existe',
+            'permission.required' => 'Campo Permissão Obrigatorio : O Perfil precisa possuir um Permissão',
+            'name.required' => 'Campo Nome Obrigatorio',
         ]);
     
         $role = Role::create(['name' => $request->input('name')]);

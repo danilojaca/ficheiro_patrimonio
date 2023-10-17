@@ -59,7 +59,7 @@
                     <form method="post" action="{{route("edificio.saladelete", ["sala" => $sala->id])}}">
                         @method("DELETE")
                         @csrf 
-                            <input type="submit" class="btn btn-outline-secondary" id="sala"name="sala"  autocomplete="off" value="{{ $sala->sala}}" onclick="return confirm('Excluir a Sala {{$sala->sala}} do Edificio {{$centro}} ?')"  data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Sala">
+                            <input type="submit" class="btn btn-outline-secondary mb-1 me-1" id="sala"name="sala"  autocomplete="off" value="{{ $sala->sala}}" onclick="return confirm('Excluir a Sala {{$sala->sala}} do Edificio {{$centro}} ?')"  data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir Sala">
                     </form>                 
                 @endforeach
             </div>    

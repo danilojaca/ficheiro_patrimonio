@@ -44,7 +44,7 @@
             <strong>{{"Funções:"}}</strong>
                 @foreach($roles as $key => $role)
                     <input type="checkbox" class="btn-check" name="roles[]" id="{{$key}}" value="{{$role}}" {{(in_array($role, $userRole)) ? 'checked' : ''}} onchange="document.getElementById('sala_form').submit()">
-                    <label class="btn btn-outline-secondary" for="{{$key}}" >{{$role}}</label>
+                    <label class="btn btn-outline-secondary mb-1" for="{{$key}}" >{{$role}}</label>
                 @endforeach   
         </div>
     </div>    
