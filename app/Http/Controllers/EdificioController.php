@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Log;
 use App\Models\Unidades;
 use App\Models\Sala;
+use App\Models\Aces;
 
 class EdificioController extends Controller
 {
@@ -24,6 +25,7 @@ class EdificioController extends Controller
 
     public function index(Request $request)
     {
+        
         $search = $request->input('search');
         $edificios = Edificio::where('edificio',"like","%$search%")
         ->orwhere('id_spms',"like","%$search%")
@@ -37,7 +39,8 @@ class EdificioController extends Controller
      */
     public function create()
     {
-        return view('Edificio.create');
+        $aces = ACES::pluck('aces')->toArray();
+        return view('Edificio.create',compact('aces'));
     }
 
     /**
@@ -51,22 +54,16 @@ class EdificioController extends Controller
           
         }
         
-        Edificio::create($request->all());
+        $e = Edificio::create($request->all());
 
         //Log de Ação
-        $i = Edificio::where([
-            ['id_spms', $request->input('id_spms')],
-            ['id_siie', $request->input('id_siie')]
-           ])->get();
-           
-        foreach ($i as $e) {
          
         Log::create([
             'user_id' => auth()->user()->id,
             'log'=> "Edificio de Id: $e->id , ID SPMS: $e->id_spms ,ID SIIE: $e->id_siie ,Edificio: $e->edificio ,Concelho: $e->concelho ,Aces: $e->aces ,Morada: $e->morada ,Ip Router: $e->ip_router " ,
             'operacao' => 'create',
 
-        ]);}
+        ]);
     
             return redirect()->route('edificio.index')
                                 ->with('success','Edificio Criado com Sucesso');
@@ -85,8 +82,8 @@ class EdificioController extends Controller
      */
     public function edit(Edificio $edificio)
     {
-       
-        return view('Edificio.create', compact('edificio') );
+        $aces = ACES::pluck('aces')->toArray();
+        return view('Edificio.create', compact('edificio','aces') );
     }
 
     /**
@@ -209,7 +206,7 @@ class EdificioController extends Controller
                 $request->validate($regras,$feedback);
         }
 
-
+        
         $s = $salas->where([['edificio_id',$request->input('edificio_id')],['sala',$request->input('sala')]])->pluck('sala')->toArray();
         if (!empty($s)) {
             

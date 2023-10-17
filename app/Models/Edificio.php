@@ -22,4 +22,5 @@ class Edificio extends Model
         'dias_funcionamento',
         'horarios_funcionamento'
     ];
+
 }

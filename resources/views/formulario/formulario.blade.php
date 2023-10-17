@@ -96,7 +96,7 @@ $("#sala").change(function(){
         <tr>
             <th>{{"SIIE edificio Origem"}}</th>
             <td>{{$siie}}</td>
-            <td rowspan="2" colspan="2">{{$unidade}} {{$centro !== "" ? "|" : ""}} {{$centro}} </td>
+            <td rowspan="2" colspan="2">{{$unidade}} {{$centro !== NULL ? "|" : ""}} {{$centro}} </td>
         </tr>
         <tr>
             <th >{{"Codigo Sala Origem"}}</th>

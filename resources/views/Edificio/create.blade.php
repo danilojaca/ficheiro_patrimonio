@@ -62,7 +62,12 @@
             </div>
             <div class="col-md-3">
                     <label class="form-label">{{"Aces"}}</label>
-                    <input type="text" name="aces" id="aces" class="form-control bg-white @error("aces") is-invalid @enderror" value="{{ $edificio->aces ?? old("aces")}}">
+                    <select class="form-select select2 @error("aces") is-invalid @enderror" name="aces" id="aces" data-placeholder="Selecione o Aces"> 
+                                <option data-default disabled selected></option>
+                            @foreach ($aces as $value)
+                                <option value="{{$value}}" {{isset($edificio->id) ? ($value == $edificio->aces ? 'selected': NULL):($value == old("aces") ? 'selected': NULL)}}> {{$value}} </option>                   
+                            @endforeach
+                        </select>
                 @error("aces")
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -123,4 +128,10 @@
             </div>
     </form>
 </div>
+
+<script>
+$( ".select2" ).select2( {
+    theme: 'bootstrap-5'
+} );
+</script>
 @endsection

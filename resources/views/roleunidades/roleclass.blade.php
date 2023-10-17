@@ -8,6 +8,11 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h1>{{'Gestão de Salas'}}</h1>
             </div>
+            <ul class="navbar-nav">      
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{{ route('users.index') }}"><i class="bi bi-reply-fill"></i></a>
+                </li>            
+            </ul>
         </div>
     </nav>
 </div>
@@ -22,7 +27,7 @@
     </div>
 @endif
 <div class="container">
-    <form method="GET" action="/registro/roles_salas" id="unidade_id_form">
+    <form method="GET" action="/registro/roles_salas/{{$user}}/" id="unidade_id_form">
         <div class="col-md-7 offset-2">
             <select class="form-select select2 @error('unidade_id') is-invalid @enderror" name="unidade_id" id="unidade_id"  data-placeholder="Selecione o Unidade" >
                     <option data-default disabled selected ></option>
@@ -31,26 +36,11 @@
                 @endforeach 
             </select> 
         </div>
-        <div id="cvs" class="col-md-7 pt-3 offset-2">
-            <select class="form-select select2 @error("unidade_id") is-invalid @enderror" name="user" id="user"  data-placeholder="Selecione o Utilizador" {{!empty($users) ? "" : "disabled"}} >
-                    <option data-default disabled selected ></option> 
-                @foreach ($users as $user)
-                    <option value="{{$user->user->id}}" >{{$user->user->name}}</option>
-                @endforeach
-            </select>
-        </div>
     </form>
     <form method="POST" action="{{route('roleclassupdate')}}" id="sala_form">
     @csrf
-        <div class="col-md-2 pt-3">
-            @php
-                use App\Models\User;
-
-                $operador = User::where('id',$usuario)->pluck('name')->toArray();
-                $operador = implode(",",$operador);
-
-            @endphp
-            <strong>{{"Utilizador"}}</strong> : <strong>{{$operador}}</strong>    
+        <div class="col-md-12 pt-3">
+            <strong>{{"Utilizador"}}</strong> : <strong>{{$utilizador}}</strong>    
         </div>
             <span>{{"Selecione as salas Permitidas para o Utilizador"}}</span>
         <div class="container-fluid pt-1">
@@ -61,7 +51,7 @@
                 @endforeach    
         </div>
             <input type="hidden" value="{{$id_unidade}}" name="unidade">
-            <input type="hidden" value="{{$usuario}}" name="user">
+            <input type="hidden" value="{{$user}}" name="user">
     </form>       
 </div>
 

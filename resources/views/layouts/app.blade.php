@@ -92,10 +92,7 @@
                                     @can('visualizar-permissao-perfis')     
                                         <li><a class="dropdown-item" href="{{ route('roles.index') }}">{{ __('Perfis') }}</a></li>
                                      @endcan 
-                                     @can('salas-permissao-utilizador')   
-                                        <li><a class="dropdown-item" href="{{ route('roleclass') }}">{{ __('Salas') }}</a></li>
-                                     @endcan    
-                                        
+                                       
                                     </ul>
                                 </li>
                                 @endcan    

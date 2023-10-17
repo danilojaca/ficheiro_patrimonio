@@ -36,13 +36,15 @@ class InventarioController extends Controller
         $search = $request->input("search");
         
         $inventario = Inventario::where("unidade_id","!=",NULL);
-                
+          
+        //Pesquisa
         if (is_numeric($search)) {
 
         $inventarios = $inventario->Where("n_inventario","like","%$search%")
         ->orderBy("unidade_id")->orderBy("sala")->paginate(10);
 
         }elseif(isset($search)){
+
         $edificios = Edificio::where("edificio", "like", "%$search%")->pluck("id")->toArray();
 
         $unidades = Unidades::whereIn("edificio_id",$edificios)
@@ -101,7 +103,7 @@ class InventarioController extends Controller
     public function store(Request $request)
     {     
              
-        if($request->input("_token") != ""){
+        if($request->input("_token") != NULL){
 
             $this->validateLogin($request);
         } 
@@ -155,15 +157,15 @@ class InventarioController extends Controller
     public function edit(Inventario $inventario,Request $request)
     {
         
-
+        //Categorias
         $quantidadecategoria = Ben::pluck("categoria")->ToArray();
         $quantidadecategoria = array_count_values($quantidadecategoria);
         $categorias = array_keys($quantidadecategoria);
+
+        //Unidade Liberadas para o Utilizador
         $user_id = auth()->user()->id;
         $bens = Ben::orderBy("categoria")->get();
-        $roleunidades = RoleUnidades::where([
-            ["user_id",$user_id]
-        ])->get();
+        $roleunidades = RoleUnidades::where("user_id",$user_id)->get();
 
         $conservacao = Conservacao::pluck('conservacao')->toArray();
 
@@ -186,7 +188,7 @@ class InventarioController extends Controller
     public function update(Request $request, Inventario $inventario)
     {
         
-        if($request->input("_token") != ""){
+        if($request->input("_token") != NULL){
             $regras = [
                 "unidade_id" => "required", 
                 "sala" => "required",
@@ -215,8 +217,8 @@ class InventarioController extends Controller
         "user_id" => auth()->user()->id,
         "log"=> "Patrimonio de Id: $inventario->id, Unidade: $unidade->unidade, Categoria: $inventario->categoria_id, Sala: $inventario->sala, Nº Inventario: $inventario->n_inventario, NºSerie: $inventario->n_serie, Bem Inventariado: $inventario->bem_inventariado, Conservação: $inventario->conservacao " ,
         "operacao" => "edit",
+        ]);
         
-                ]);
         return redirect()->route("inventario.index")
                             ->with("success","Ben Atualizado com Sucesso");
     }

@@ -51,27 +51,21 @@ class UnidadesController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->input('_token') != ''){
+        if($request->input('_token') != NULL){
            
             $this->validateLogin($request);
               
             }
-        Unidades::create($request->all());
+        $e = Unidades::create($request->all());
 
         //Log de Ação
-        $i = Unidades::where([
-            ['edificio_id', $request->input('edificio_id')],
-            ['unidade', $request->input('unidade')]
-           ])->get();
-           
-        foreach ($i as $e) {
-         
         Log::create([
             'user_id' => auth()->user()->id,
             'log'=> "Unidade de Id: $e->id , Edificio_ID: $e->edificio_id ,Unidade: $e->unidade " ,
             'operacao' => 'create',
 
-        ]);}
+        ]);
+
         return redirect()->route('unidade.index')
                                 ->with('success','Unidade Criado com Sucesso');
     }
@@ -108,19 +102,13 @@ class UnidadesController extends Controller
         $unidade->update($request->all());
 
         //Log de Ação
-        $i = Unidades::where([
-            ['edificio_id', $request->input('edificio_id')],
-            ['unidade', $request->input('unidade')]
-           ])->get();
-           
-        foreach ($i as $e) {
          
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Unidade de Id: $e->id , Edificio_ID: $e->edificio_id ,Unidade: $e->unidade " ,
+            'log'=> "Unidade de Id: $unidade->id , Edificio_ID: $unidade->edificio_id ,Unidade: $unidade->unidade " ,
             'operacao' => 'update',
 
-        ]);}
+        ]);
         return redirect()->route('unidade.index')
                                 ->with('success','Unidade Criado com Sucesso');
     }

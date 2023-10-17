@@ -13,53 +13,40 @@ class FormularioController extends Controller
     /**
      * Display a listing of the resource.
      */
-
-     function __construct(Formulario $formulario)
-     {
-          $this->middleware('permission:role-create', ['only' => [$formulario->where([['id_spms', '426']])]]);
-     }
-
     public function index(Request $request)
     {
-        $centro_edificio = '';
-        $centro_edificio_id = '';       
+        $centro_edificio = NULL;
+        $centro_edificio_id = NULL;       
         $user_id = auth()->user()->id;
             
-        $roleunidades = RoleUnidades::where([
-            ['user_id',$user_id]
-        ])->get();
+        $roleunidades = RoleUnidades::where('user_id',$user_id)->get();
 
-        if($request->input('_token') != ''){
+
+        if($request->input('_token') != NULL){
            
             $this->validateLogin($request);
             
         }
         $search = $request->input('unidade');
         $search1 = $request->input('sala');  
-        $centro = ''; 
-        $siie = '';
-        $sala = '';
-        $unidade = '';
+        $centro = NULL; 
+        $siie = NULL;
+        $sala = NULL;
+        $unidade = NULL;
         $salas = array();
 
 
-        $inventarios = Formulario::where([
-  
-                ['unidade_id', $search]
-
-        ])->where([
-
-                ['sala', $search1]
-        
+        $inventarios = Formulario::where([  
+                ['unidade_id', $search],
+                ['sala', $search1]        
         ])->get();
 
         if(isset($search)){
             $salas = Formulario::where('unidade_id',$search)->pluck('sala')->toArray();
             $salas = array_count_values($salas);
             
-            
-    }
-
+        }
+        
         foreach ($inventarios as $inventario) {
         
         $unidades = Unidades::where('id', $inventario->unidade_id)->first();

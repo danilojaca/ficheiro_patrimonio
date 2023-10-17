@@ -47,21 +47,13 @@ class BenController extends Controller
             
         }
         
-        Ben::create($request->all());
-
-            //Log de Ação
-        $i = Ben::where([
-            ['categoria', $request->input('categoria')]
-           ])->where([['sub_categoria', $request->input('sub_categoria')]])->get();
-           
-        foreach ($i as $e) {
-         
+        $ben = Ben::create($request->all());
+            //Log de Ação         
         Log::create([
             'user_id' => auth()->user()->id,
-            'log'=> "Categoria de Id: $e->id , ID Categoria: $e->categoria ,Sub Categoria: $e->sub_categoria" ,
+            'log'=> "Categoria de Id: $ben->id , ID Categoria: $ben->categoria ,Sub Categoria: $ben->sub_categoria" ,
             'operacao' => 'create',
-
-        ]);}
+        ]);
             
             return redirect()->route('bens.index')
                             ->with('success','Categoria Criada com Sucesso');

@@ -7,6 +7,7 @@ use App\Models\Unidades;
 use App\Models\User;
 use App\Models\Sala;
 use App\Models\RoleClass;
+use Spatie\Permission\Models\Role;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use DB;
@@ -103,8 +104,11 @@ class RoleUnidadesController extends Controller
                 ['user_id',$id],
                 ['unidade_id',$unidade]
             ])->pluck('unidade_id')->toArray();
+
             $unidade_id = array_count_values($unidade_id);
+
             $unidade_id = array_key_first($unidade_id);
+
                 if (!$unidade_id == $unidade) { 
                     $salas = Sala::where('unidade_id',$unidade)->pluck('sala')->toArray();
                     foreach ($salas as $sala) {      
@@ -132,27 +136,23 @@ class RoleUnidadesController extends Controller
         //
     }
 
-    public function roleclass(Request $request)
+    public function roleclass(Request $request,$user)
 
     {   
         $salas = array();
-        $id_unidade = NULL;
-        $users = array();
-        $user_id = auth()->user()->id;
-        $unidades =  RoleUnidades::where('user_id',$user_id)->get();
-        if ($request->input('unidade_id') != ""){
         $id_unidade = $request->input('unidade_id');
-        $users = RoleUnidades::where("unidade_id",$id_unidade)->get();
-        }
-        $usuario = $request->input('user');
-        if (isset($usuario)) {            
+        $utilizador = User::where('id',$user)->value('name');
+        $unidades =  RoleUnidades::where('user_id',$user)->get();
+        
+
+        if (isset($id_unidade)) {            
             $salas = Sala::where('unidade_id',$id_unidade)->orderBy('sala')->pluck('sala')->toArray();
             $salas = array_count_values($salas);
         } 
         
-        $salasexist = RoleClass::where([['user_id',$usuario],['unidade_id',$id_unidade]])->pluck("sala")->toArray();
+        $salasexist = RoleClass::where([['user_id',$user],['unidade_id',$id_unidade]])->pluck("sala")->toArray();
                 
-        return view('roleunidades.roleclass',compact('unidades','users','id_unidade','usuario','salas','salasexist'));        
+        return view('roleunidades.roleclass',compact('unidades','id_unidade','salas','salasexist','utilizador','user'));        
 
     }
 

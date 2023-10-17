@@ -57,7 +57,10 @@
                     <a class="btn btn-outline-light text-dark" href="{{ route('users.edit',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></a>
                 @endcan
                 @can('visualizar-permissao-utilizador')     
-                    <a class="btn btn-outline-light text-dark" href="{{ route('roleunidades.edit',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Permissão Unidades"><i class="bi bi-house-gear"></i></a>
+                    <a class="btn btn-outline-light text-dark" href="{{ route('roleunidades.edit',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Permissão Unidades"><i class="bi bi-building"></i></a>
+                @endcan
+                @can('salas-permissao-utilizador')     
+                    <a class="btn btn-outline-light text-dark" href="{{ route('roleclass',$user->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Permissão Salas"><i class="bi bi-building-fill-gear"></i></a>
                 @endcan
                                 
                 </td>

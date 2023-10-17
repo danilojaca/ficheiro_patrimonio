@@ -82,11 +82,9 @@ class LoginController extends Controller
         
                    
         //Inserir usuario no DB
-        $samaccountname = User::where([
-            ['username',$username]
-        ])->get();
+        $samaccountname = User::where('username',$username)->get();
           
-        
+        //Se usuario ja existe atualizar
         if (isset($samaccountname[0])){ 
 
         $id = $samaccountname[0]['id'];
@@ -97,7 +95,7 @@ class LoginController extends Controller
                 'password' => Hash::make($password),
                 
             ]);
-
+        //Se usuario nao existir criar 
         }else {            
         $user =  User::create([              
                 'name' => $name,
@@ -105,20 +103,17 @@ class LoginController extends Controller
                 'password' => Hash::make($password),
                 
             ]);
+        //Vincular Utilizador Criado com o Perfil Basico(id 6)    
         $role = Role::find(6);
         $user->assignRole([$role->id]);
             
         } 
-        $accountname = User::where([
-            ['username',$username]
-        ])->get();
+        $accountname = User::where('username',$username)->get();
         $id = $accountname[0]['id'];
 
         //Derrubar usuarios com acesso simultaneo
         
-        $sessiondata = SessionData::where([
-            ['user_id',$id]
-        ])->get();
+        $sessiondata = SessionData::where('user_id',$id)->get();
     
                 
         if (isset($sessiondata[0])) { 
@@ -146,7 +141,7 @@ class LoginController extends Controller
         ]);
 
         
-        return redirect()->intended('home');
+        return redirect()->intended('/');
     }         
         }
      }else {
