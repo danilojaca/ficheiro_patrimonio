@@ -127,6 +127,9 @@ class UserController extends Controller
     {
         $this->validate($request, [                       
             'roles' => 'required'
+        ],
+        [
+            'required'=>'Campo Obrigatorio : O Utilizador precisa possuir um perfil',   
         ]);
     
         $input = $request->all();
@@ -136,8 +139,7 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.index')
-                        ->with('success','Usuario Atualizado com Sucesso');
+        return redirect()->back();
     }
     
     /**
