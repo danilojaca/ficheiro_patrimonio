@@ -47,7 +47,7 @@
             <strong>{{"Salas"}}</strong><br>
                 @foreach ($salas as $key => $value)
                     <input type="checkbox" class="btn-check" id="{{$key}}" name="salas[]" {{(in_array($key, $salasexist,true)) ? 'checked' : ''}} autocomplete="off" value="{{ $key }}" onchange="document.getElementById('sala_form').submit()">
-                    <label class="btn btn-outline-secondary" for="{{$key}}">{{ $key }}</label>
+                    <label class="btn btn-outline-secondary mb-1" for="{{$key}}">{{ $key }}</label>
                 @endforeach    
         </div>
             <input type="hidden" value="{{$id_unidade}}" name="unidade">

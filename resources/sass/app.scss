@@ -6,3 +6,12 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+//Bootstrap Icon
+@import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+//Select2
+@import url('https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css');
+
+//Select2 Theme Bootstrap
+@import url('https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css');
