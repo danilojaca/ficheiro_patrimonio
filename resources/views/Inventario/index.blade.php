@@ -7,12 +7,7 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h2>{{"Bens Imóveis e Património"}}</h2>
             </div>
-            <ul class="navbar-nav ">      
-                <li class="nav-item p-1">
-                @can("inventariomultiplos")
-                    <a class="btn btn-primary" href="{{ route("inventariomultiplos.create") }}"><i class="bi bi-plus-circle-dotted" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar Multiplos"></i></a>
-                @endcan
-                </li> 
+            <ul class="navbar-nav "> 
                 <li class="nav-item p-1">
                 @can("criar-inventario")
                     <a class="btn btn-primary" href="{{ route("inventario.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>

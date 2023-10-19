@@ -15,8 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <!-- Select2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>    
-    
+    <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script> 
     
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -101,10 +100,12 @@
                                     </ul>
                                 </li>
                                 @endcan
-                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF" onclick="myFunction()" ><i class="bi bi-map"></i> {{'Plantas'}}</a>
-                                </li>                               
-                            </ul>      
+                                 </ul>
+                                   <button type="button" class="btn btn-outline-white text-dark justify-content-start" data-bs-toggle="popover" data-bs-placement="right"
+                                    data-bs-custom-class="custom-popover"
+                                    data-bs-title="Custom popover"
+                                    data-bs-content="This popover is themed via CSS variables."><i class="bi bi-map"></i> {{'Plantas'}}</button>                             
+                                  
                         </div>
                             <ul class="navbar-nav justify-content-end flex-grow-1 ps-3">
                                 <li class="nav-item">
@@ -129,9 +130,7 @@
      
 </body>
 <script>
-function myFunction() {
-window.open("file://///srv-dcfaro/ACES_Central/Informatica%20NSICA/Cadastro%20-%20Mapas/PLantas-Central_PDF");
-}
+const exampleEl = document.getElementById('example')
+const popover = new bootstrap.Popover(exampleEl, options)
 </script>
-
 </html>

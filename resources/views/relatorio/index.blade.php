@@ -3,23 +3,27 @@
 
 @section("content")
 <div class="container pt-5">
-    <nav class="navbar navbar-expand-sm ">
+    <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">               
-            <div class="container navbar-nav justify-content-center  ">
+            <div class="container navbar-nav justify-content-center p-0 ">
                 <h2>{{"Relatorio"}}</h2>
             </div>
+            @if ($_token)    
+                        <a class="btn btn-primary" href="{{ route('relatorio.index') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Voltar"><i class="bi bi-reply-fill"></i></a>
+                  
+            @endif
         </div>
     </nav>
 </div>
 <div class="container ">
-    <div class="row ">
-        <div class="container offset-md-3 justify-content-center ">
+    @if (!$_token)
+        <div class="container offset-md-2 justify-content-center ">
             <h6 > {{'Clique na Opção de Pesquisa desejada e em seguida seleciona um item para a criação do relatorio'}}</h6> 
         </div> 
         <div class="col-md-12 pt-1">
             <form action="/relatorio" method="GET" id="relatorio_form">
             @csrf            
-                <div class="col-7 offset-md-2 row g-2">
+                <div class="col-7 offset-2">
                     <div class="col-md-12 input-group mb-3 " id="div-aces">
                         <input type="button" class="btn btn-primary remover" value="Aces" id="buttonaces"> 
                         <select class="form-select select2 @error("aces") is-invalid @enderror" name="aces" id="aces" data-placeholder="Selecione o ACES">
@@ -82,51 +86,19 @@
                                 </span>
                             @enderror
                     </div>
-                </div>
-                <div class="col-md-2 offset-xl-5 pt-4">  
-                @can("descarregar")               
-                @if ($_token)
-                    <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Descarregar"><i class="bi bi-download"></i></a>      
-                @endif
-                @endcan
-                </div>           
+                </div>                         
             </div>
             </form> 
         </div>
-    </div>
+    @else
+        @can("descarregar") 
+                <ul class="list-group list-group-horizontal justify-content-center pt-2">
+                    <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Descarregar">{{"Descarregar Relatorio"}} <i class="bi bi-download"></i></a>
+                </ul> 
+        @endcan                
+    @endif
 </div>
-<hr>
-<div class="container mt-auto">             
-    <table class="table table-bordered">
-        <thead>
-            <tr>            
-                <th>{{"Unidade"}}</th>
-                <th>{{"Categoria"}}</th>
-                <th>{{"Sala"}}</th>
-                <th>{{"Modelo"}}</th>  
-                <th>{{"Nº Inventario"}}</th>  
-                <th>{{"Nº Serie"}}</th>  
-                <th>{{"Bem Inventariado"}}</th>  
-                <th>{{"Conservação"}}</th>
-            <tr>    
-        </thead>
-        <tbody>        
-            @foreach ($relatorios as $relatorio )
-                <tr>       
-                    <td>{{$relatorio->unidade->unidade}} | {{$relatorio->unidade->edificio->edificio}}</td>       
-                    <td>{{$relatorio->categoria->sub_categoria}}</td>
-                    <td>{{$relatorio->sala}}</td>
-                    <td>{{$relatorio->modelo}}</td>
-                    <td>{{$relatorio->n_inventario}}</td>
-                    <td>{{$relatorio->n_serie}}</td>
-                    <td>{{$relatorio->bem_inventariado}}</td>
-                    <td>{{$relatorio->conservacao}}</td>         
-                </tr>   
-            @endforeach
-        </tbody>
-    </table> 
-  {!! $relatorios->withQueryString()->links("pagination::bootstrap-5") !!}  
-</div>
+
 <script>
 $( ".select2" ).select2( {
     theme: 'bootstrap-5'

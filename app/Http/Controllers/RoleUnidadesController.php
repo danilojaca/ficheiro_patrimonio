@@ -74,10 +74,8 @@ class RoleUnidadesController extends Controller
     {
         
         //Excluir Permissões de Unidades 
-        $roleUnidades->where([
-            ['user_id',$id],        
-            ])->delete(); 
-        //
+        $roleUnidades->where('user_id',$id)->delete(); 
+       
 
         //dd($request->unidade_id);
         if (isset($request->unidade_id)) {
@@ -90,14 +88,14 @@ class RoleUnidadesController extends Controller
         
         //Excluir Permissões de Salas Das Unidades Retiradas
         RoleClass::where('user_id',$id)->whereNotIn('unidade_id', $unidades)->delete(); 
-        //
+        
         foreach ($unidades as $unidade) {
             //Criar Permissões de Unidades    
             $roleUnidades->create([
                 'unidade_id' => $unidade,
                 'user_id' => $id,
             ]);
-            //
+            
 
             //Criar Permissões de Salas para Unidades Selecionadas
             $unidade_id = RoleClass::where([
@@ -142,7 +140,8 @@ class RoleUnidadesController extends Controller
         $salas = array();
         $id_unidade = $request->input('unidade_id');
         $utilizador = User::where('id',$user)->value('name');
-        $unidades =  RoleUnidades::where('user_id',$user)->get();
+        
+        $unidades =  RoleUnidades::where('user_id',auth()->user()->id)->get();
         
 
         if (isset($id_unidade)) {            
