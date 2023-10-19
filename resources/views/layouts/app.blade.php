@@ -100,13 +100,21 @@
                                     </ul>
                                 </li>
                                 @endcan
-                                 </ul>
-                                   <button type="button" class="btn btn-outline-white text-dark justify-content-start" data-bs-toggle="popover" data-bs-placement="right"
-                                    data-bs-custom-class="custom-popover"
-                                    data-bs-title="Custom popover"
-                                    data-bs-content="This popover is themed via CSS variables."><i class="bi bi-map"></i> {{'Plantas'}}</button>                             
-                                  
+                                 <li class="nav-item">                                    
+                                    <a class="nav-link active" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="bi bi-map"></i> {{'Plantas'}}
+                                    </a>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            {{'Link do Ambiente de Trabalho : ACES Central Informações / Informatica NSICA / Cadastro - Mapas'}}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul> 
+                       
                         </div>
+
+                        
                             <ul class="navbar-nav justify-content-end flex-grow-1 ps-3">
                                 <li class="nav-item">
                                     <a class="nav-link active text-danger" href="{{ route('logout') }}"
