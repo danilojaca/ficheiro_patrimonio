@@ -59,13 +59,19 @@ class RoleUnidadesController extends Controller
     {
         $users = User::find($id);
         $user = $users->name; 
-
-        //Permitir Visializar apenas as Unidades Liberadas pro visualizador
         $user_id = auth()->user()->id;
-        $unidades_id = RoleUnidades::where('user_id',$user_id)->pluck('unidade_id')->toArray();
 
-        $unidades = Unidades::whereIn('id',$unidades_id)->get();
+        $role = DB::table('model_has_roles')->where('model_id',$user_id)->value('role_id');        
+        if ($role == 4) {
+         //Permitir VisUalizar apenas as Unidades Liberadas pro Supervisor  
+            
+            $unidades_id = RoleUnidades::where('user_id',$user_id)->pluck('unidade_id')->toArray();
 
+            $unidades = Unidades::whereIn('id',$unidades_id)->get();           
+        }else {
+            
+            $unidades = Unidades::all();
+        }
         $roleunidades = RoleUnidades::where('user_id',$id)->pluck('unidade_id')->toArray();
         
         return view('roleunidades.edit',compact('user','unidades','users','roleunidades'));
