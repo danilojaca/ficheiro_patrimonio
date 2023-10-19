@@ -38,11 +38,17 @@ class RelatorioController extends Controller
         
         $centrosaude = $unidades->where("edificio_id",$request->input("edificio"))->pluck("id")->toArray();
 
-        $relatorios = Inventario::whereIn("unidade_id",$centrosaude)->orWhere("unidade_id",$request->input("unidade"))->orWhere("categoria_id",$request->input("categoria"))->orWhereIn("unidade_id",$acs)->paginate(8);
+        $relatorios = Inventario::whereIn("unidade_id",$centrosaude)->orWhere("unidade_id",$request->input("unidade"))->orWhere("categoria_id",$request->input("categoria"))->orWhereIn("unidade_id",$acs)->get();
 
         if ($request->input("_token")) {
-            $_token = $relatorios->first();
 
+
+            if ($relatorios->first()) {
+                $_token = 1;
+
+            }else{
+                $_token = 2;               
+            } 
             $aces = $acs;
             $aces = implode(",",$aces);            
             $edificio = $centrosaude;            

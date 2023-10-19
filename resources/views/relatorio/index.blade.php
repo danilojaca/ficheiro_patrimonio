@@ -88,14 +88,25 @@
                     </div>
                 </div>                         
             </div>
+            <input type="hidden"  name="erro">
             </form> 
         </div>
-    @else
+    @endif    
+    @if ($_token == 1)
         @can("descarregar") 
                 <ul class="list-group list-group-horizontal justify-content-center pt-2">
                     <a href="{{ route("relatorio.exportar", ["arrayrelatorio" => $arrayrelatorio]) }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Descarregar">{{"Descarregar Relatorio"}} <i class="bi bi-download"></i></a>
                 </ul> 
-        @endcan                
+        @endcan 
+    @endif
+    @if ($_token == 2)
+     <div class="alert alert-danger alert-dismissible fade show">
+        <strong>oops!</strong> Houve alguns problemas.<br><br>
+        <ul>
+            <li>{{ 'Sem Resultado, Nenhum Item Relacionado'}}</li>
+        </ul>
+    </div>
+                       
     @endif
 </div>
 
