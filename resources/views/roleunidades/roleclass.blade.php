@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gestão de Salas'}}</h1>
+                <h2>{{'Gestão de Salas'}}</h2>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">

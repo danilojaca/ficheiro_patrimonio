@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">               
             <div class="container navbar-nav justify-content-center  ">
-                <h1>{{'Gestão de Utilizador'}}</h1>
+                <h2>{{'Gestão de Utilizador'}}</h2>
             </div>
             <ul class="navbar-nav">      
                 <li class="nav-item">

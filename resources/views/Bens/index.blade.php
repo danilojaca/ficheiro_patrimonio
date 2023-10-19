@@ -45,7 +45,7 @@
   <table class="table table-bordered">
     <thead>
             <th>{{"Categoria"}}</th>
-            <th>{{"Sub Categoria"}}</th>
+            <th>{{"Item"}}</th>
             <th ></th> 
         </thead>
         <tbody>
