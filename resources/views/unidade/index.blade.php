@@ -7,10 +7,12 @@
             <div class="container navbar-nav justify-content-center  ">
                 <h2>{{"Unidades"}}</h2>
             </div>
-            <ul class="navbar-nav">      
+            <ul class="navbar-nav"> 
+            @can('criar-unidade')     
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{{ route("unidade.create") }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar"><i class="bi bi-plus-lg"></i></a>
-                </li>            
+                </li>
+            @endcan                
             </ul>
         </div>
     </nav>
@@ -55,14 +57,20 @@
                 <td>{{$uni->edificio->edificio}}</td>
                 <td>{{$uni->unidade}}</td>                
                 <td>
-                <div class="btn-group">  
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.edit', ['unidade'=> $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
-                <form  method="post" action="{{route("unidade.destroy", ["unidade" => $uni->id])}}">
+                <div class="btn-group">
+                @can('editar-unidade')  
+                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.edit', ['unidade'=> $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
+                @endcan
+                @can('excluir-unidade')
+                    <form  method="post" action="{{route("unidade.destroy", ["unidade" => $uni->id])}}">
                     @method("DELETE")
                     @csrf
-                    <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
-                </form>
-                <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.salas', ['unidade' => $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
+                        <button class="btn btn-outline-light text-dark" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>           
+                    </form>
+                @endcan
+                @can('salas-unidade')
+                    <button class="btn btn-outline-light text-dark" onclick="window.location.href='{{route('unidade.salas', ['unidade' => $uni->id])}}';" data-bs-toggle="tooltip" data-bs-placement="top" title="Salas"><i class="bi bi-building"></i></button>
+                @endcan
                  </div></td> 
                 </tr>  
             @endforeach
