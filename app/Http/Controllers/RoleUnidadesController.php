@@ -58,9 +58,13 @@ class RoleUnidadesController extends Controller
     public function edit($id)
     {
         $users = User::find($id);
-        $user = $users->name;        
+        $user = $users->name; 
 
-        $unidades = Unidades::all();
+        //Permitir Visializar apenas as Unidades Liberadas pro visualizador
+        $user_id = auth()->user()->id;
+        $unidades_id = RoleUnidades::where('user_id',$user_id)->pluck('unidade_id')->toArray();
+
+        $unidades = Unidades::whereIn('id',$unidades_id)->get();
 
         $roleunidades = RoleUnidades::where('user_id',$id)->pluck('unidade_id')->toArray();
         
@@ -141,7 +145,7 @@ class RoleUnidadesController extends Controller
         $id_unidade = $request->input('unidade_id');
         $utilizador = User::where('id',$user)->value('name');
         
-        $unidades =  RoleUnidades::where('user_id',auth()->user()->id)->get();
+        $unidades =  RoleUnidades::where('user_id',$user)->get();
         
 
         if (isset($id_unidade)) {            

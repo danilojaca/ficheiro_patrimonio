@@ -20,4 +20,5 @@ class Unidades extends Model
 
         return $this->belongsTo('App\Models\Edificio');
      }
+     
 }
